@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chris Chien</title>
+  <meta name="description" content="Chris Chien" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS is external -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button id="theme-toggle" class="theme-toggle-fab" aria-label="Toggle theme">
+      <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg id="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+  </button>
+
+  <main class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+      <img class="avatar" src="images/me.jpg" alt="Chris Chien" />
+      <div class="hero-text">
+        <h1 class="title">Chris Chien</h1>
+        <div class="subtitle">(she/her/hers)</div>
+        <div class="subtitle">Research Assistant @ Department of Computer Science</div>
+        <div class="subtitle">National Yang Ming Chiao Tung University (NYCU), Taiwan</div>
+        <div class="badges">
+          <a class="badge email-badge" id="email-badge">
+            hjchien90190@nycu.edu.tw
+            <svg class="copy-icon" onclick="copyEmail(event)" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </a>
+          <a class="badge" href="CV/Curriculam_Vitae_Chris_Chien.pdf" target="_blank">CV</a>
+          
+          <a class="badge icon-badge" href="https://www.linkedin.com/in/chris-chien/" target="_blank" rel="noopener" aria-label="LinkedIn Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          
+          <a class="badge icon-badge" href="https://github.com/chien90190" target="_blank" rel="noopener" aria-label="GitHub Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          
+          <a class="badge icon-badge" href="https://scholar.google.com/citations?user=ZeXqeAkAAAAJ&hl=en" target="_blank" rel="noopener" aria-label="Google Scholar Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/>
+            </svg>
+          </a>
+        </div>
+        <div class="subtitle">latest update: 12-26-2025</div>
+
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="card">
+        <!-- Optional: High-visibility note for recruiters/professors -->
+        <p class="about-text" style="color: #ed3e38; font-weight: bold;">
+          Note: I have applied for PhD admission for Fall 2026.
+        </p>
+        <br>
+        
+        <p class="about-text">
+          I am a Research Assistant in Computer Science at 
+          <a href="https://www.nycu.edu.tw/nycu/en/index" target="_blank" rel="noopener">National Yang Ming Chiao Tung University (NYCU)</a>, 
+          supervised by <a href="https://yulunalexliu.github.io/" target="_blank" rel="noopener">Prof. Yu-Lun Liu</a> 
+          at the Computational Photography Lab.
+        </p>
+        <br>
+        <p class="about-text">
+          <strong>My current research focuses on 3D/4D scene reconstruction and generation.</strong>
+          I recently authored Splannequin (WACV 2026), which reconstructs static scenes from casual monocular videos through self-anchoring. 
+          More broadly, I am interested in developing robust and interesting applications by grounding them in fundamental algorithmic analysis. 
+          My goal is to build intelligent systems that can perceive and reconstruct the visual world as effectively as humans do.
+        </p>
+        <br>
+        <p class="about-text">
+          Previously, I completed my <strong>M.S. in <a href="https://www.ee.ucla.edu/" target="_blank" rel="noopener">ECE at UCLA</a></strong> and my <strong>B.S. in <a href="https://ep.nycu.edu.tw/en/introduction-about/" target="_blank" rel="noopener">Electrophysics at NCTU (now NYCU)</a></strong>. 
+          Prior to my current focus, I worked on privacy-preserving AI and IoT security, leading to publications in <strong>MobiCom</strong> and <strong>IEEE IoT-J</strong>.
+        </p>
+      </div>
+    </section>
+
+
+
+
+    <!-- Interests -->
+    <section id="interests">
+      <h2>Research Interests</h2>
+      <div class="chips">
+        <div class="chip">Computer Vision Applications</div>
+        <div class="chip">3D & 4D Reconstruction</div>
+        <div class="chip">Generative AI</div>
+        <div class="chip">Physically-Informed Optimization</div>
+        <div class="chip">Dataset Curation</div>
+        <div class="chip">Privacy-Preserving & IoT AI</div>
+      </div>
+    </section>
+
+    <!-- News -->
+    <section id="news">
+      <h2>News</h2>
+      <ul class="news-list">
+        <li class="news-item">
+          <div class="news-date">Nov 2025</div>
+          <div class="news-content">Paper accepted at <strong>WACV 2026</strong>: "Splannequin: Freezing Monocular Mannequin-Challenge Footage". 🎉</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Oct 2024</div>
+          <div class="news-content">Joined the <strong>Computational Photography Lab</strong> at NYCU as a Research Assistant.</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">May 2024</div>
+          <div class="news-content">Paper accepted at <strong>IEEE Security and Privacy Workshops 2024</strong>: "Virtual Keymysteries Unveiled". 🔒</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Sep 2023</div>
+          <div class="news-content">Paper accepted at <strong>MobiCom 2023</strong>: "Enc2: Privacy-Preserving Inference for Tiny IoTs". 📱</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Jun 2020</div>
+          <div class="news-content">Earned <strong>MS in Electrical and Computer Engineering</strong> at <strong>UCLA</strong>. 🎓</div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Publications -->
+    <section id="publications">
+      <h2>Publications</h2>
+
+      <article class="card pub">
+        <video class="pub-media" muted loop playsinline>
+          <source src="videos/Splannequin.mp4" type="video/mp4" />
+        </video>     
+        <div>
+          <h4>Splannequin: Freezing Monocular Mannequin-Challenge Footage with Dual-Detection Splatting</h4>
+          <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span>, Yi-Chuan Huang, Chung-Ho Wu, Wei-Lun Chao, Yu-Lun Liu</div>
+          <div class="status-tag">WACV 2026</div>
+          <p class="pub-desc">Splannequin freezes dynamic Gaussian splats into crisp 3D scenes from monocular videos by anchoring artifacts to more reliable temporal states.</p>
+          
+          <div class="btn-group">
+            <a class="btn" href="https://arxiv.org/abs/2512.05113" target="_blank" rel="noopener">Paper</a>
+            <a class="btn" href="https://chien90190.github.io/splannequin/" target="_blank" rel="noopener">Project Page</a>
+          </div>
+        
+        </div>
+      </article>
+
+      <article class="card pub">
+        <video class="pub-media" muted loop playsinline>
+          <source src="videos/GaMO.mp4" type="video/mp4" />
+        </video>     
+        <div>
+          
+          <h4>GaMO: Geometry-aware Multi-view Diffusion Outpainting for Sparse-View 3D Reconstruction</h4>
+          <div class="pub-meta">Yi-Chuan Huang, <span class="highlight">Hao-Jen Chien</span>,  Chin-Yang Lin, Yin-Huan Chen, Yu-Lun Liu</div>
+          <div class="status-tag">Under Submission</div>
+          <p class="pub-desc">GaMO reformulates sparse-view 3D reconstruction as multi-view outpainting, expanding the field of view with geometry-aware diffusion to achieve consistent, high-quality reconstructions efficiently from very few input views.</p>
+          
+          <div class="btn-group">
+            <a class="btn" href="https://yichuanh.github.io/GaMO/" target="_blank" rel="noopener">Project Page</a>
+          </div>
+        
+        </div>
+      </article>
+
+      <article class="card pub">
+        <video class="pub-media" muted loop playsinline>
+          <source src="videos/voxify.mp4" type="video/mp4" />
+        </video>     
+        <div>
+          
+          <h3>Voxify3D: Pixel Art Meets Volumetric Rendering</h3>
+          <div class="pub-meta">Yi-Chuan Huang, Jiewen Chan, <span class="highlight">Hao-Jen Chien</span>, Yu-Lun Liu</div>
+          <div class="status-tag">ArXiv 2025</div>
+          <p class="pub-desc">Voxify3D is a differentiable two-stage method that converts 3D meshes into stylized voxel art with discrete palette control. It preserves semantic structure using multi-view pixel-art supervision and CLIP-guided optimization.</p>
+          
+          <div class="btn-group">
+            <a class="btn" href="https://arxiv.org/abs/2512.07834" target="_blank" rel="noopener">Paper</a>
+            <a class="btn" href="https://yichuanh.github.io/Voxify-3D/" target="_blank" rel="noopener">Project Page</a>
+          </div>
+        
+        </div>
+      </article>
+
+      <!-- Hidden publications (initially hidden) -->
+      <div id="more-pubs" class="hidden">
+        <article class="card pub pub-text-only">
+          <div class="pub-media-placeholder"></div>     
+          <div>
+            <h4>Virtual Keymysteries Unveiled: Detecting Keystrokes In VR With External Side-Channels</h4>
+            <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span> (co-author), et al.</div>
+            <div class="status-tag">IEEE SPW 2024</div>
+            <div class="btn-group">
+              <a class="btn" href="https://par.nsf.gov/servlets/purl/10540599" target="_blank" rel="noopener">Paper</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pub pub-text-only">
+          <div class="pub-media-placeholder"></div>     
+          <div>
+            <h4>Enc2: Privacy-Preserving Inference for Tiny IoTs via Encoding and Encryption</h4>
+            <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span>, et al.</div>
+            <div class="status-tag">MobiCom 2023</div>
+            <div class="btn-group">
+              <a class="btn" href="https://dl.acm.org/doi/pdf/10.1145/3570361.3592501" target="_blank" rel="noopener">Paper</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pub pub-text-only">
+          <div class="pub-media-placeholder"></div>     
+          <div>
+            <h4>Context-Aware Hybrid Encoding for Privacy-Preserving Computation in IoT Devices</h4>
+            <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span> (co-author), et al.</div>
+            <div class="status-tag">IEEE IoT-J 2023</div>
+            <div class="btn-group">
+              <a class="btn" href="https://par.nsf.gov/servlets/purl/10451444" target="_blank" rel="noopener">Paper</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Toggle Button -->
+      <button id="toggle-pubs-btn" class="toggle-btn" onclick="togglePublications()">
+        Show More Publications ↓
+      </button>
+
+
+    </section>
+
+    <br>
+    <footer style="text-align: center; color: var(--text-muted); font-size: 10px;">
+      © <span id="year"></span> Built with vanilla HTML/CSS. This website borrows the template from <a href="https://yichuanh.github.io/Personal-Page/" target="_blank" rel="noopener">Yi-Chuan Huang</a>.
+    </footer>
+  </main>
+
+    <script src="js/functions.js"></script>
+</body>
+</html>
