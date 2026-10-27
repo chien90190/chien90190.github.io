@@ -1,0 +1,1464 @@
+:root {
+  /* --- DARK MODE (Default) --- */
+  --bg: #0f0d0b;
+  --text: #f3eee7;
+  --text-muted: #a89a8c;
+  --accent: #e0875a;
+  --accent-bright: #f29a6b;
+  --accent-soft: rgba(224, 135, 90, 0.12);
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-hover: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --glow-1: rgba(224, 135, 90, 0.16);
+  --glow-2: rgba(140, 120, 220, 0.10);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+  --grain-opacity: 0.06;
+  --halo-opacity: 0.95;
+  --ring-gold: #f2c46b;
+  --ring-violet: #9a86f0;
+  /* Star burst: light that glows against the dark page */
+  --burst-core: rgb(255, 252, 245);
+  --burst-core-soft: rgba(255, 240, 215, 0.95);
+  --burst-gold: var(--ring-gold);
+  --burst-violet: var(--ring-violet);
+  --burst-pale: #fff6e8;
+  color-scheme: dark;
+
+  /* --- TYPE --- */
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* --- SPACING SYSTEM --- */
+  --space: 20px;
+  --stack: calc(var(--space) * 1.5);               /* Vertical rhythm inside sections */
+  --radius: 20px;
+  --radius-sm: 12px;
+
+  /* --- CARD SPACING CONTROLS (Tune these to make cards more compact) --- */
+  --card-padding: 24px;                            /* Internal padding of text cards */
+  --pub-gap: 16px;                                 /* Gap between cards in grids */
+  --pub-inset: 8px;                                /* Inset around publication media */
+}
+
+/* --- LIGHT MODE --- */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #f0eee9;
+    --text: #1f1a17;
+    --text-muted: #6b5d54;
+    --accent: #b4521f;
+    --accent-bright: #c9622c;
+    --accent-soft: rgba(180, 82, 31, 0.10);
+    --surface: rgba(255, 255, 255, 0.62);
+    --surface-hover: rgba(255, 255, 255, 0.9);
+    --border: rgba(31, 26, 23, 0.09);
+    --border-strong: rgba(31, 26, 23, 0.18);
+    --glow-1: rgba(224, 135, 90, 0.22);
+    --glow-2: rgba(140, 120, 220, 0.12);
+    --shadow: 0 1px 2px rgba(31, 26, 23, 0.04), 0 12px 32px -14px rgba(31, 26, 23, 0.18);
+    --grain-opacity: 0.08;
+    --halo-opacity: 0.8;
+    /* Star burst: pale light vanishes on cream, so it turns to deeper, saturated colour */
+    --burst-core: #f0a24a;
+    --burst-core-soft: rgba(232, 140, 70, 0.85);
+    --burst-gold: #d9952a;
+    --burst-violet: #7a62e0;
+    --burst-pale: #d0567a;
+    color-scheme: light;
+  }
+}
+
+:root[data-theme="light"] {
+  --bg: #f0eee9;
+  --text: #1f1a17;
+  --text-muted: #6b5d54;
+  --accent: #b4521f;
+  --accent-bright: #c9622c;
+  --accent-soft: rgba(180, 82, 31, 0.10);
+  --surface: rgba(255, 255, 255, 0.62);
+  --surface-hover: rgba(255, 255, 255, 0.9);
+  --border: rgba(31, 26, 23, 0.09);
+  --border-strong: rgba(31, 26, 23, 0.18);
+  --glow-1: rgba(224, 135, 90, 0.22);
+  --glow-2: rgba(140, 120, 220, 0.12);
+  --shadow: 0 1px 2px rgba(31, 26, 23, 0.04), 0 12px 32px -14px rgba(31, 26, 23, 0.18);
+  --grain-opacity: 0.08;
+  --halo-opacity: 0.8;
+  --burst-core: #f0a24a;
+  --burst-core-soft: rgba(232, 140, 70, 0.85);
+  --burst-gold: #d9952a;
+  --burst-violet: #7a62e0;
+  --burst-pale: #d0567a;
+  color-scheme: light;
+}
+
+/* --- RESET & GLOBAL --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  padding: 0 var(--space) calc(var(--space) * 3);
+  min-height: 100vh;
+  overflow-x: clip;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Ambient glow (a fixed layer, since iOS ignores background-attachment: fixed) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(60vw 50vh at 85% -10%, var(--glow-1), transparent 70%),
+    radial-gradient(50vw 50vh at -10% 30%, var(--glow-2), transparent 70%);
+}
+
+/* Film grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+@media (hover: hover) {
+  a:hover { color: var(--accent); }
+}
+
+section { margin-bottom: calc(var(--space) * 3.5); }
+
+.highlight {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* --- SECTION HEADINGS (editorial, auto-numbered) --- */
+main { counter-reset: section; }
+
+section > h2 {
+  counter-increment: section;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--stack);
+}
+
+section > h2::before {
+  content: counter(section, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  transform: translateY(-0.9em);
+}
+
+section > h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-strong);
+  transform: translateY(-0.3em);
+}
+
+/* --- NAV --- */
+.site-nav {
+  position: sticky;
+  top: 16px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 960px;
+  margin: 16px auto calc(var(--space) * 3);
+  padding: 6px 6px 6px 18px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  box-shadow: var(--shadow);
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.nav-links {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-links a {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  border-radius: 100px;
+  transition: color 0.2s ease;
+}
+
+.nav-links a.is-active { color: var(--text); }
+@media (hover: hover) {
+  .nav-links a:hover { color: var(--text); }
+}
+
+/* Pill that slides under the active (or hovered) link; positioned from functions.js */
+.nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--w, 0);
+  transform: translateX(var(--x, 0));
+  border-radius: 100px;
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.3, 1.3, 0.5, 1), width 0.4s cubic-bezier(0.3, 1.3, 0.5, 1), opacity 0.25s ease;
+}
+.nav-indicator.is-visible { opacity: 1; }
+/* Jump into place on first show instead of sliding in from the left edge */
+.nav-indicator.no-slide { transition: opacity 0.25s ease; }
+
+/* Scroll progress line */
+.site-nav::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--ring-gold), var(--ring-violet));
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@supports (animation-timeline: scroll()) {
+  .site-nav::after {
+    animation: scroll-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes scroll-progress {
+  to { transform: scaleX(1); }
+}
+
+/* --- THEME TOGGLE --- */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  margin-left: 4px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+}
+@media (hover: hover) {
+  .theme-toggle:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: rotate(-20deg);
+  }
+}
+.theme-toggle svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* --- HERO --- */
+.hero {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: calc(var(--space) * 4.0);
+  margin-bottom: calc(var(--space) * 3.5);
+}
+
+/* Room for the ink caption, which hangs below the avatar where there's a mouse */
+@media (hover: hover) {
+  .hero { margin-bottom: calc(var(--space) * 3.7); }
+}
+
+/* Avatar with spinning gradient ring; breathing glow blooms on hover, along with a star burst (see functions.js) */
+.avatar-wrap {
+  --avatar-size: 240px;
+  --ring: conic-gradient(var(--accent), var(--ring-gold), var(--accent-bright), var(--ring-violet), var(--accent));
+  position: relative;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  isolation: isolate;
+  cursor: pointer;
+}
+
+.avatar-wrap::before,
+.avatar-wrap::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: var(--ring);
+  z-index: -1;
+}
+
+/* Crisp ring */
+.avatar-wrap::before {
+  inset: -9px;
+  animation: avatar-spin 6s linear infinite;
+}
+
+/* Soft halo */
+.avatar-wrap::after {
+  inset: -6px;
+  filter: blur(28px);
+  opacity: 0;
+  animation: avatar-spin 6s linear infinite, avatar-breathe 4s ease-in-out infinite;
+  transition: opacity 0.6s ease, inset 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid var(--bg);
+  /* Pointer events go to the wrap, so browsers don't offer picture-in-picture or "Save video" on the media */
+  pointer-events: none;
+}
+
+/* Moving-photograph clip sits over the still and takes over the first time it plays (see functions.js) */
+.avatar-video {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.avatar-wrap.is-alive .avatar-video { opacity: 1; }
+
+/* Speaker badge pinned to the ring, hinting that a click makes the portrait speak.
+   Shows on hover, once after the first stir, and while speaking (see functions.js). */
+.avatar-hint {
+  position: absolute;
+  /* On the ring at 45°, lower right */
+  left: 85.36%;
+  top: 85.36%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--accent);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.6;
+  transition: opacity 0.3s ease, scale 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.avatar-wrap.is-hinting .avatar-hint,
+.avatar-wrap.is-speaking .avatar-hint {
+  opacity: 1;
+  scale: 1;
+}
+
+@media (hover: hover) {
+  .avatar-wrap:hover .avatar-hint {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* Sound waves pulse while it speaks */
+.avatar-wrap.is-speaking .avatar-hint .wave {
+  animation: hint-wave 0.5s ease-in-out infinite alternate;
+}
+.avatar-wrap.is-speaking .avatar-hint .wave + .wave { animation-delay: 0.25s; }
+
+@keyframes hint-wave {
+  from { opacity: 0.25; }
+  to { opacity: 1; }
+}
+
+/* Ink caption: the laptop alternative to the badge, switched on with data-hint="ink" on .avatar-wrap.
+   Letters bleed in from a blur like ink on parchment, then a glint sweeps across them (see functions.js). */
+.avatar-ink {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 22px);
+  translate: -50% 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.4rem;
+  line-height: 1.15;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--accent);
+  /* A soft backing in the page colour keeps the letters crisp over the glow */
+  text-shadow: 0 0 3px var(--bg), 0 0 10px var(--bg), 0 0 18px var(--bg);
+  pointer-events: none;
+  transition: opacity 0.7s ease, filter 0.7s ease;
+}
+
+.avatar-ink.is-fading {
+  opacity: 0;
+  filter: blur(6px);
+}
+
+.avatar-ink span {
+  display: inline-block;
+  animation:
+    ink-in 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) calc(var(--i) * 45ms) both,
+    ink-glint 0.9s ease-in-out calc(600ms + var(--i) * 45ms) both;
+}
+
+@media (hover: hover) {
+  .avatar-wrap[data-hint="ink"] .avatar-ink { display: block; }
+  .avatar-wrap[data-hint="ink"] .avatar-hint { display: none; }
+}
+
+/* In another world, "take me back" is a way home too: it sits inside the portrait's wrap, so a click on it
+   counts as a click on the portrait (see js/platform.js). Once faded out, it stops catching clicks. */
+[data-world] .avatar-wrap .avatar-ink:not(.is-fading) {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Touch can't hover, so in another world the caption stays up to show the way home (see functions.js),
+   blinking like a game's "press start" once its letters have written in.
+   The speaker badge goes, since a tap there leads home rather than making the portrait speak. */
+@media (hover: none) {
+  [data-world] .avatar-wrap[data-hint="ink"] .avatar-ink { display: block; }
+  /* The blink starts from when the words appear, which is a while after arriving */
+  [data-world] .avatar-wrap[data-hint="ink"] .avatar-ink:not(:empty) {
+    animation: caption-blink 0.9s ease-in-out 1.5s infinite alternate;
+  }
+  [data-world] .avatar-wrap[data-hint="ink"] .avatar-hint { display: none; }
+  [data-world] .hero { margin-bottom: calc(var(--space) * 3.7); }
+}
+
+@keyframes caption-blink {
+  0%, 20% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes ink-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    translate: 0 0.25em;
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0;
+  }
+}
+
+@keyframes ink-glint {
+  0%, 100% { color: var(--accent); }
+  50% { color: var(--ring-gold); }
+}
+
+/* Tapping on touch screens gives a brief glow instead of a stuck hover */
+.avatar-wrap.is-glowing::after {
+  inset: -30px;
+  opacity: var(--halo-opacity);
+}
+
+@media (hover: hover) {
+  .avatar-wrap:hover::after {
+    inset: -30px;
+    opacity: var(--halo-opacity);
+  }
+}
+
+/* Star burst: a one-shot flash, shockwaves and sparks that sweep from the avatar across the page.
+   It sits in the background layer, behind the content (.container is z-index 1). */
+.star-burst {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Hidden at rest, so pieces stay invisible before their delay and after their animation ends */
+.star-burst > * {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  translate: -50% -50%;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+/* Tints the entire page at once, brightest around the avatar */
+.star-burst .wash {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  translate: none;
+  border-radius: 0;
+  background: radial-gradient(circle at var(--x) var(--y),
+    color-mix(in srgb, var(--burst-gold) 40%, transparent),
+    color-mix(in srgb, var(--accent) 22%, transparent) 40%,
+    color-mix(in srgb, var(--burst-violet) 14%, transparent));
+}
+
+/* Flash and shockwaves are drawn small (--layer) and scaled up to fill the viewport in functions.js.
+   Drawing them at full size makes huge textures that the browser falls back to rendering
+   at low resolution (blocky light) once a few bursts overlap. */
+.star-burst .flash,
+.star-burst .shockwave {
+  width: var(--layer);
+  height: var(--layer);
+  will-change: transform, opacity;
+}
+
+.star-burst .flash {
+  background: radial-gradient(circle closest-side,
+    var(--burst-core),
+    var(--burst-core-soft) 7%,
+    color-mix(in srgb, var(--burst-gold) 75%, transparent) 16%,
+    color-mix(in srgb, var(--accent) 50%, transparent) 36%,
+    color-mix(in srgb, var(--burst-violet) 25%, transparent) 62%,
+    transparent);
+}
+
+/* Sizes here grow with the scale-up, so they end roughly 7x thicker on a typical screen */
+.star-burst .shockwave {
+  border: 1px solid color-mix(in srgb, var(--burst-gold) 85%, transparent);
+  box-shadow: 0 0 9px var(--accent), inset 0 0 9px var(--accent);
+}
+
+.star-burst .shockwave.echo {
+  border-width: 0.6px;
+  border-color: color-mix(in srgb, var(--burst-violet) 80%, transparent);
+  box-shadow: 0 0 6px var(--burst-violet), inset 0 0 6px var(--burst-violet);
+}
+
+.star-burst .spark {
+  width: var(--size);
+  height: var(--size);
+  background: var(--color);
+  box-shadow: 0 0 10px 2px var(--color);
+}
+
+.star-burst .spark.star {
+  border-radius: 0;
+  box-shadow: none;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+}
+
+@keyframes avatar-spin {
+  to { rotate: 360deg; }
+}
+
+@keyframes avatar-breathe {
+  0%, 100% { scale: 0.94; }
+  50% { scale: 1.06; }
+}
+
+.hero-text .title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 8vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  margin-bottom: 14px;
+  display: inline-block;
+  cursor: default;
+}
+
+/* Name and avatar respond to taps, so taps shouldn't select text or zoom */
+.hero-text .title,
+.avatar-wrap {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Stadium wave across the letters while hovered */
+.title .char {
+  display: inline-block;
+  transform-origin: 50% 100%;
+}
+.title .char.space { width: 0.25em; }
+.title .char.is-waving {
+  animation: name-wave 1.3s cubic-bezier(0.45, 0, 0.3, 1) infinite;
+  animation-delay: calc(var(--i) * 65ms);
+}
+
+/* A single wave across the first name as the portrait says it (see functions.js) */
+.title .char.is-called {
+  animation: name-wave 1.3s cubic-bezier(0.45, 0, 0.3, 1);
+  animation-delay: calc(var(--i) * 65ms);
+}
+
+@keyframes name-wave {
+  0%, 46%, 100% {
+    transform: translateY(0) rotate(0) scale(1);
+  }
+  14% {
+    transform: translateY(-0.24em) rotate(-5deg) scale(1.08);
+    color: var(--accent);
+  }
+  28% {
+    transform: translateY(0.03em) rotate(2deg) scale(0.98);
+  }
+}
+
+/* The avatar is positioned, so its halo would paint over this text unless the text is lifted above it */
+.hero-text {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text .subtitle {
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Pronouns + last-updated as small mono labels */
+.hero-text div.subtitle:first-of-type,
+.hero-text .badges + .subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.hero-text div.subtitle:first-of-type {
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.hero-text .badges + .subtitle {
+  margin-top: 18px;
+  opacity: 0.75;
+}
+
+/* --- BADGES & BUTTONS --- */
+.badges,
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--space);
+}
+
+.btn-group { margin-top: 14px; }
+
+/* Line break between the email and the other badges, switched on for phones */
+.badge-break { display: none; }
+
+.badge,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .email-badge:hover .copy-icon,
+  .badge:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+}
+.btn::after {
+  content: "↗";
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+}
+@media (hover: hover) {
+  .btn:hover {
+    color: var(--bg);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+}
+@media (hover: hover) {
+  .btn:hover::after { transform: translate(2px, -2px); }
+}
+
+.icon-badge {
+  padding: 9px;
+  justify-content: center;
+}
+.icon-badge svg {
+  width: 17px;
+  height: 17px;
+}
+
+.email-badge {
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+  transition: 0.2s;
+  flex-shrink: 0;
+}
+
+.toggle-btn {
+  display: block;
+  margin: var(--space) auto 0;
+  padding: 10px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+@media (hover: hover) {
+  .toggle-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+}
+
+/* --- CARDS --- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--card-padding);              /* ← Controlled by variable */
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, background 0.25s ease;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-3px);
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+  }
+}
+
+/* --- ABOUT --- */
+.about-lead {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.6vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  margin-bottom: var(--stack);
+}
+.about-lead em {
+  color: var(--accent);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr;
+  gap: var(--pub-gap);
+  align-items: stretch;
+}
+
+.about-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: calc(var(--card-padding) * 1.25);
+}
+
+.about-text {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.about-text strong { font-weight: 600; }
+
+.about-text a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+@media (hover: hover) {
+  .about-text a:hover { color: var(--accent); }
+}
+
+.about-side {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.side-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.edu-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.edu-list li {
+  display: flex;
+  flex-direction: column;
+  padding-left: 14px;
+  border-left: 2px solid var(--border-strong);
+}
+.edu-list strong {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+.edu-list span {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+.edu-list a {
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+}
+@media (hover: hover) {
+  .edu-list a:hover { text-decoration-color: var(--accent); }
+}
+
+.edu-note {
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* Current experience gets a live dot */
+.edu-list li.is-current { border-left-color: var(--accent); }
+.edu-list li.is-current strong::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: middle;
+  animation: news-pulse 2.4s ease-out infinite;
+}
+
+/* Research interests: prominent keyword pills */
+.interests {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: var(--stack);
+}
+
+.interest {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 18px;
+  font-size: 0.96875rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--text);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 100px;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.interest::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+@media (hover: hover) {
+  .interest:hover {
+    color: var(--bg);
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+}
+@media (hover: hover) {
+  .interest:hover::before { background: var(--bg); }
+}
+
+.interest--past {
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border-color: var(--border-strong);
+}
+.interest--past::before { background: var(--text-muted); }
+
+/* --- NEWS (timeline) --- */
+.news-list {
+  list-style: none;
+  padding: 4px 0 16px;
+  max-height: 340px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+  mask-image: linear-gradient(to bottom, #000 85%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 85%, transparent);
+}
+
+.news-item {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+}
+
+.news-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding-top: 3px;
+}
+
+.news-content {
+  position: relative;
+  color: var(--text-muted);
+  padding: 0 0 22px 28px;
+  border-left: 1px solid var(--border-strong);
+}
+.news-item:last-child .news-content { padding-bottom: 4px; }
+
+.news-content::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--border-strong);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+@media (hover: hover) {
+  .news-item:hover .news-content::before { border-color: var(--accent); }
+}
+
+.news-item:first-child .news-content::before {
+  background: var(--accent);
+  border-color: var(--accent);
+  animation: news-pulse 2.4s ease-out infinite;
+}
+
+@keyframes news-pulse {
+  0% { box-shadow: 0 0 0 0 var(--accent); }
+  70%, 100% { box-shadow: 0 0 0 10px transparent; }
+}
+
+.news-content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* --- PUBLICATIONS (bento grid) --- */
+.pub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--pub-gap);
+}
+
+.pub {
+  display: flex;
+  flex-direction: column;
+  padding: var(--pub-inset);
+  overflow: hidden;
+}
+
+.pub-media-wrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: calc(var(--radius) - var(--pub-inset));
+  overflow: hidden;
+  background: var(--surface-hover);
+}
+
+.pub-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* "Hover to play" hint */
+@media (hover: hover) {
+  .pub-media-wrap::after {
+    content: "▶  Hover to play";
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 100px;
+    background: rgba(15, 13, 11, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: opacity 0.3s ease, translate 0.3s ease;
+  }
+  .pub:hover .pub-media { transform: scale(1.05); }
+  .pub:hover .pub-media-wrap::after {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+.status-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 100px;
+}
+
+.pub-media-wrap .status-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #fff;
+  padding: 5px 11px;
+  background: rgba(15, 13, 11, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.pub-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 18px 14px 12px;
+}
+
+.pub h3 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+
+.pub-meta {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+.pub-meta a {
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+}
+@media (hover: hover) {
+  .pub-meta a:hover { text-decoration-color: var(--accent); }
+}
+
+.pub-desc {
+  color: var(--text);
+  opacity: 0.85;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-top: 12px;
+}
+
+.pub-body .btn-group {
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+/* Featured card spans the full row */
+.pub--featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 8px;
+}
+.pub--featured .pub-media-wrap { aspect-ratio: auto; min-height: 320px; }
+.pub--featured .pub-body {
+  justify-content: center;
+  padding: 24px 24px 20px 28px;
+}
+.pub--featured h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+.pub--featured .pub-desc { font-size: 0.9375rem; }
+.pub--featured .pub-body .btn-group { margin-top: 0; padding-top: 20px; }
+
+/* Earlier work: compact list */
+.pub-list-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: calc(var(--space) * 2) 0 4px;
+}
+
+.pub-row {
+  display: grid;
+  grid-template-columns: 130px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pub-row-venue {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.pub-row h3 {
+  font-size: 0.9875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+/* --- FOOTER --- */
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  padding-top: calc(var(--space) * 1.5);
+  border-top: 1px solid var(--border);
+}
+.site-footer a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.site-footer .back-to-top {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 10px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  box-shadow: 0 6px 20px -8px var(--accent);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.site-footer .back-to-top svg { transition: transform 0.25s ease; }
+@media (hover: hover) {
+  .site-footer .back-to-top:hover {
+    color: var(--bg);
+    background: var(--accent-bright);
+    border-color: var(--accent-bright);
+    transform: translateY(-2px);
+  }
+  .site-footer .back-to-top:hover svg { transform: translateY(-2px); }
+}
+
+/* The news scrolls in its own box here, so it has no need of the button for older news (css/worlds/grandline.css) */
+.news-more { display: none; }
+
+/* --- TOGGLE ANIMATIONS --- */
+#more-pubs {
+  opacity: 1;
+  visibility: visible;
+  max-height: 10000px;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+#more-pubs.hidden {
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* --- SCROLL-DRIVEN REVEAL (progressive enhancement) --- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .card,
+    section > h2,
+    .about-lead,
+    .interests,
+    .pub-row {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 20%;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .avatar-wrap::before,
+  .avatar-wrap::after,
+  .news-content::before,
+  .edu-list li.is-current strong::after,
+  .title .char { animation: none !important; }
+  /* The portrait stays a still photo, so there's nothing to hint at, except the way home from another world,
+     which stays up without blinking */
+  .avatar-hint,
+  :root:not([data-world]) .avatar-ink { display: none !important; }
+  [data-world] .avatar-ink { animation: none !important; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- TOUCH --- */
+@media (pointer: coarse) {
+  .btn { padding: 10px 16px; }
+  .badge { padding: 10px 16px; }
+  .icon-badge { padding: 11px; }
+  .toggle-btn { padding: 13px 24px; }
+  .theme-toggle { width: 40px; height: 40px; }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 760px) {
+  .about-grid,
+  .pub-grid,
+  .pub--featured { grid-template-columns: 1fr; }
+
+  .pub--featured .pub-media-wrap { aspect-ratio: 16 / 10; min-height: 0; }
+  .pub--featured .pub-body { padding: 18px 14px 12px; }
+
+  /* Stacked, the featured card looks like the rest, so its title matches them too */
+  .pub--featured h3 {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+  .pub--featured .pub-desc { font-size: 0.875rem; }
+  .pub--featured .pub-body .btn-group { padding-top: 18px; }
+
+  .pub-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .pub-row .btn { justify-self: start; margin-top: 6px; }
+}
+
+@media (max-width: 640px) {
+  :root { --space: 16px; }
+
+  .site-nav {
+    top: 10px;
+    margin: 10px auto calc(var(--space) * 2.5);
+    padding: 5px 5px 5px 8px;
+  }
+  .nav-brand { display: none; }
+  .nav-links {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .news-list {
+    max-height: none;
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .about-lead { font-size: 1.85rem; }
+
+  .interests { gap: 8px; }
+  .interest {
+    font-size: 0.875rem;
+    padding: 8px 14px;
+    gap: 7px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: calc(var(--space) * 1.5);
+  }
+
+  .avatar-wrap { --avatar-size: 180px; }
+  /* Stacked, the portrait's caption in another world needs room above the name */
+  [data-world] .avatar-wrap { margin-bottom: 40px; }
+
+  .badges { justify-content: center; }
+  /* Email on its own line, with CV and the icons together below it.
+     The negative margin cancels the extra row gap the empty break would add. */
+  .badge-break {
+    display: block;
+    flex-basis: 100%;
+    margin-top: -8px;
+  }
+
+  .news-item {
+    grid-template-columns: 1fr;
+    position: relative;
+    padding: 0 0 20px 24px;
+    border-left: 1px solid var(--border-strong);
+  }
+  .news-item:last-child { padding-bottom: 4px; }
+  .news-date { padding-top: 0; margin-bottom: 2px; }
+  .news-content {
+    position: static;
+    padding: 0;
+    border-left: none;
+  }
+  .news-content::before { top: 6px; }
+
+  .about-main { padding: var(--card-padding); }
+
+  .site-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .nav-links a { padding: 8px 8px; letter-spacing: 0.02em; }
+  .hero-text .title { font-size: 2.75rem; }
+  .email-badge { font-size: 0.75rem; }
+}

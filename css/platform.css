@@ -1,0 +1,414 @@
+/* Platform 9¾: an unmarked spot at the right of the hero. Hovering it tears open a glowing wound; clicking it
+   steps through to another world (css/worlds/newspaper.css or css/worlds/upside.css), and the portrait leads back home.
+   Behaviour is in js/platform.js. */
+
+:root {
+  --rift-hot: #ff4a24;
+  --rift-glow: rgba(255, 40, 20, 0.55);
+  --rift-deep: #3a0000;
+  --spore: rgba(235, 225, 215, 0.8);
+  --upside-tint: rgba(120, 0, 0, 0.35);
+}
+:root[data-theme="light"] {
+  --rift-glow: rgba(220, 20, 10, 0.45);
+  --spore: rgba(60, 20, 15, 0.6);
+  --upside-tint: rgba(150, 10, 0, 0.18);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --rift-glow: rgba(220, 20, 10, 0.45);
+    --spore: rgba(60, 20, 15, 0.6);
+    --upside-tint: rgba(150, 10, 0, 0.18);
+  }
+}
+
+/* A tall, unmarked stretch of wall at the right of the hero, left for visitors to stumble on */
+/* It floats over the right edge of the hero rather than taking a column, so the name and badges keep their width.
+   The hero text sits above it (z-index 1), so links there stay clickable. */
+.hero { position: relative; }
+/* The hero text spans the full width above the wall, so let its empty space pass the mouse through to it;
+   the name, links and badges still catch the mouse as usual */
+.hero-text { pointer-events: none; }
+.hero-text .title,
+.hero-text a,
+.hero-text svg { pointer-events: auto; }
+.platform {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -90px;
+  width: 44px;
+  height: 180px;
+  display: grid;
+  place-items: center;
+  cursor: default;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.platform.is-open {
+  cursor: pointer;
+  animation: rift-flicker 2.4s steps(1) infinite;
+}
+
+/* Like a knife stroke: the blade goes in at the middle and slices out to both tips in one fast pass, the cut snaps open sideways,
+   and hairline cracks spread out across the wall; closing runs in reverse. The shapes are drawn in js/platform.js. */
+/* Larger than the hover area around it, so the wound spills past the spot that sets it off */
+.rift {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 140px;
+  height: 240px;
+  margin: -120px 0 0 -70px;
+  pointer-events: none;
+  filter:
+    drop-shadow(0 0 3px var(--rift-hot))
+    drop-shadow(0 0 16px var(--rift-glow))
+    drop-shadow(0 0 44px var(--rift-glow));
+}
+.rift svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+/* The tear is revealed outward from the middle rather than stretched, so the pointed tips stay sharp.
+   Clipping it here, inside the glow, keeps the glow itself from being cut off. */
+.rift-open {
+  position: absolute;
+  inset: 0;
+  scale: 0.06 1;
+  clip-path: inset(50% -100% 50% -100%);
+  transition: scale 0.12s cubic-bezier(0.7, 0, 0.3, 1), clip-path 0.15s cubic-bezier(0.7, 0, 0.3, 1) 0.12s;
+}
+.platform.is-open .rift-open {
+  scale: 1 1;
+  clip-path: inset(-2% -100% -2% -100%);
+  transition: clip-path 0.12s cubic-bezier(0.5, 0, 0.9, 0.6), scale 0.22s cubic-bezier(0.2, 1.6, 0.4, 1) 0.12s;
+}
+
+/* The glint of the blade at each end of the cut, racing out from the middle as it slices */
+.rift-blade {
+  position: absolute;
+  inset: 0;
+}
+.rift-blade::before,
+.rift-blade::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 24px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  box-shadow: 0 0 6px 1px #fff, 0 0 16px 4px var(--rift-hot);
+  opacity: 0;
+}
+.rift-blade::before { margin-top: -24px; background: linear-gradient(#fff, transparent 85%); }
+.rift-blade::after { background: linear-gradient(transparent 15%, #fff); }
+.platform.is-open .rift-blade::before { animation: rift-slice-up 0.12s cubic-bezier(0.5, 0, 0.9, 0.6) both; }
+.platform.is-open .rift-blade::after { animation: rift-slice-down 0.12s cubic-bezier(0.5, 0, 0.9, 0.6) both; }
+@keyframes rift-slice-up {
+  0% { top: 50%; margin-top: 0; opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: 0; margin-top: 0; opacity: 0; }
+}
+@keyframes rift-slice-down {
+  0% { top: 50%; margin-top: -24px; opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: 100%; margin-top: -24px; opacity: 0; }
+}
+
+.rift-shadow { fill: #120000; opacity: 0.9; }
+
+/* Each crack segment is drawn along its length (pathLength = 1) just as the crack front reaches it (timings set in js/platform.js) */
+.rift-crack {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.12s ease-in;
+}
+.platform.is-open .rift-crack {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--duration) linear var(--delay);
+}
+
+.spores {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -120px;
+  width: 0;
+  height: 240px;
+  pointer-events: none;
+}
+.spore {
+  position: absolute;
+  left: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  /* Soft edges drawn into the dot, rather than a blur filter on every spore */
+  background: radial-gradient(circle closest-side, var(--spore) 70%, transparent);
+}
+
+/* Faulty-bulb flicker while the gate is open */
+@keyframes rift-flicker {
+  0%, 100% { opacity: 1; }
+  41% { opacity: 0.35; }
+  43% { opacity: 1; }
+  47% { opacity: 0.5; }
+  49% { opacity: 1; }
+  82% { opacity: 0.6; }
+  83% { opacity: 1; }
+}
+
+/* --- INTO THE UPSIDE DOWN (js/platform.js) --- */
+/* As the slit rips open, a ball of red light centred on the wound swells over the page. It sits in the page's own
+   layer, under the wound (lifted while crossing), and its glow fades out before the edge of its box, so scaling it
+   never shows a hard edge. Sized and placed from js/platform.js. */
+.world-leak {
+  position: fixed;
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side, #fff0ea, rgba(255, 150, 130, 0.9) 35%, rgba(196, 22, 28, 0.55) 65%, transparent);
+}
+.is-crossing .platform { z-index: 2; }
+/* Let the light pass over the nav too */
+.is-crossing .site-nav { z-index: 0; }
+/* As the ball reaches the edges, its light floods the whole screen, wound and all, while the page changes underneath */
+.world-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 1002;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--x) var(--y), #fff0ea, #ff8a78 35%, #c4161c 75%, #5a0508);
+}
+
+/* --- INTO THE NEWSPAPER (js/platform.js) --- */
+/* As the wound squeezes shut, a drop of the newspaper's own paper (its --bg, css/worlds/newspaper.css) wells up out
+   of it, hangs and falls. It's one SVG shape, the wound's lip drawn out into a neck that swells into the drop,
+   redrawn every frame from js/platform.js. */
+.world-drop {
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 2px 1.5px rgba(50, 30, 5, 0.6)) drop-shadow(0 0 6px rgba(255, 238, 200, 0.55));
+}
+/* Where it lands, it spreads into a pool of the same paper, with a darker wet rim, over the whole page, and the page
+   turns to the newspaper under it. It's drawn at the size it ends up and only scaled and turned (from
+   js/platform.js), so it can be moved without being redrawn. */
+.world-pool {
+  position: fixed;
+  z-index: 1002;
+  box-sizing: border-box;
+  pointer-events: none;
+  background: #e6d9bb;
+  border: 0 solid #8a6a3a;
+  transform: scale(0);
+  will-change: transform;
+}
+/* As the pool clears, the paper under it is still damp, darker, drying outward from where the drop landed: a dry
+   patch (--dry across, from js/platform.js) at the middle of a damp layer, both only scaled up and faded together */
+.world-damp {
+  position: fixed;
+  z-index: 1001;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(95, 65, 25, 0) var(--dry), rgba(95, 65, 25, 0.2) calc(var(--dry) * 2.5));
+  will-change: transform, opacity;
+}
+/* The ink running along each of the newspaper's rules, laid over it until it's run its length (js/platform.js) */
+.world-rule {
+  position: fixed;
+  z-index: 101;
+  height: 0;
+  pointer-events: none;
+}
+/* For visitors who'd rather less moved, the page simply fades through paper instead */
+.world-leak.is-paper { background: radial-gradient(closest-side, #e6d9bb 60%, transparent); }
+.world-flash.is-paper { background: #e6d9bb; }
+
+/* --- COMING HOME (a click on the portrait, js/platform.js) --- */
+/* The masthead fades away while each part of the page glides into its usual place and changes type as it goes,
+   so the two layouts never sit out of line */
+.is-going-home .masthead { view-transition-name: masthead; }
+.is-going-home .site-nav { view-transition-name: nav; }
+.is-going-home .hero { view-transition-name: hero; }
+.is-going-home .avatar-wrap { view-transition-name: portrait; }
+.is-going-home #about { view-transition-name: about; }
+.is-going-home #news { view-transition-name: news; }
+.is-going-home #publications { view-transition-name: publications; }
+.is-going-home .site-footer { view-transition-name: footer; }
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* On touch screens the trip home is a single dissolve of the whole screen: nothing is named, so the browser takes
+   just one snapshot of what's in view and fades it into home (see js/platform.js) */
+.is-dissolving-home::view-transition-old(root),
+.is-dissolving-home::view-transition-new(root) {
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in-out;
+}
+/* Coming home from the newspaper or the Grand Line, the layouts don't line up, so instead of blending them the world
+   fades out to its bare colour (paper, or open sea) and home fades in from it */
+.is-through-paper::view-transition { background: #e6d9bb; }
+.is-through-sea::view-transition { background: #9fdaf8; }
+.is-through-paper::view-transition-old(root),
+.is-through-sea::view-transition-old(root) { animation: home-fade-out 0.4s ease-in both; }
+.is-through-paper::view-transition-new(root),
+.is-through-sea::view-transition-new(root) { animation: home-fade-in 0.45s ease-out 0.35s both; }
+@keyframes home-fade-out { to { opacity: 0; } }
+@keyframes home-fade-in { from { opacity: 0; } }
+/* The portrait flips over like a card on the way: the newspaper photograph turns away edge-on,
+   then the usual portrait turns in from the other side */
+::view-transition-old(portrait) { animation: portrait-flip-away 0.35s cubic-bezier(0.5, 0, 0.9, 0.5) both; }
+::view-transition-new(portrait) { animation: portrait-flip-in 0.35s cubic-bezier(0.1, 0.5, 0.5, 1) 0.35s both; }
+@keyframes portrait-flip-away {
+  from { transform: perspective(900px) rotateY(0); }
+  to { transform: perspective(900px) rotateY(90deg); }
+}
+@keyframes portrait-flip-in {
+  from { transform: perspective(900px) rotateY(-90deg); }
+  to { transform: perspective(900px) rotateY(0); }
+}
+
+/* The newspaper's masthead lives on the other side (css/worlds/newspaper.css) */
+.masthead { display: none; }
+
+/* The whole page dims to a red haze at the edges while the gate is open */
+.upside-down {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at 50% 100%, transparent 35%, var(--upside-tint));
+  transition: opacity 0.8s ease;
+}
+.upside-down.is-open { opacity: 1; }
+
+/* The stacked, centred hero on small screens has no right side for the wall, so it moves up beside the portrait
+   (which sits at the top of the hero, 180px tall) and the wound is drawn a little smaller to fit the narrower margin */
+@media (max-width: 640px) {
+  .platform {
+    top: 0;
+    margin-top: 0;
+    height: 180px;
+  }
+  .rift,
+  .spores { scale: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platform.is-open,
+  .platform.is-open .rift-blade::before,
+  .platform.is-open .rift-blade::after { animation: none !important; }
+}
+
+/* --- THE STRAW HAT (js/platform.js) --- */
+/* A straw hat lying in the top bar just after the name, so faint it takes a careful look to find. Hovering it (or a tap) and it lights up;
+   clicking it, a rubber arm stretches up from the bottom of the screen and punches it flying, and it hits the screen
+   in a yellow smash, behind which the page turns to the Grand Line (css/worlds/grandline.css). */
+/* Only as big as the hat itself, so it's found only by landing on it; its auto margin pushes the links over */
+.hat-spot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+  min-height: 36px;
+  cursor: default;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.hat-spot.is-open { cursor: pointer; }
+/* Only home has the hat lying about; other worlds' bars don't keep a space for it */
+[data-world] .hat-spot { display: none; }
+.straw-hat {
+  display: block;
+  width: 52px;
+  opacity: 0.05;
+  filter: grayscale(1);
+  transition: opacity 0.25s ease-in, filter 0.25s ease-in;
+}
+/* Found, it lights up in full colour with a warm glow round it; let go, it dims again */
+.hat-spot.is-open .straw-hat {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 210, 59, 0.95));
+  transition: opacity 0.3s ease-out, filter 0.3s ease-out;
+}
+
+/* --- ONTO THE GRAND LINE (js/platform.js) --- */
+/* The hat, thrown: a copy of it lifted out of the bar onto the screen, flown and spun from js/platform.js.
+   It's in front of the fist that knocks it flying. */
+.straw-hat.is-thrown {
+  position: fixed;
+  z-index: 1002;
+  opacity: 1;
+  filter: none;
+  transition: none;
+  pointer-events: none;
+}
+/* The punch: a rubber arm in a red sleeve shooting up from below the screen, its fist at the top, stretched to
+   reach the hat in the bar from js/platform.js, and held there until the smash covers it */
+.rubber-punch {
+  position: fixed;
+  z-index: 1001;
+  bottom: 0;
+  width: 26px;
+  margin-left: -13px;
+  height: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #6b3d16, #f4c48e 3px, #ffe2bd 40%, #f4c48e 70%, #6b3d16 calc(100% - 3px), #6b3d16);
+}
+.rubber-punch::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -24px;
+  width: 44px;
+  height: 40px;
+  margin-left: -22px;
+  border: 3px solid #6b3d16;
+  border-radius: 46% 46% 40% 40%;
+  background:
+    linear-gradient(90deg, transparent 30%, #6b3d16 30% 33%, transparent 33% 52%, #6b3d16 52% 55%, transparent 55% 74%, #6b3d16 74% 77%, transparent 77%) 0 0 / 100% 9px no-repeat,
+    #f4c48e;
+}
+.rubber-punch::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 52px;
+  height: 46px;
+  margin-left: -26px;
+  border-radius: 10px 10px 0 0;
+  background: #d22a2a;
+  border: 3px solid #7a1414;
+}
+/* Where it hits: a yellow comic smash flung out over the screen, hiding the page as it changes underneath */
+.world-burst {
+  position: fixed;
+  z-index: 1002;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* For visitors who'd rather less moved, the page simply fades through the smash's yellow instead */
+.world-flash.is-grandline { background: #ffd23b; }
+
+/* The poster's bounty lives on the Grand Line (css/worlds/grandline.css) */
+.bounty { display: none; }
+

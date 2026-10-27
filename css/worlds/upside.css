@@ -1,0 +1,471 @@
+/* The other side of Platform 9¾, the Upside Down: a cold, dark, spore-filled night lit by neon-red 80s titles,
+   a string of Christmas lights, and VHS-graded footage.
+   Loaded on demand by js/platform.js and switched on with data-world="upside" on <html>,
+   so none of it applies (or downloads) until a visitor finds the gate. */
+
+/* --- NIGHT & NEON --- */
+html:root[data-world="upside"] {
+  --bg: #07090d;
+  --text: #d7dce4;
+  --text-muted: #8590a2;
+  --accent: #e3242b;
+  --accent-bright: #ff4146;
+  --accent-soft: rgba(227, 36, 43, 0.08);
+  --surface: rgba(16, 22, 32, 0.6);
+  --surface-hover: rgba(24, 32, 46, 0.75);
+  --border: rgba(227, 36, 43, 0.22);
+  --border-strong: rgba(227, 36, 43, 0.55);
+  --glow-1: rgba(160, 10, 20, 0.28);
+  --glow-2: rgba(40, 70, 120, 0.22);
+  --shadow: 0 0 0 1px rgba(227, 36, 43, 0.06), 0 12px 32px -12px rgba(0, 0, 0, 0.8);
+  --grain-opacity: 0.1;
+  --halo-opacity: 0.8;
+  --ring-gold: #3a6ea8;
+  --ring-violet: #8a1016;
+  --burst-gold: #ff4146;
+  --burst-violet: #3a6ea8;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --neon: 0 0 6px rgba(227, 36, 43, 0.9), 0 0 18px rgba(227, 36, 43, 0.55), 0 0 42px rgba(227, 36, 43, 0.3);
+  --font-display: "Merriweather", Georgia, serif;
+  --font-sans: "Courier Prime", "Courier New", monospace;
+  --font-mono: "Courier Prime", "Courier New", monospace;
+  color-scheme: dark;
+}
+
+[data-world="upside"] body { background-color: var(--bg); }
+
+/* A red storm glowing low on the horizon and cold fog above */
+[data-world="upside"] body::after {
+  background:
+    radial-gradient(90vw 45vh at 50% 110%, rgba(150, 10, 18, 0.45), transparent 70%),
+    radial-gradient(60vw 50vh at 10% 0%, rgba(40, 70, 120, 0.22), transparent 70%),
+    radial-gradient(60vw 50vh at 90% 10%, rgba(40, 70, 120, 0.16), transparent 70%);
+}
+
+/* Now and then a double flicker of red lightning: a layer of the same storm light under the sky, faded in for an
+   instant. Fading a layer is nearly free, where brightening the sky with a filter repaints the whole screen. */
+[data-world="upside"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(90vw 50vh at 50% 110%, rgba(255, 40, 50, 0.6), transparent 70%),
+    radial-gradient(60vw 50vh at 10% 0%, rgba(90, 120, 190, 0.25), transparent 70%);
+  animation: upside-lightning 11s steps(1) infinite;
+}
+
+@keyframes upside-lightning {
+  0%, 100% { opacity: 0; }
+  71% { opacity: 1; }
+  72% { opacity: 0; }
+  73.5% { opacity: 0.6; }
+  74.5% { opacity: 0; }
+}
+
+/* Spores drifting up through the whole page, behind the content: two tall layers that slide up whole, at different
+   speeds for depth. Sliding a layer is nearly free, where moving its pattern repaints the whole screen every frame. */
+[data-world="upside"] main::before,
+[data-world="upside"] main::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.55;
+  will-change: transform;
+}
+
+/* Nearer, finer spores: each layer moves exactly one tile, so the loop is seamless */
+[data-world="upside"] main::before {
+  height: calc(100vh + 230px);
+  background-image:
+    radial-gradient(circle, rgba(225, 220, 210, 0.8) 0 1px, transparent 2.4px),
+    radial-gradient(circle, rgba(225, 220, 210, 0.55) 0 0.8px, transparent 2px);
+  background-size: 190px 230px, 130px 230px;
+  background-position: 20px 40px, 80px 10px;
+  animation: upside-drift-near 40s linear infinite;
+}
+
+/* Larger, faster spores */
+[data-world="upside"] main::after {
+  height: calc(100vh + 620px);
+  background-image: radial-gradient(circle, rgba(225, 220, 210, 0.35) 0 1.4px, transparent 2.8px);
+  background-size: 280px 310px;
+  background-position: 150px 120px;
+  animation: upside-drift-far 40s linear infinite;
+}
+
+@keyframes upside-drift-near {
+  to { transform: translateY(-230px); }
+}
+
+@keyframes upside-drift-far {
+  to { transform: translateY(-620px); }
+}
+
+[data-world="upside"] ::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+[data-world="upside"] .theme-toggle,
+[data-world="upside"] .platform { display: none; }
+
+/* --- NAV: with a string of Christmas lights hanging under it --- */
+[data-world="upside"] .site-nav {
+  background: rgba(7, 9, 13, 0.75);
+  border-color: rgba(227, 36, 43, 0.25);
+}
+
+[data-world="upside"] .nav-brand {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--accent);
+  text-shadow: var(--neon);
+}
+
+[data-world="upside"] .nav-links a { font-size: 0.875rem; }
+
+[data-world="upside"] .site-nav::before {
+  content: "";
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: calc(100% + 2px);
+  height: 16px;
+  pointer-events: none;
+  /* Five colours of bulb, each on its own repeating layer, over a dark wire */
+  background:
+    radial-gradient(circle at 50% 70%, #ff3b3b 0 3.5px, transparent 4.5px) 0 0 / 120px 16px,
+    radial-gradient(circle at 50% 70%, #ffd23b 0 3.5px, transparent 4.5px) 24px 0 / 120px 16px,
+    radial-gradient(circle at 50% 70%, #3bd16f 0 3.5px, transparent 4.5px) 48px 0 / 120px 16px,
+    radial-gradient(circle at 50% 70%, #3b8bff 0 3.5px, transparent 4.5px) 72px 0 / 120px 16px,
+    radial-gradient(circle at 50% 70%, #ff7ad9 0 3.5px, transparent 4.5px) 96px 0 / 120px 16px,
+    linear-gradient(#1a1a1a, #1a1a1a) 0 4px / 100% 1px no-repeat;
+  filter: drop-shadow(0 0 4px rgba(255, 220, 160, 0.7));
+  animation: upside-lights 6s steps(1) infinite;
+}
+
+/* Something is trying to talk through the lights */
+@keyframes upside-lights {
+  0%, 100% { opacity: 1; }
+  30% { opacity: 0.25; }
+  31% { opacity: 1; }
+  33% { opacity: 0.4; }
+  34% { opacity: 1; }
+  62% { opacity: 0.15; }
+  66% { opacity: 1; }
+}
+
+[data-world="upside"] .site-nav::after {
+  background: var(--accent);
+  box-shadow: var(--neon);
+}
+
+/* --- TITLES: outlined neon-red serif --- */
+[data-world="upside"] .hero-text .title {
+  font-weight: 900;
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+  text-shadow: var(--neon);
+  padding: 6px 0;
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  box-shadow: 0 -8px 14px -10px var(--accent), 0 8px 14px -10px var(--accent);
+}
+
+/* The neon title holds still: no wave across the name */
+[data-world="upside"] .title .char { animation: none !important; }
+
+/* First and last letters stand taller, as on an 80s title card */
+[data-world="upside"] .title .char:first-child,
+[data-world="upside"] .title .char:last-child { font-size: 1.22em; }
+
+[data-world="upside"] .hero-text .subtitle { font-size: 0.9375rem; }
+
+[data-world="upside"] .hero-text div.subtitle:first-of-type,
+[data-world="upside"] .hero-text .badges + .subtitle { letter-spacing: 0.08em; }
+
+/* Section heads become chapter title cards */
+@counter-style chapter {
+  system: fixed;
+  symbols: "One" "Two" "Three" "Four" "Five" "Six" "Seven" "Eight";
+  fallback: upper-roman;
+}
+
+[data-world="upside"] section > h2 {
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--accent);
+  text-shadow: var(--neon);
+}
+
+[data-world="upside"] section > h2::before {
+  content: "Chapter " counter(section, chapter);
+  transform: none;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+}
+
+[data-world="upside"] section > h2::after {
+  flex: none;
+  width: min(60%, 360px);
+  height: 2px;
+  transform: none;
+  background: var(--accent);
+  box-shadow: var(--neon);
+}
+
+/* --- PORTRAIT: drained of warmth, with a cold red-and-blue ring --- */
+[data-world="upside"] .avatar { filter: saturate(0.55) contrast(1.1) brightness(0.9) hue-rotate(-10deg); }
+
+/* The portrait's words come through the Christmas lights, as on the alphabet wall: painted letters under a string
+   of bulbs, each bulb flaring as its letter is spelled, then dimming (letters are written by js/functions.js) */
+[data-world="upside"] .avatar-wrap .avatar-ink {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-style: normal;
+  font-size: 1.15rem;
+  line-height: 2.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ebe3cf;
+  text-shadow: 0 1px 0 #000;
+}
+
+[data-world="upside"] .avatar-ink span {
+  position: relative;
+  animation: none;
+}
+
+[data-world="upside"] .avatar-ink span::before {
+  content: "";
+  position: absolute;
+  top: -0.35em;
+  /* Centred over the letter itself, not the letter spacing after it */
+  left: calc(50% - 0.1em);
+  width: 7px;
+  height: 10px;
+  margin-left: -3.5px;
+  border-radius: 50% 50% 45% 45%;
+  background: var(--bulb);
+  opacity: 0.2;
+  animation: upside-bulb 1.4s ease-out calc(var(--i) * 45ms) forwards;
+}
+
+[data-world="upside"] .avatar-ink span:nth-of-type(5n + 1) { --bulb: #ff3b3b; }
+[data-world="upside"] .avatar-ink span:nth-of-type(5n + 2) { --bulb: #ffd23b; }
+[data-world="upside"] .avatar-ink span:nth-of-type(5n + 3) { --bulb: #3bd16f; }
+[data-world="upside"] .avatar-ink span:nth-of-type(5n + 4) { --bulb: #3b8bff; }
+[data-world="upside"] .avatar-ink span:nth-of-type(5n + 5) { --bulb: #ff7ad9; }
+
+@keyframes upside-bulb {
+  0% { opacity: 0.2; box-shadow: none; }
+  12% { opacity: 1; box-shadow: 0 0 8px 3px var(--bulb), 0 0 18px 4px var(--bulb); }
+  60% { opacity: 1; box-shadow: 0 0 6px 2px var(--bulb); }
+  100% { opacity: 0.45; box-shadow: 0 0 3px 1px var(--bulb); }
+}
+
+/* --- BADGES, BUTTONS, PILLS: neon outlines --- */
+[data-world="upside"] .badge,
+[data-world="upside"] .btn,
+[data-world="upside"] .toggle-btn {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+@media (hover: hover) {
+  [data-world="upside"] .badge:hover,
+  [data-world="upside"] .btn:hover,
+  [data-world="upside"] .toggle-btn:hover {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: var(--neon);
+  }
+  [data-world="upside"] .card:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 0 24px -6px rgba(227, 36, 43, 0.5);
+  }
+}
+
+[data-world="upside"] .site-footer .back-to-top {
+  color: #fff;
+  box-shadow: var(--neon);
+}
+
+[data-world="upside"] .about-lead { font-weight: 700; }
+
+[data-world="upside"] .about-lead em {
+  font-style: normal;
+  color: var(--accent);
+  text-shadow: var(--neon);
+}
+
+[data-world="upside"] .interest {
+  background: transparent;
+  border-color: var(--border-strong);
+  font-family: var(--font-mono);
+}
+
+[data-world="upside"] .interest::before { box-shadow: 0 0 6px var(--accent); }
+
+[data-world="upside"] .side-label,
+[data-world="upside"] .news-date,
+[data-world="upside"] .pub-row-venue { letter-spacing: 0.12em; }
+
+/* --- NEWS: each dot a bulb on the wall --- */
+[data-world="upside"] .news-content::before { box-shadow: 0 0 6px var(--accent); }
+
+/* --- PUBLICATIONS: VHS-graded footage, cold shadows and red highlights, with scanlines --- */
+[data-world="upside"] .pub-media { filter: saturate(0.7) contrast(1.15) brightness(0.9); }
+
+[data-world="upside"] .pub-media-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px),
+    linear-gradient(160deg, rgba(30, 60, 120, 0.3), rgba(150, 10, 20, 0.25));
+  mix-blend-mode: multiply;
+}
+
+[data-world="upside"] .pub-media-wrap .status-tag,
+[data-world="upside"] .pub-media-wrap::after { z-index: 2; }
+
+[data-world="upside"] .pub--featured h3 { font-weight: 900; }
+
+/* --- CASE FILES: the bio and the lead paper filed as classified lab documents, with rubber stamps --- */
+[data-world="upside"] .about-main,
+[data-world="upside"] .pub--featured { position: relative; }
+
+/* A typed file header on the bio */
+[data-world="upside"] .about-main::before {
+  content: "Hawkins National Laboratory \00B7  Subject file 9\00BE";
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-strong);
+}
+
+/* Rubber stamps in red ink, slightly crooked, with the worn, patchy edges of a real stamp */
+[data-world="upside"] .about-main::after,
+[data-world="upside"] .pub--featured::after {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  padding: 4px 12px;
+  border: 3px solid currentColor;
+  border-radius: 4px;
+  outline: 1px solid currentColor;
+  outline-offset: 3px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(227, 36, 43, 0.85);
+  mix-blend-mode: screen;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+[data-world="upside"] .about-main::after {
+  content: "Confidential";
+  top: 18px;
+  right: 22px;
+  rotate: 8deg;
+}
+
+[data-world="upside"] .pub--featured::after {
+  content: "Classified";
+  top: 22px;
+  right: 24px;
+  rotate: -9deg;
+}
+
+/* --- ARRIVAL: the page comes on in flickers, like failing lights --- */
+[data-world="upside"].is-arriving .site-nav,
+[data-world="upside"].is-arriving .hero,
+[data-world="upside"].is-arriving main > section,
+[data-world="upside"].is-arriving .site-footer {
+  animation: upside-flicker-on 0.4s steps(1) both;
+}
+[data-world="upside"].is-arriving .site-nav { animation-delay: 0.02s; }
+[data-world="upside"].is-arriving .hero { animation-delay: 0.06s; }
+[data-world="upside"].is-arriving #about { animation-delay: 0.1s; }
+[data-world="upside"].is-arriving #news { animation-delay: 0.13s; }
+[data-world="upside"].is-arriving #publications,
+[data-world="upside"].is-arriving .site-footer { animation-delay: 0.16s; }
+
+/* A burst of TV static with a tracking bar rolling down, as the signal comes in. Cheap to draw: one small,
+   pre-rendered noise tile that jumps between positions, and a soft bar, over a few hundred milliseconds. */
+[data-world="upside"].is-arriving::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  background-image:
+    linear-gradient(transparent, rgba(220, 225, 235, 0.18) 40%, rgba(255, 255, 255, 0.32) 50%, rgba(220, 225, 235, 0.18) 60%, transparent),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 100% 22%, 160px 160px;
+  background-repeat: no-repeat, repeat;
+  animation: upside-static 0.45s steps(9) forwards;
+}
+
+@keyframes upside-static {
+  0% { opacity: 0.6; background-position: 0 -30%, 0 0; }
+  25% { background-position: 0 20%, 37px 91px; }
+  50% { opacity: 0.4; background-position: 0 60%, 113px 22px; }
+  75% { background-position: 0 100%, 64px 140px; }
+  100% { opacity: 0; background-position: 0 130%, 141px 57px; }
+}
+
+@keyframes upside-flicker-on {
+  0% { opacity: 0; }
+  20% { opacity: 0.8; }
+  30% { opacity: 0.1; }
+  50% { opacity: 1; }
+  60% { opacity: 0.4; }
+  75%, 100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-world="upside"]::before,
+  [data-world="upside"] main::before,
+  [data-world="upside"] main::after,
+  [data-world="upside"] .site-nav::before,
+  [data-world="upside"] .avatar-ink span::before,
+  [data-world="upside"].is-arriving *,
+  [data-world="upside"].is-arriving::after { animation: none !important; }
+  [data-world="upside"].is-arriving::after { display: none; }
+}

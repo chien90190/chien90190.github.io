@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chrissy Chien</title>
+  <meta name="description" content="Chrissy Chien" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Apply saved theme before first paint to avoid a flash -->
+  <script>
+    try {
+      const t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+
+  <!-- CSS is external -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/platform.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a class="nav-brand" href="#">Chrissy Chien</a>
+    <!-- A straw hat left lying in the bar: hover (or tap) and it lights up; clicking it, a fist punches it flying (js/platform.js) -->
+    <div class="hat-spot" tabindex="0" role="button" aria-label="A straw hat">
+      <svg class="straw-hat" viewBox="0 0 120 56" aria-hidden="true">
+        <ellipse cx="60" cy="42" rx="56" ry="12" fill="#e9b949" stroke="#8a5a14" stroke-width="2"/>
+        <path d="M28 40C28 14 40 4 60 4s32 10 32 36" fill="#f3cd62" stroke="#8a5a14" stroke-width="2"/>
+        <path d="M29 30c10 5 52 5 62 0v9c-10 5-52 5-62 0z" fill="#d22a2a" stroke="#7a1414" stroke-width="1.5"/>
+        <path d="M40 14c6-3 14-4 20-4M36 22c8-3 18-4 26-4" stroke="#c99a2e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="nav-links">
+      <span class="nav-indicator" aria-hidden="true"></span>
+      <a href="#about">About</a>
+      <a href="#news">News</a>
+      <a href="#publications">Publications</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg id="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+      </button>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- Newspaper masthead: only shown on the other side of Platform 9¾ (css/worlds/newspaper.css) -->
+    <header class="masthead" aria-hidden="true">
+      <div class="masthead-top">
+        <span class="masthead-crest">
+          <!-- The paper's arms: an owl displayed over a shield quartered with its initials, between two crossed wands -->
+          <svg viewBox="0 0 80 84">
+            <path class="crest-wands" d="M7 79 23 60M73 79 57 60"/>
+            <circle cx="7" cy="79" r="1.6"/><circle cx="73" cy="79" r="1.6"/>
+            <g class="crest-wings"><path d="M34 30Q24 30 13 33Q24 34.5 34 33.5Z"/><path d="M46 30Q56 30 67 33Q56 34.5 46 33.5Z"/><path d="M34 28Q20 24 7 27Q21 31 34 32Z"/><path d="M46 28Q60 24 73 27Q59 31 46 32Z"/><path d="M34 26Q18 17 4 19Q19 25 34 30.5Z"/><path d="M46 26Q62 17 76 19Q61 25 46 30.5Z"/><path d="M34 24Q18 9 5 11Q19 19 34 29Z"/><path d="M46 24Q62 9 75 11Q61 19 46 29Z"/><path d="M34 22.5Q22 5 10 3.5Q21 14 34 27.5Z"/><path d="M46 22.5Q58 5 70 3.5Q59 14 46 27.5Z"/><path d="M35.5 19.5Q25 13 17.5 17Q25 25 35.5 30Z"/><path d="M44.5 19.5Q55 13 62.5 17Q55 25 44.5 30Z"/></g>
+            <path d="M33 10 35.6 14.6Q40 13.6 44.4 14.6L47 10Q48.3 14.5 47.2 18Q49.3 23 48.2 28Q46.5 33.5 40 34.5Q33.5 33.5 31.8 28Q30.7 23 32.8 18Q31.7 14.5 33 10Z"/>
+            <path class="crest-streaks" d="M38 26.5v1.4M42 26.5v1.4M40 29v1.4M36.5 29.5v1.2M43.5 29.5v1.2"/>
+            <g class="crest-eyes">
+              <circle class="crest-paper" cx="37.3" cy="19.6" r="2.4"/><circle class="crest-paper" cx="42.7" cy="19.6" r="2.4"/>
+              <circle cx="37.3" cy="19.6" r="1.1"/><circle cx="42.7" cy="19.6" r="1.1"/>
+            </g>
+            <path class="crest-gold" d="M39.2 21.8 40 24.4 40.8 21.8Z"/>
+            <path class="crest-shield" d="M18 35H62V56Q62 72 40 81Q18 72 18 56Z"/>
+            <path class="crest-gold" d="M20.5 37.5H38.5V54.5H20.5ZM41.5 56.5H59.5Q59 70 41.5 78Z"/>
+            <path class="crest-cross" d="M40 35V81M18 55.5H62"/>
+            <text class="crest-letter" x="29.5" y="51">D</text><text class="crest-letter" x="50" y="71">C</text>
+            <text class="crest-star" x="50.5" y="49">✶</text><text class="crest-star" x="29.5" y="69">✶</text>
+          </svg>
+        </span>
+        <span class="masthead-corner" data-evening="Price ¼ Knut">bewitch · beguile</span>
+        <span class="masthead-corner" data-evening="Issue 9¾ of the Waxing Moon">spellbind · conjure · enchant · divine</span>
+        <span class="masthead-price">Seven<br>Knuts</span>
+        <!-- Scrollwork either side of the name: the evening edition's, in place of the arms and the price -->
+        <span class="masthead-scroll">
+          <svg viewBox="0 0 300 120">
+            <g id="masthead-scroll">
+              <path stroke-width="3" d="M296 62C258 62 236 42 196 44C156 46 146 80 110 80C80 80 66 60 78 47C88 37 104 45 100 57C97 65 86 64 86 57"/>
+              <path stroke-width="2" d="M196 44C176 31 154 22 128 27C108 31 104 18 116 14C124 12 128 20 122 23"/>
+              <path stroke-width="2" d="M156 64C140 92 104 102 64 94C42 90 32 72 46 65C56 60 63 71 55 76"/>
+              <path stroke-width="1.6" d="M78 47C54 31 28 40 20 60C14 78 32 90 40 78C44 72 38 66 33 69"/>
+              <path stroke-width="1.2" d="M240 50C228 36 214 32 204 36M236 70C226 84 210 88 198 84"/>
+              <path class="scroll-leaf" d="M168 50q9-12 21-7q-9 12-21 7zM140 70q4 13 17 13q-4-13-17-13zM118 36q-2-12 9-16q2 12-9 16zM90 92q8 8 18 4q-8-9-18-4z"/>
+              <circle class="scroll-leaf" cx="296" cy="62" r="3.5"/><circle class="scroll-leaf" cx="204" cy="36" r="2.2"/>
+              <circle class="scroll-leaf" cx="198" cy="84" r="2.2"/><circle class="scroll-leaf" cx="20" cy="60" r="1.8"/>
+            </g>
+          </svg>
+        </span>
+        <span class="masthead-scroll">
+          <svg viewBox="0 0 300 120"><use href="#masthead-scroll"/></svg>
+        </span>
+        <!-- and above and below it, scrolling out from a small medallion -->
+        <span class="masthead-band">
+          <svg viewBox="-4 -2 408 48">
+            <g id="masthead-band">
+              <g id="masthead-band-half">
+                <path stroke-width="2.4" d="M190 26C168 26 158 10 134 12C112 14 108 32 88 32C70 32 64 18 74 12C82 8 90 16 84 21"/>
+                <path stroke-width="1.6" d="M134 12C120 4 100 3 84 7C76 9 72 4 78 2"/>
+                <path stroke-width="1.4" d="M88 32C60 39 32 36 14 27C7 23 9 15 16 17C21 19 19 25 15 24"/>
+                <path class="scroll-leaf" d="M150 20q6-9 15-6q-6 9-15 6zM112 27q5 8 13 6q-5-8-13-6zM46 34q5 6 12 3q-6-6-12-3z"/>
+                <circle class="scroll-leaf" cx="190" cy="26" r="2"/>
+              </g>
+              <use href="#masthead-band-half" transform="translate(400 0) scale(-1 1)"/>
+              <circle stroke-width="1.4" cx="200" cy="24" r="6.5"/>
+              <path class="scroll-leaf" d="M200 11q3 3 0 6q-3-3 0-6zM200 37q3-3 0-6q-3 3 0 6zM187 24q3-3 6 0q-3 3-6 0zM213 24q-3-3-6 0q3 3 6 0z"/>
+              <circle class="scroll-gilt" cx="200" cy="24" r="2.5"/>
+            </g>
+          </svg>
+        </span>
+        <span class="masthead-band">
+          <svg viewBox="-4 -2 408 48"><use href="#masthead-band"/></svg>
+        </span>
+      </div>
+      <div class="masthead-title"><span class="masthead-the">The</span><span data-evening="Evening">Daily</span> <span class="masthead-gilt">C</span>hien</div>
+      <span class="masthead-tagline">★ The Wizarding World’s Most Bewitching Broadsheet of Research ★</span>
+      <span class="masthead-mirror">★ The Wizarding World’s Most Bewitching Broadsheet of Research ★</span>
+      <div class="masthead-boxes">
+        <span class="masthead-box is-inverse">
+          <b data-evening="The Evening Chien Notice">The Daily Chien Notice</b>
+          <i>★ ★ ★ ★ ★ ★ ★ ★</i>
+          <small>Owls accepted at all hours</small>
+        </span>
+        <span class="masthead-box">
+          <b>Magical Weather</b>
+          <small>Hsinchu — breezy spells</small>
+          <small>Taipei — drizzle, 24°</small>
+          <small>Hogsmeade — snow</small>
+        </span>
+        <span class="masthead-box">
+          <b data-evening="Evening Edition">Late Edition</b>
+          <small>Vol. IX · Nº 9¾ · Taiwan</small>
+          <small id="masthead-date"></small>
+          <small>Letters to the editor by owl</small>
+        </span>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="avatar-wrap" data-hint="ink">
+        <img class="avatar" src="images/me.jpg" alt="Chrissy Chien" />
+        <video class="avatar avatar-video" muted playsinline preload="auto" aria-hidden="true"
+               disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noremoteplayback">
+          <source src="images/me_anime.mp4" type="video/mp4" />
+        </video>
+        <span class="avatar-hint" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5 6 9H2v6h4l5 4V5z"></path>
+            <path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+            <path class="wave" d="M19 5a10 10 0 0 1 0 14"></path>
+          </svg>
+        </span>
+        <span class="avatar-ink" aria-hidden="true"></span>
+      </div>
+      <div class="hero-text">
+        <h1 class="title">Chrissy Chien</h1>
+        <!-- The bounty on the wanted poster: only shown on the Grand Line (css/worlds/grandline.css) -->
+        <div class="bounty" aria-hidden="true"><span class="bounty-sign">C</span><span class="bounty-amount">5,564,799,999</span>–</div>
+        <div class="subtitle">(she/her/hers)</div>
+        <div class="subtitle">Research Assistant @ Department of Computer Science</div>
+        <div class="subtitle">National Yang Ming Chiao Tung University (NYCU), Taiwan</div>
+        <div class="badges">
+          <a class="badge email-badge" id="email-badge">
+            hjchien90190 [at] nycu [dot] edu.tw
+            <svg class="copy-icon" onclick="copyEmail(event)" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </a>
+          <span class="badge-break" aria-hidden="true"></span>
+          <a class="badge" href="doc/Curriculam_Vitae_Chrissy_Chien.pdf" target="_blank">CV</a>
+          
+          <a class="badge icon-badge" href="https://www.linkedin.com/in/chris-chien/" target="_blank" rel="noopener" aria-label="LinkedIn Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          
+          <a class="badge icon-badge" href="https://github.com/chien90190" target="_blank" rel="noopener" aria-label="GitHub Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          
+          <a class="badge icon-badge" href="https://scholar.google.com/citations?user=ZeXqeAkAAAAJ&hl=en" target="_blank" rel="noopener" aria-label="Google Scholar Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/>
+            </svg>
+          </a>
+        </div>
+        <div class="subtitle">latest update: <span class="update-date">Oct. 2026</span></div>
+
+      </div>
+
+      <!-- Platform 9¾: hover (or tap) tears open a rift in the wall; clicking steps through to the newspaper and back -->
+      <div class="platform" tabindex="0" role="button" aria-label="Platform nine and three quarters">
+        <span class="rift" aria-hidden="true">
+          <span class="rift-open"></span>
+          <span class="rift-blade"></span>
+        </span>
+        <span class="spores" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <h2>About</h2>
+      <p class="about-lead">I work on <em>reconstructing</em>, <em>generating</em>, and <em>understanding</em> the visual world.</p>
+
+      <ul class="interests" aria-label="Research interests">
+        <li class="interest">3D &amp; 4D Reconstruction</li>
+        <li class="interest">Generative AI</li>
+        <li class="interest">Vision-Language Models</li>
+        <li class="interest">Human Motion Recovery</li>
+        <li class="interest">Physically-Informed Optimization</li>
+        <li class="interest">Dataset Curation</li>
+        <li class="interest interest--past">Privacy-Preserving &amp; IoT AI</li>
+      </ul>
+
+      <div class="about-grid">
+        <div class="card about-main">
+          <p class="about-text">
+            I am a Research Assistant at the Computational Photography Lab,
+            <a href="https://www.nycu.edu.tw/nycu/en/index" target="_blank" rel="noopener">National Yang Ming Chiao Tung University (NYCU)</a>,
+            supervised by <a href="https://yulunalexliu.github.io/" target="_blank" rel="noopener">Prof. Yu-Lun Liu</a>.
+          </p>
+          <p class="about-text">
+            Recently, I led Splannequin (WACV 2026) and a diagnostic study of world-space human recovery under fast camera motion.
+            I am now exploring <strong>visual understanding in vision-language models (VLMs)</strong>.
+            My goal is to build systems that perceive and reconstruct the visual world as effectively as humans do.
+          </p>
+          <p class="about-text">
+            Previously, at <a href="https://www.ee.ucla.edu/" target="_blank" rel="noopener">UCLA</a>, I worked on privacy-preserving AI and IoT security (<strong>MobiCom</strong>, <strong>IEEE IoT-J</strong>).
+          </p>
+        </div>
+
+        <aside class="card about-side">
+          <div class="side-block">
+            <div class="side-label">Experience</div>
+            <ul class="edu-list">
+              <li class="is-current">
+                <strong>Research Assistant</strong>
+                <span>Computational Photography Lab, NYCU</span>
+                <span>Oct 2024 – Present</span>
+                <span>with Prof. Yu-Lun Liu &amp; Prof. Wei-Lun (Harry) Chao</span>
+                <em class="edu-note">Ongoing: visual understanding in VLMs</em>
+              </li>
+            </ul>
+          </div>
+          <div class="side-block">
+            <div class="side-label">Education</div>
+            <ul class="edu-list">
+              <li><strong>M.S., Electrical &amp; Computer Engineering</strong><span><a href="https://www.ee.ucla.edu/" target="_blank" rel="noopener">UCLA</a> · 2020</span></li>
+              <li><strong>B.S., Electrophysics</strong><span><a href="https://ep.nycu.edu.tw/en/introduction-about/" target="_blank" rel="noopener">NCTU (now NYCU)</a> · 2017</span></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- News -->
+    <section id="news">
+      <h2>News</h2>
+      <ul class="news-list">
+        <li class="news-item">
+          <div class="news-date">Oct 2026</div>
+          <div class="news-content">New preprint on arXiv: "A Diagnostic Study of World-Space Human Recovery Under High Camera Dynamics". 💃</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Oct 2026</div>
+          <div class="news-content">New preprint on arXiv: "InfiniDream: Open-Ended Photorealistic 3D Worlds through Procedural Generation". 🌍</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Feb 2026</div>
+          <div class="news-content">Paper accepted at <strong>CVPR 2026</strong>: "Voxify3D: Pixel Art Meets Volumetric Rendering". 🎉</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Dec 2025</div>
+          <div class="news-content">New preprint on arXiv: "GaMO: Geometry-aware Multi-view Diffusion Outpainting for Sparse-View 3D Reconstruction". 🔭</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Nov 2025</div>
+          <div class="news-content">Paper accepted at <strong>WACV 2026</strong>: "Splannequin: Freezing Monocular Mannequin-Challenge Footage". 🎉</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Oct 2024</div>
+          <div class="news-content">Joined the <strong>Computational Photography Lab</strong> at NYCU as a Research Assistant.</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">May 2024</div>
+          <div class="news-content">Paper accepted at <strong>IEEE Security and Privacy Workshops 2024</strong>: "Virtual Keymysteries Unveiled". 🔒</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Sep 2023</div>
+          <div class="news-content">Paper accepted at <strong>MobiCom 2023</strong>: "Enc2: Privacy-Preserving Inference for Tiny IoTs". 📱</div>
+        </li>
+        <li class="news-item">
+          <div class="news-date">Jun 2020</div>
+          <div class="news-content">Earned <strong>MS in Electrical and Computer Engineering</strong> at <strong>UCLA</strong>. 🎓</div>
+        </li>
+      </ul>
+      <!-- Shown only where the news isn't scrolled in its own box (css/worlds/grandline.css) -->
+      <button class="toggle-btn news-more" onclick="toggleNews(this)">Older News ↓</button>
+    </section>
+
+    <!-- Publications -->
+    <section id="publications">
+      <h2>Publications</h2>
+
+      <div class="pub-grid">
+        <article class="card pub pub--featured">
+          <div class="pub-media-wrap">
+            <video class="pub-media" muted loop playsinline preload="metadata" disablepictureinpicture>
+              <source src="videos/WorldHMR.mp4" type="video/mp4" />
+            </video>
+            <span class="status-tag">arXiv 2026</span>
+          </div>
+          <div class="pub-body">
+            <h3>A Diagnostic Study of World-Space Human Recovery Under High Camera Dynamics</h3>
+            <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span>, Wei-Lun Chao, Yu-Lun Liu</div>
+            <p class="pub-desc">Camera motion turns into human drift when camera and human estimates are combined at mismatched scales. We introduce the K-Pop stress test to expose it, and show that one closed-form scale removes the drift with no retraining.</p>
+            <div class="btn-group">
+              <a class="btn" href="https://arxiv.org/abs/2610.19729" target="_blank" rel="noopener">Paper</a>
+              <a class="btn" href="https://github.com/chien90190/worldhmr-fastcam" target="_blank" rel="noopener">Code</a>
+              <a class="btn" href="https://chien90190.github.io/worldhmr-fastcam-website/" target="_blank" rel="noopener">Project Page</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pub">
+          <div class="pub-media-wrap">
+            <video class="pub-media" muted loop playsinline preload="metadata" disablepictureinpicture>
+              <source src="videos/InfiniDream.mp4" type="video/mp4" />
+            </video>
+            <span class="status-tag">arXiv 2026</span>
+          </div>
+          <div class="pub-body">
+            <h3>InfiniDream: Open-Ended Photorealistic 3D Worlds through Procedural Generation</h3>
+            <div class="pub-meta">Yi-Chuan Huang, <span class="highlight">Hao-Jen Chien</span>, Zheng-Hui Huang, Yu-Lun Liu, Kaipeng Zhang, Zhixiang Wang</div>
+            <p class="pub-desc">InfiniDream turns a single text prompt into a photorealistic, open-ended 3D world: a VLM plans the scene and precisely edits sophisticated procedural code, so every asset stays high-quality and a new seed grows a new world.</p>
+            <div class="btn-group">
+              <a class="btn" href="https://arxiv.org/abs/2610.26853" target="_blank" rel="noopener">Paper</a>
+              <a class="btn" href="https://github.com/yichuanH/InfiniDream" target="_blank" rel="noopener">Code</a>
+              <a class="btn" href="https://yichuanh.github.io/infinidream-page/" target="_blank" rel="noopener">Project Page</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pub">
+          <div class="pub-media-wrap">
+            <video class="pub-media" muted loop playsinline preload="metadata" disablepictureinpicture>
+              <source src="videos/GaMO.mp4" type="video/mp4" />
+            </video>
+            <span class="status-tag">arXiv 2026</span>
+          </div>
+          <div class="pub-body">
+            <h3>GaMO: Geometry-aware Multi-view Diffusion Outpainting for Sparse-View 3D Reconstruction</h3>
+            <div class="pub-meta">Yi-Chuan Huang, <span class="highlight">Hao-Jen Chien</span>,  Chin-Yang Lin, Ying-Huan Chen, Yu-Lun Liu</div>
+            <p class="pub-desc">GaMO reformulates sparse-view 3D reconstruction as multi-view outpainting, expanding the field of view with geometry-aware diffusion to achieve consistent, high-quality reconstructions efficiently from very few input views.</p>
+            <div class="btn-group">
+              <a class="btn" href="https://arxiv.org/abs/2512.25073" target="_blank" rel="noopener">Paper</a>
+              <a class="btn" href="https://github.com/yichuanH/GaMO_official" target="_blank" rel="noopener">Code</a>
+              <a class="btn" href="https://yichuanh.github.io/GaMO/" target="_blank" rel="noopener">Project Page</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pub">
+          <div class="pub-media-wrap">
+            <video class="pub-media" muted loop playsinline preload="metadata" disablepictureinpicture>
+              <source src="videos/voxify.mp4" type="video/mp4" />
+            </video>
+            <span class="status-tag">CVPR 2026</span>
+          </div>
+          <div class="pub-body">
+            <h3>Voxify3D: Pixel Art Meets Volumetric Rendering</h3>
+            <div class="pub-meta">Yi-Chuan Huang, Jiewen Chan, <span class="highlight">Hao-Jen Chien</span>, Yu-Lun Liu</div>
+            <p class="pub-desc">Voxify3D is a differentiable two-stage method that converts 3D meshes into stylized voxel art with discrete palette control. It preserves semantic structure using multi-view pixel-art supervision and CLIP-guided optimization.</p>
+            <div class="btn-group">
+              <a class="btn" href="https://arxiv.org/abs/2512.07834" target="_blank" rel="noopener">Paper</a>
+              <a class="btn" href="https://github.com/yichuanH/Voxify3D_official" target="_blank" rel="noopener">Code</a>
+              <a class="btn" href="https://yichuanh.github.io/Voxify-3D/" target="_blank" rel="noopener">Project Page</a>
+            </div>
+          </div>
+        </article>
+        <article class="card pub">
+          <div class="pub-media-wrap">
+            <video class="pub-media" muted loop playsinline preload="metadata" disablepictureinpicture>
+              <source src="videos/Splannequin.mp4" type="video/mp4" />
+            </video>
+            <span class="status-tag">WACV 2026</span>
+          </div>
+          <div class="pub-body">
+            <h3>Splannequin: Freezing Monocular Mannequin-Challenge Footage with Dual-Detection Splatting</h3>
+            <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span>, Yi-Chuan Huang, Chung-Ho Wu, Wei-Lun Chao, Yu-Lun Liu</div>
+            <p class="pub-desc">Splannequin freezes dynamic Gaussian splats into crisp 3D scenes from monocular videos by anchoring artifacts to more reliable temporal states.</p>
+            <div class="btn-group">
+              <a class="btn" href="https://arxiv.org/abs/2512.05113" target="_blank" rel="noopener">Paper</a>
+              <a class="btn" href="https://github.com/chien90190/splannequin-gs" target="_blank" rel="noopener">Code</a>
+              <a class="btn" href="https://chien90190.github.io/splannequin/" target="_blank" rel="noopener">Project Page</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Hidden publications (initially hidden) -->
+      <div id="more-pubs" class="hidden">
+        <div class="pub-list-label">Earlier work · Privacy &amp; IoT security</div>
+
+        <article class="pub-row">
+          <span class="pub-row-venue">IEEE SPW 2024</span>
+          <div>
+            <h3>Virtual Keymysteries Unveiled: Detecting Keystrokes In VR With External Side-Channels</h3>
+            <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span> (co-author), et al.</div>
+          </div>
+          <a class="btn" href="https://par.nsf.gov/servlets/purl/10540599" target="_blank" rel="noopener">Paper</a>
+        </article>
+
+        <article class="pub-row">
+          <span class="pub-row-venue">MobiCom 2023</span>
+          <div>
+            <h3>Enc2: Privacy-Preserving Inference for Tiny IoTs via Encoding and Encryption</h3>
+            <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span>, et al.</div>
+          </div>
+          <a class="btn" href="https://dl.acm.org/doi/pdf/10.1145/3570361.3592501" target="_blank" rel="noopener">Paper</a>
+        </article>
+
+        <article class="pub-row">
+          <span class="pub-row-venue">IEEE IoT-J 2023</span>
+          <div>
+            <h3>Context-Aware Hybrid Encoding for Privacy-Preserving Computation in IoT Devices</h3>
+            <div class="pub-meta"><span class="highlight">Hao-Jen Chien</span> (co-author), et al.</div>
+          </div>
+          <a class="btn" href="https://par.nsf.gov/servlets/purl/10451444" target="_blank" rel="noopener">Paper</a>
+        </article>
+      </div>
+
+      <!-- Toggle Button -->
+      <button id="toggle-pubs-btn" class="toggle-btn" onclick="togglePublications()">
+        Show More Publications ↓
+      </button>
+    </section>
+
+    <footer class="site-footer">
+      <span>© <span id="year"></span> Built with vanilla HTML/CSS.</span>
+      <a class="back-to-top" href="#">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="19" x2="12" y2="5"></line>
+          <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+        Back to top
+      </a>
+    </footer>
+  </main>
+
+    <script src="js/functions.js"></script>
+    <script src="js/platform.js"></script>
+</body>
+</html>

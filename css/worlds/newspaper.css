@@ -1,0 +1,1058 @@
+/* The other side of Platform 9¾: the page as an old wizarding newspaper.
+   Loaded on demand by js/platform.js and switched on with data-world="paper" on <html>,
+   so none of it applies (or downloads) until a visitor finds the gate. */
+
+/* --- PAPER & INK --- */
+/* The paper the page fades through on the way in, for visitors who'd rather less moved (css/platform.css), is this
+   same paper, so the page beneath shows through without a seam as it clears */
+html:root[data-world="paper"],
+.world-flash.is-paper {
+  --bg: #e6d9bb;
+  --text: #1c1710;
+  --text-muted: #4e4232;
+  --accent: #6e1d12;
+  --accent-bright: #8e2a1a;
+  --gold: #b8912f;
+  --accent-soft: transparent;
+  --surface: transparent;
+  --surface-hover: transparent;
+  --border: rgba(28, 23, 16, 0.35);
+  --border-strong: #1c1710;
+  --glow-1: transparent;
+  --glow-2: transparent;
+  --shadow: none;
+  --grain-opacity: 0.22;
+  --halo-opacity: 0.5;
+  --ring-gold: #9a7a3a;
+  --ring-violet: #4e4232;
+  --burst-core: #fff3d6;
+  --burst-core-soft: rgba(240, 220, 170, 0.9);
+  --burst-gold: #b08a3e;
+  --burst-violet: #6e1d12;
+  --burst-pale: #f4e8c8;
+  --radius: 0;
+  --radius-sm: 0;
+  --font-blackletter: "UnifrakturMaguntia", "Old English Text MT", serif;
+  --font-display: "IM Fell English", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Old Standard TT", Georgia, serif;
+  --font-mono: "IM Fell English SC", "Old Standard TT", Georgia, serif;
+  --ink-rule: 3px double var(--text);
+  /* A slim tufted owl, as a stencil for small marks around the page */
+  --owl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='16 6 32 54'%3E%3Cpath fill-rule='evenodd' d='M21 9L25.5 16Q32 14.5 38.5 16L43 9Q44.6 15 43 20.5Q46 26 45.5 34Q45 43 39 50L35 52L33.5 58.5L32 57L30.5 58.5L29 52L25 50Q19 43 18.5 34Q18 26 21 20.5Q19.4 15 21 9ZM25.6 24.8a2.6 2.6 0 1 0 5.2 0a2.6 2.6 0 1 0-5.2 0zM33.2 24.8a2.6 2.6 0 1 0 5.2 0a2.6 2.6 0 1 0-5.2 0z'/%3E%3Ccircle cx='28.2' cy='24.8' r='1.2'/%3E%3Ccircle cx='35.8' cy='24.8' r='1.2'/%3E%3C/svg%3E");
+  color-scheme: light;
+}
+
+[data-world="paper"] body {
+  background-color: var(--bg);
+  font-size: 17px;
+}
+
+/* Grain pressed into the paper: brown flecks baked into the pattern itself, so the browser doesn't have to tint it
+   and blend it with the page every time it draws */
+[data-world="paper"] body::before,
+.world-flash.is-paper::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0 0.07 -0.4 -0.4 -0.4 0 1.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Foxing and age: darker, browner edges and a few faint stains */
+[data-world="paper"] body::after,
+.world-flash.is-paper::after {
+  background:
+    radial-gradient(40vw 30vh at 12% 78%, rgba(120, 80, 30, 0.10), transparent 70%),
+    radial-gradient(30vw 25vh at 88% 20%, rgba(120, 80, 30, 0.08), transparent 70%),
+    radial-gradient(ellipse at center, transparent 55%, rgba(90, 60, 25, 0.28));
+}
+
+/* Laid over them as over the page itself (css/style.css) */
+.world-flash.is-paper::before,
+.world-flash.is-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.world-flash.is-paper::before {
+  opacity: var(--grain-opacity);
+  background-size: 180px 180px;
+}
+
+/* The page turns to paper all at once, not fading its colours across as the theme toggle does (css/style.css),
+   which would show the dark page through the rising print as the pool clears */
+[data-world="paper"].is-arriving body { transition: none; }
+
+[data-world="paper"] ::selection {
+  background: var(--text);
+  color: var(--bg);
+}
+
+[data-world="paper"] .theme-toggle,
+[data-world="paper"] .platform { display: none; }
+
+/* --- MASTHEAD: after the Prophet's front page. The paper's arms on the left, its name in the middle with one gilt
+   capital, a sun-rayed price seal on the right, the motto and its mirror-image under them, then a row of boxed
+   notices. The top row's wrapper steps aside (display: contents) so its pieces sit straight on the masthead's grid. --- */
+[data-world="paper"] .masthead {
+  display: grid;
+  grid-template-columns: 128px 1fr 1fr 128px;
+  grid-template-areas:
+    "crest corner-l corner-r price"
+    "crest title title price"
+    "motto motto motto motto"
+    "mirror mirror mirror mirror"
+    "boxes boxes boxes boxes";
+  column-gap: 16px;
+  align-items: center;
+  text-align: center;
+  margin-bottom: calc(var(--space) * 2.5);
+}
+
+.masthead-top { display: contents; }
+
+.masthead-corner {
+  grid-area: corner-l;
+  justify-self: start;
+  align-self: start;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.masthead-corner + .masthead-corner {
+  grid-area: corner-r;
+  justify-self: end;
+}
+
+/* The arms: an owl displayed over a quartered shield */
+.masthead-crest {
+  grid-area: crest;
+  color: var(--text);
+  line-height: 0;
+}
+
+.masthead-crest svg {
+  width: 100%;
+  height: auto;
+  fill: currentColor;
+}
+
+.crest-wands {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+/* Paper-coloured edges part the feathers */
+.crest-wings {
+  stroke: var(--bg);
+  stroke-width: 0.6;
+  stroke-linejoin: round;
+}
+
+.crest-streaks {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 0.7;
+  stroke-linecap: round;
+}
+
+.crest-paper { fill: var(--bg); }
+.crest-gold { fill: var(--gold); }
+
+.crest-shield {
+  fill: var(--bg);
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.crest-cross {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+
+.crest-letter {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 14px;
+  text-anchor: middle;
+}
+
+.crest-star {
+  font-size: 9px;
+  text-anchor: middle;
+}
+
+/* Scrollwork, for the evening edition only (see EVENING EDITION below) */
+.masthead-scroll,
+.masthead-band {
+  display: none;
+  color: var(--text);
+  line-height: 0;
+}
+
+.masthead-scroll svg,
+.masthead-band svg {
+  width: 100%;
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+
+.masthead-scroll .scroll-leaf,
+.masthead-band .scroll-leaf {
+  fill: currentColor;
+  stroke: none;
+}
+
+.masthead-band .scroll-gilt {
+  fill: var(--gold);
+  stroke: none;
+}
+
+/* Like any wizarding picture, the owl moves: every so often it blinks */
+.crest-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: owl-blink 6s ease-in-out infinite;
+}
+
+@keyframes owl-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+.masthead-title {
+  grid-area: title;
+  font-family: var(--font-blackletter);
+  font-weight: 400;
+  font-size: clamp(3rem, 10vw, 6.5rem);
+  line-height: 0.9;
+}
+
+/* A small italic "The" perched over the name */
+.masthead-the {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.24em;
+  line-height: 1;
+}
+
+.masthead-gilt {
+  color: var(--gold);
+  text-shadow: 1px 1px 0 var(--text);
+}
+
+/* The price, inside a printed sun */
+.masthead-price {
+  grid-area: price;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  aspect-ratio: 1;
+  justify-self: end;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.6875rem;
+  line-height: 1.15;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.masthead-price::before,
+.masthead-price::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.masthead-price::before {
+  inset: 0;
+  background: repeating-conic-gradient(var(--text) 0 3deg, transparent 3deg 10deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 64%, #000 65%);
+  mask: radial-gradient(closest-side, transparent 64%, #000 65%);
+}
+
+.masthead-price::after {
+  inset: 17px;
+  border: 3px double var(--text);
+}
+
+/* The motto, set between rules, and its mirror-image upside down beneath it */
+.masthead-tagline,
+.masthead-mirror {
+  display: block;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.masthead-tagline {
+  grid-area: motto;
+  margin-top: 10px;
+  padding-top: 6px;
+  border-top: var(--ink-rule);
+}
+
+.masthead-mirror {
+  grid-area: mirror;
+  padding: 2px 0 6px;
+  rotate: 180deg;
+  color: rgba(28, 23, 16, 0.4);
+}
+
+/* A row of boxed notices, as down the top of the front page */
+.masthead-boxes {
+  grid-area: boxes;
+  display: flex;
+  gap: 16px;
+  padding: 8px 0;
+  border-top: 1px solid var(--text);
+  border-bottom: var(--ink-rule);
+  text-align: left;
+}
+
+.masthead-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.masthead-box + .masthead-box {
+  padding-left: 16px;
+  border-left: 1px solid var(--text);
+}
+
+.masthead-box b {
+  margin-bottom: 3px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.masthead-box small { font-size: inherit; }
+
+.masthead-box.is-inverse {
+  justify-content: center;
+  align-items: center;
+  padding: 6px 10px;
+  text-align: center;
+  background: var(--text);
+  color: var(--bg);
+  border: 3px double var(--bg);
+  outline: 1px solid var(--text);
+}
+
+.masthead-box.is-inverse + .masthead-box { border-left: none; }
+
+.masthead-box.is-inverse i {
+  font-style: normal;
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+/* --- NAV: a folded strip of newsprint rather than a floating pill --- */
+[data-world="paper"] .site-nav {
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--text);
+  background: var(--bg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 4px 4px 4px 12px;
+}
+
+[data-world="paper"] .nav-brand {
+  font-family: var(--font-blackletter);
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+
+[data-world="paper"] .nav-links a {
+  font-size: 0.9375rem;
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+/* Each link carries its page number, as in the index along the foot of the Prophet's front page */
+[data-world="paper"] .nav-links a::after {
+  margin-left: 5px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.125em;
+}
+
+[data-world="paper"] .nav-links a[href="#about"]::after { content: "2"; }
+[data-world="paper"] .nav-links a[href="#news"]::after { content: "5"; }
+[data-world="paper"] .nav-links a[href="#publications"]::after { content: "7"; }
+
+/* The sliding pill becomes an inked underline */
+[data-world="paper"] .nav-indicator {
+  top: auto;
+  bottom: 4px;
+  height: 2px;
+  border: none;
+  border-radius: 0;
+  background: var(--text);
+}
+
+[data-world="paper"] .site-nav::after { background: var(--accent); }
+
+/* --- SECTION HEADS: centred between heavy and light rules --- */
+[data-world="paper"] section > h2 {
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 0 10px;
+  border-top: var(--ink-rule);
+  border-bottom: 1px solid var(--text);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* A boxed kicker over each head, pointed at by a printer's hand, as the Prophet runs its "Exclusive" */
+[data-world="paper"] section > h2::before {
+  content: "☞ Section " counter(section, upper-roman);
+  transform: none;
+  margin-bottom: 6px;
+  padding: 2px 10px;
+  border: 3px double var(--text);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  color: var(--text);
+}
+
+[data-world="paper"] #about > h2::before { content: "☞ Exclusive"; }
+[data-world="paper"] #news > h2::before { content: "☞ Just In by Owl"; }
+[data-world="paper"] #publications > h2::before { content: "☞ Special Report"; }
+
+/* and the paper's owl under it */
+[data-world="paper"] section > h2::after {
+  content: "";
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-top: 4px;
+  background: var(--accent);
+  -webkit-mask: var(--owl) center / contain no-repeat;
+  mask: var(--owl) center / contain no-repeat;
+  transform: none;
+}
+
+/* --- FRONT PAGE: the portrait as a moving photograph in a double-ruled frame, under a "have you seen" headline --- */
+[data-world="paper"] .hero { gap: calc(var(--space) * 2.5); }
+
+[data-world="paper"] .avatar-wrap::before,
+[data-world="paper"] .avatar-wrap::after { display: none; }
+
+[data-world="paper"] .avatar {
+  border-radius: 0;
+  border: var(--ink-rule);
+  outline: 1px solid var(--text);
+  outline-offset: 3px;
+  filter: grayscale(1) sepia(0.5) contrast(1.2) brightness(0.92);
+}
+
+/* The photograph's caption, as printed under it */
+[data-world="paper"] .avatar-wrap .avatar-ink {
+  font-family: var(--font-display);
+  color: var(--text);
+  text-shadow: none;
+}
+
+[data-world="paper"] .hero-text .title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 6.5vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+[data-world="paper"] .hero-text .title::before {
+  content: "Have you seen this researcher?";
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--accent);
+}
+
+/* Printed type stays put: no wave across the name */
+[data-world="paper"] .title .char { animation: none !important; }
+
+[data-world="paper"] .hero-text .subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.0625rem;
+}
+
+[data-world="paper"] .hero-text div.subtitle:first-of-type,
+[data-world="paper"] .hero-text .badges + .subtitle {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.875rem;
+  text-transform: none;
+}
+
+/* --- BADGES & BUTTONS: printed notices instead of chips --- */
+[data-world="paper"] .badge,
+[data-world="paper"] .btn,
+[data-world="paper"] .toggle-btn {
+  border-radius: 0;
+  border-color: var(--text);
+  background: transparent;
+  color: var(--text);
+}
+
+[data-world="paper"] .btn,
+[data-world="paper"] .toggle-btn {
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+[data-world="paper"] .btn::after { content: "→"; }
+
+@media (hover: hover) {
+  [data-world="paper"] .badge:hover,
+  [data-world="paper"] .btn:hover,
+  [data-world="paper"] .toggle-btn:hover {
+    color: var(--bg);
+    background: var(--text);
+    border-color: var(--text);
+  }
+}
+
+[data-world="paper"] .site-footer .back-to-top {
+  border-radius: 0;
+  background: var(--text);
+  border-color: var(--text);
+  box-shadow: none;
+  font-family: var(--font-mono);
+  text-transform: none;
+  font-size: 0.875rem;
+}
+
+/* --- CARDS: no boxes on newsprint, only rules --- */
+[data-world="paper"] .card {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (hover: hover) {
+  [data-world="paper"] .card:hover { transform: none; }
+}
+
+/* --- ABOUT: a deck, then the story set in two justified columns with a drop cap --- */
+[data-world="paper"] .about-lead {
+  font-style: italic;
+  text-align: center;
+  font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+}
+
+[data-world="paper"] .about-lead em { color: var(--text); }
+
+[data-world="paper"] .interests {
+  justify-content: center;
+  gap: 4px 0;
+}
+
+[data-world="paper"] .interest,
+[data-world="paper"] .interest--past {
+  padding: 0 12px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+[data-world="paper"] .interest--past { color: var(--text-muted); }
+
+/* Stars between the topics instead of dots in pills */
+[data-world="paper"] .interest::before {
+  content: "✦";
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--accent);
+}
+
+@media (hover: hover) {
+  [data-world="paper"] .interest:hover {
+    color: var(--accent);
+    background: transparent;
+    transform: none;
+  }
+  [data-world="paper"] .interest:hover::before { background: none; }
+}
+
+[data-world="paper"] .about-grid {
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--text);
+}
+
+[data-world="paper"] .about-main {
+  display: block;
+  columns: 2;
+  column-gap: 32px;
+  column-rule: 1px solid var(--border);
+  padding: 16px 24px 16px 0;
+  border-right: 1px solid var(--text);
+}
+
+[data-world="paper"] .about-text {
+  text-align: justify;
+  hyphens: auto;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  margin-bottom: 0.8em;
+}
+
+/* A boxed initial with a printed shadow, as the Prophet sets its stories' first letters */
+[data-world="paper"] .about-text:first-child::first-letter {
+  float: left;
+  font-family: var(--font-blackletter);
+  font-weight: 400;
+  font-size: 3.6em;
+  line-height: 0.85;
+  color: var(--text);
+  background: var(--bg);
+  border: 3px double var(--text);
+  box-shadow: 4px 4px 0 var(--text);
+  padding: 6px 10px 2px;
+  margin: 4px 14px 4px 0;
+}
+
+[data-world="paper"] .about-text a { text-decoration-color: var(--text); }
+
+[data-world="paper"] .about-side { padding: 16px 0 16px 24px; }
+
+[data-world="paper"] .side-label {
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--text);
+  border-bottom: 1px solid var(--text);
+  padding-bottom: 4px;
+}
+
+[data-world="paper"] .edu-list li,
+[data-world="paper"] .edu-list li.is-current {
+  padding-left: 0;
+  border-left: none;
+}
+
+[data-world="paper"] .edu-list li.is-current strong::after { display: none; }
+
+[data-world="paper"] .edu-note {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* --- NEWS: a column of bulletins --- */
+[data-world="paper"] .news-list {
+  mask-image: none;
+  -webkit-mask-image: none;
+  max-height: none;
+  overflow: visible;
+  columns: 2;
+  column-gap: 32px;
+  column-rule: 1px solid var(--border);
+  padding: 0;
+}
+
+[data-world="paper"] .news-item {
+  display: block;
+  break-inside: avoid;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+[data-world="paper"] .news-date {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  text-transform: none;
+  color: var(--accent);
+  padding: 0;
+}
+
+/* Each bulletin came by owl */
+[data-world="paper"] .news-date::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 6px;
+  vertical-align: -0.15em;
+  background: currentColor;
+  -webkit-mask: var(--owl) center / contain no-repeat;
+  mask: var(--owl) center / contain no-repeat;
+}
+
+[data-world="paper"] .news-content {
+  padding: 0;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+[data-world="paper"] .news-content::before { display: none; }
+
+/* --- PUBLICATIONS: articles, each under a rule, with sepia moving photographs --- */
+[data-world="paper"] .pub-grid { gap: 28px 32px; }
+
+[data-world="paper"] .pub {
+  padding: 12px 0 0;
+  border-top: var(--ink-rule);
+}
+
+[data-world="paper"] .pub-media-wrap {
+  border-radius: 0;
+  border: 1px solid var(--text);
+}
+
+[data-world="paper"] .pub-media { filter: grayscale(1) sepia(0.45) contrast(1.15) brightness(0.95); }
+
+/* A fine halftone screen over the photographs */
+[data-world="paper"] .pub-media-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(rgba(28, 23, 16, 0.35) 0.6px, transparent 1.2px) 0 0 / 3px 3px;
+  mix-blend-mode: multiply;
+}
+
+/* Venue tags as a Ministry stamp, pressed on a little askew */
+[data-world="paper"] .pub-media-wrap .status-tag,
+[data-world="paper"] .pub-media-wrap::after {
+  z-index: 2;
+  border-radius: 0;
+  background: var(--bg);
+  color: var(--accent);
+  border: 3px double var(--accent);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  rotate: -4deg;
+}
+
+/* The hover hint stays a plain printed label */
+[data-world="paper"] .pub-media-wrap::after {
+  color: var(--text);
+  border: 1px solid var(--text);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  rotate: none;
+}
+
+[data-world="paper"] .pub-body { padding: 14px 0 8px; }
+
+[data-world="paper"] .pub h3,
+[data-world="paper"] .pub-row h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+[data-world="paper"] .pub--featured {
+  gap: 24px;
+}
+
+[data-world="paper"] .pub--featured h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  text-transform: uppercase;
+}
+
+[data-world="paper"] .pub--featured .pub-body { padding: 4px 0 8px; }
+
+[data-world="paper"] .pub-meta {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.9375rem;
+}
+
+[data-world="paper"] .highlight {
+  color: var(--text);
+  font-weight: 700;
+  font-style: normal;
+}
+
+[data-world="paper"] .pub-desc {
+  opacity: 1;
+  font-size: 1rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+[data-world="paper"] .pub-list-label {
+  font-size: 1rem;
+  text-transform: none;
+  color: var(--text);
+  border-bottom: var(--ink-rule);
+  padding-bottom: 4px;
+}
+
+[data-world="paper"] .pub-row-venue {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  text-transform: none;
+}
+
+/* --- FOOTER --- */
+[data-world="paper"] .site-footer {
+  border-top: var(--ink-rule);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+[data-world="paper"] .site-footer > span:first-child::after {
+  content: " · Mischief managed.";
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* --- EVENING EDITION: after six at night (picked in js/platform.js), the paper comes out as the Evening Chien, after
+   the Evening Prophet: its name framed in scrollwork, at the sides and above and below, instead of the arms and the
+   price, with the price and the issue in its top corners; the name and the heads in blackletter, the name along an
+   arch, and an illuminated first letter on a ground of vines. The boxed notices stay, from the day's paper. --- */
+[data-world="paper"][data-edition="evening"] .masthead {
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas:
+    "corner-l band-t corner-r"
+    "scroll-l title scroll-r"
+    ". band-b ."
+    "motto motto motto"
+    "mirror mirror mirror"
+    "boxes boxes boxes";
+}
+
+[data-world="paper"][data-edition="evening"] .masthead-crest,
+[data-world="paper"][data-edition="evening"] .masthead-price { display: none; }
+
+[data-world="paper"][data-edition="evening"] .masthead-band {
+  display: block;
+  grid-area: band-t;
+  justify-self: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* The band above curls down toward the name; the one below is the same, turned to curl up toward it */
+[data-world="paper"][data-edition="evening"] .masthead-band { scale: 1 -1; }
+[data-world="paper"][data-edition="evening"] .masthead-band + .masthead-band {
+  grid-area: band-b;
+  scale: 1 1;
+}
+
+[data-world="paper"][data-edition="evening"] .masthead-scroll {
+  display: block;
+  grid-area: scroll-l;
+  justify-self: end;
+  width: 100%;
+  max-width: 220px;
+}
+
+/* The right-hand scrollwork is the left's, turned to face the name */
+[data-world="paper"][data-edition="evening"] .masthead-scroll + .masthead-scroll {
+  grid-area: scroll-r;
+  justify-self: start;
+  scale: -1 1;
+}
+
+[data-world="paper"][data-edition="evening"] .masthead-title { font-size: clamp(2.8rem, 8vw, 5.6rem); }
+
+[data-world="paper"][data-edition="evening"] .masthead-tagline,
+[data-world="paper"][data-edition="evening"] .masthead-mirror {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+/* The heads in blackletter, with their boxed kickers kept in the day's capitals */
+[data-world="paper"][data-edition="evening"] section > h2 {
+  font-family: var(--font-blackletter);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+[data-world="paper"][data-edition="evening"] section > h2::before {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+}
+
+/* The name in blackletter, along an arch: each letter lifted and turned by where it sits on it (--arc, from -1 at the
+   first letter to 1 at the last) */
+[data-world="paper"][data-edition="evening"] .hero-text .title {
+  font-family: var(--font-blackletter);
+  font-weight: 400;
+  font-size: clamp(3rem, 8vw, 5.2rem);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+[data-world="paper"][data-edition="evening"] .title .char {
+  transform: translateY(calc((var(--arc, 0) * var(--arc, 0) - 1) * 0.16em)) rotate(calc(var(--arc, 0) * 6deg));
+}
+
+/* An illuminated first letter, on a ground of vines */
+[data-world="paper"][data-edition="evening"] .about-text:first-child::first-letter {
+  font-size: 4em;
+  padding: 10px 14px 6px;
+  background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cg fill='none' stroke='%236e1d12' stroke-opacity='.35' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M0 14c5-6 9-6 14 0s9 6 14 0'/%3E%3Cpath d='M7 9c-3-3-1-7 3-6M21 19c3 3 1 7-3 6'/%3E%3C/g%3E%3Cg fill='%236e1d12' fill-opacity='.35'%3E%3Cpath d='M10 3q3 1 2 4q-3-1-2-4zM18 25q-3-1-2-4q3 1 2 4z'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 14px 14px;
+  border: 3px double var(--accent);
+  box-shadow: none;
+}
+
+@media (max-width: 760px) {
+  /* No room for the corner lines beside the band above the name */
+  [data-world="paper"][data-edition="evening"] .masthead {
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+      ". band-t ."
+      "scroll-l title scroll-r"
+      ". band-b ."
+      "motto motto motto"
+      "mirror mirror mirror"
+      "boxes boxes boxes";
+  }
+  [data-world="paper"][data-edition="evening"] .masthead-corner { display: none; }
+  [data-world="paper"][data-edition="evening"] .masthead-scroll { max-width: 64px; }
+  [data-world="paper"][data-edition="evening"] .masthead-title { font-size: clamp(2.2rem, 10vw, 3rem); }
+  [data-world="paper"][data-edition="evening"] .masthead-tagline,
+  [data-world="paper"][data-edition="evening"] .masthead-mirror { font-size: 0.75rem; }
+}
+
+/* --- SMALL SCREENS: one column, as a folded paper reads --- */
+@media (max-width: 760px) {
+  /* The arms and the name share the top; the corner words, the price and the weather stay in the full edition */
+  [data-world="paper"] .masthead {
+    grid-template-columns: 64px 1fr;
+    grid-template-areas:
+      "crest title"
+      "motto motto"
+      "mirror mirror"
+      "boxes boxes";
+    column-gap: 10px;
+  }
+  [data-world="paper"] .masthead-corner,
+  [data-world="paper"] .masthead-price,
+  [data-world="paper"] .masthead-box:nth-child(2) { display: none; }
+  [data-world="paper"] .masthead-title { font-size: clamp(2.6rem, 12vw, 3.4rem); }
+  [data-world="paper"] .masthead-tagline,
+  [data-world="paper"] .masthead-mirror {
+    font-size: 0.5625rem;
+    letter-spacing: 0.12em;
+  }
+  [data-world="paper"] .masthead-box { font-size: 0.75rem; }
+  [data-world="paper"] .masthead-box.is-inverse + .masthead-box { padding-left: 0; }
+  [data-world="paper"] .about-main {
+    columns: 1;
+    padding-right: 0;
+    border-right: none;
+  }
+  [data-world="paper"] .about-side {
+    padding-left: 0;
+    border-top: 1px solid var(--text);
+  }
+  [data-world="paper"] .news-list { columns: 1; }
+}
+
+/* --- ARRIVAL: as the pool of paper clears off the newspaper under it, the print rises up through the paper
+   like ink in an enchanted diary: not down the page, but outward from where the drop landed, each piece at its own
+   moment and its own pace (picked out and given those as --ink-delay and --ink-for in js/platform.js). Each comes up
+   in waves, strong from the first as thick ink soaking through from the other side, then darkening to full. Only its opacity
+   changes, so it's cheap to draw. --arrive-after holds it all back, where there's a reason to wait. --- */
+[data-world="paper"].is-arriving [data-ink] {
+  animation: ink-rise var(--ink-for, 1.3s) linear both;
+  animation-delay: calc(var(--arrive-after, 0s) + var(--ink-delay, 0s));
+}
+
+/* In waves, as thick ink soaks through: up strong at once, holding, darker, holding again, then darkening to full */
+@keyframes ink-rise {
+  from {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1);
+  }
+  /* Already well seen through the back of the page, and soon */
+  10% {
+    opacity: 0.4;
+    animation-timing-function: linear;
+  }
+  26% {
+    opacity: 0.48;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.4, 1);
+  }
+  52% {
+    opacity: 0.8;
+    animation-timing-function: linear;
+  }
+  64% {
+    opacity: 0.85;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+  }
+  to { opacity: 1; }
+}
+
+/* The frames that carry the paper's ruled lines don't seep up in waves: they simply come in, in one quick step */
+[data-world="paper"].is-arriving [data-ink="frame"] {
+  animation: ink-show 0.15s ease-out both;
+  animation-delay: calc(var(--arrive-after, 0s) + var(--ink-delay, 0s));
+}
+
+@keyframes ink-show {
+  from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-world="paper"].is-arriving *,
+  .crest-eyes { animation: none !important; }
+}

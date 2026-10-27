@@ -1,0 +1,1353 @@
+/* Through the straw hat in the top bar, the Grand Line: the hero is a wanted poster with a bounty on it, hung against
+   a strip of bright sky where the horizon crosses behind it with a pirate ship sailing along it; below, the sea, with
+   the bio aboard a ship flying it on big flags, the news on the planks of a pier where it comes in to land, and the
+   publications, plainly, on the island's sand at the end of the voyage. Loaded on demand by js/platform.js and switched on with data-world="grandline" on <html>, so none of it applies (or
+   downloads) until a visitor throws the hat. */
+
+/* --- BRIGHT SKY ABOVE, OPEN SEA BELOW --- */
+html:root[data-world="grandline"] {
+  --bg: #9fdaf8;
+  --text: #2b1d10;
+  --text-muted: #6a5236;
+  --accent: #d22a2a;
+  --accent-bright: #e8423a;
+  --accent-soft: rgba(210, 42, 42, 0.1);
+  --surface: rgba(255, 251, 238, 0.75);
+  --surface-hover: rgba(255, 253, 245, 0.92);
+  --border: rgba(110, 76, 34, 0.18);
+  --border-strong: rgba(110, 76, 34, 0.38);
+  --shadow: 0 1px 2px rgba(60, 40, 10, 0.08), 0 10px 26px -12px rgba(60, 40, 10, 0.35);
+  --halo-opacity: 0;
+  --ring-gold: #ffd23b;
+  --ring-violet: #d22a2a;
+  --burst-core: #fff6c8;
+  --burst-core-soft: rgba(255, 220, 90, 0.9);
+  --burst-gold: #ffd23b;
+  --burst-violet: #d22a2a;
+  --burst-pale: #ffffff;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --ink: #3b2b1c;
+  /* The voyage runs on without long empty stretches of sea: close in the ship's wake, a pier runs in to the shore of
+     the island, and from there the sand runs on to the end of the page */
+  --wake: calc(var(--space) * 2.5);
+  --shore: calc(var(--space) * 3);
+  --beach: calc(var(--space) * 2);
+  /* The island's sand, flecked with grit and glints, the same wherever it's laid so its parts join without a seam */
+  --sand:
+    radial-gradient(circle, rgba(140, 100, 50, 0.25) 0 1.5px, transparent 2.5px) 0 0 / 46px 38px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.4) 0 1px, transparent 2px) 20px 14px / 58px 44px,
+    #efd89e;
+  /* Old paper, for the earlier work's parchment: yellowed, mottled with damp and age, darker toward its edges. The mottling is plain gradients,
+     not a noise filter, which phones are slow to draw */
+  --paper:
+    radial-gradient(ellipse at 50% 45%, transparent 50%, rgba(120, 80, 30, 0.3)),
+    radial-gradient(40% 30% at 22% 30%, rgba(150, 100, 40, 0.13), transparent),
+    radial-gradient(35% 28% at 78% 68%, rgba(150, 100, 40, 0.11), transparent),
+    radial-gradient(25% 20% at 60% 20%, rgba(150, 100, 40, 0.08), transparent),
+    radial-gradient(circle, rgba(110, 70, 25, 0.22) 0 0.8px, transparent 1.4px) 0 0 / 7px 9px,
+    radial-gradient(circle, rgba(110, 70, 25, 0.14) 0 0.7px, transparent 1.2px) 3px 5px / 11px 6px,
+    linear-gradient(#ecdcb6, #e3cf9f);
+  --font-display: "Noto Serif Display", "Bodoni 72", Georgia, serif;
+  --font-sans: "Nunito", "Avenir Next", sans-serif;
+  --font-mono: "Nunito", "Avenir Next", sans-serif;
+  color-scheme: light;
+}
+
+[data-world="grandline"] body {
+  padding-bottom: 0;
+  background: linear-gradient(#6fc3f1, #a9def9 700px, #d8f1fd);
+}
+
+/* In place of the film grain, clouds across the sky: each one a heap of soft ovals of its own shape over a flat,
+   faintly blue underside, from great banks down to little wisps, scattered at odd heights. They belong to the sky, so they scroll away with it; the
+   sea, from the horizon down, passes over them. */
+[data-world="grandline"] body::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 520px;
+  opacity: 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='420'%3E%3Cg fill='%23fff'%3E%3Cellipse cx='150' cy='171' rx='228' ry='37' fill='%23e4f2fb'/%3E%3Cellipse cx='122' cy='103' rx='110' ry='98'/%3E%3Cellipse cx='141' cy='141' rx='67' ry='51'/%3E%3Cellipse cx='250' cy='89' rx='115' ry='84'/%3E%3Cellipse cx='27' cy='129' rx='115' ry='93'/%3E%3Cellipse cx='128' cy='143' rx='105' ry='76'/%3E%3Cellipse cx='130' cy='141' rx='90' ry='73'/%3E%3Cellipse cx='202' cy='140' rx='57' ry='47'/%3E%3Cellipse cx='7' cy='132' rx='56' ry='37'/%3E%3Cellipse cx='150' cy='148' rx='207' ry='41'/%3E%3Cellipse cx='1750' cy='171' rx='228' ry='37' fill='%23e4f2fb'/%3E%3Cellipse cx='1722' cy='103' rx='110' ry='98'/%3E%3Cellipse cx='1741' cy='141' rx='67' ry='51'/%3E%3Cellipse cx='1850' cy='89' rx='115' ry='84'/%3E%3Cellipse cx='1627' cy='129' rx='115' ry='93'/%3E%3Cellipse cx='1728' cy='143' rx='105' ry='76'/%3E%3Cellipse cx='1730' cy='141' rx='90' ry='73'/%3E%3Cellipse cx='1802' cy='140' rx='57' ry='47'/%3E%3Cellipse cx='1607' cy='132' rx='56' ry='37'/%3E%3Cellipse cx='1750' cy='148' rx='207' ry='41'/%3E%3Cellipse cx='520' cy='68' rx='41' ry='6' fill='%23e4f2fb'/%3E%3Cellipse cx='519' cy='57' rx='9' ry='8'/%3E%3Cellipse cx='503' cy='62' rx='10' ry='9'/%3E%3Cellipse cx='545' cy='61' rx='16' ry='12'/%3E%3Cellipse cx='534' cy='56' rx='13' ry='11'/%3E%3Cellipse cx='501' cy='63' rx='17' ry='12'/%3E%3Cellipse cx='520' cy='64' rx='37' ry='6'/%3E%3Cellipse cx='700' cy='210' rx='95' ry='14' fill='%23e4f2fb'/%3E%3Cellipse cx='700' cy='184' rx='34' ry='23'/%3E%3Cellipse cx='748' cy='181' rx='40' ry='35'/%3E%3Cellipse cx='628' cy='179' rx='37' ry='28'/%3E%3Cellipse cx='710' cy='184' rx='46' ry='29'/%3E%3Cellipse cx='725' cy='191' rx='43' ry='30'/%3E%3Cellipse cx='700' cy='201' rx='86' ry='16'/%3E%3Cellipse cx='930' cy='76' rx='33' ry='4' fill='%23e4f2fb'/%3E%3Cellipse cx='917' cy='67' rx='14' ry='9'/%3E%3Cellipse cx='926' cy='67' rx='7' ry='5'/%3E%3Cellipse cx='938' cy='68' rx='14' ry='9'/%3E%3Cellipse cx='942' cy='66' rx='9' ry='7'/%3E%3Cellipse cx='938' cy='72' rx='9' ry='7'/%3E%3Cellipse cx='930' cy='73' rx='30' ry='5'/%3E%3Cellipse cx='1180' cy='187' rx='184' ry='27' fill='%23e4f2fb'/%3E%3Cellipse cx='1257' cy='146' rx='81' ry='50'/%3E%3Cellipse cx='1112' cy='138' rx='61' ry='40'/%3E%3Cellipse cx='1059' cy='140' rx='84' ry='75'/%3E%3Cellipse cx='1249' cy='146' rx='53' ry='47'/%3E%3Cellipse cx='1187' cy='156' rx='42' ry='28'/%3E%3Cellipse cx='1275' cy='159' rx='83' ry='65'/%3E%3Cellipse cx='1159' cy='150' rx='81' ry='56'/%3E%3Cellipse cx='1180' cy='170' rx='167' ry='31'/%3E%3Cellipse cx='1500' cy='71' rx='56' ry='8' fill='%23e4f2fb'/%3E%3Cellipse cx='1469' cy='62' rx='17' ry='11'/%3E%3Cellipse cx='1518' cy='56' rx='17' ry='11'/%3E%3Cellipse cx='1539' cy='58' rx='22' ry='18'/%3E%3Cellipse cx='1526' cy='55' rx='14' ry='10'/%3E%3Cellipse cx='1473' cy='61' rx='23' ry='14'/%3E%3Cellipse cx='1500' cy='66' rx='51' ry='9'/%3E%3Cellipse cx='380' cy='312' rx='54' ry='9' fill='%23e4f2fb'/%3E%3Cellipse cx='349' cy='299' rx='18' ry='14'/%3E%3Cellipse cx='357' cy='294' rx='16' ry='11'/%3E%3Cellipse cx='397' cy='300' rx='14' ry='11'/%3E%3Cellipse cx='411' cy='303' rx='25' ry='15'/%3E%3Cellipse cx='377' cy='293' rx='25' ry='16'/%3E%3Cellipse cx='380' cy='307' rx='49' ry='10'/%3E%3Cellipse cx='860' cy='358' rx='146' ry='20' fill='%23e4f2fb'/%3E%3Cellipse cx='964' cy='331' rx='56' ry='38'/%3E%3Cellipse cx='783' cy='334' rx='65' ry='55'/%3E%3Cellipse cx='928' cy='327' rx='50' ry='38'/%3E%3Cellipse cx='762' cy='330' rx='41' ry='31'/%3E%3Cellipse cx='813' cy='331' rx='57' ry='37'/%3E%3Cellipse cx='886' cy='322' rx='37' ry='23'/%3E%3Cellipse cx='895' cy='325' rx='60' ry='48'/%3E%3Cellipse cx='860' cy='345' rx='133' ry='22'/%3E%3Cellipse cx='1380' cy='317' rx='34' ry='5' fill='%23e4f2fb'/%3E%3Cellipse cx='1380' cy='313' rx='13' ry='10'/%3E%3Cellipse cx='1378' cy='309' rx='15' ry='9'/%3E%3Cellipse cx='1355' cy='311' rx='8' ry='5'/%3E%3Cellipse cx='1385' cy='309' rx='11' ry='9'/%3E%3Cellipse cx='1375' cy='308' rx='9' ry='8'/%3E%3Cellipse cx='1380' cy='314' rx='31' ry='5'/%3E%3Cellipse cx='1560' cy='266' rx='86' ry='12' fill='%23e4f2fb'/%3E%3Cellipse cx='1557' cy='248' rx='33' ry='29'/%3E%3Cellipse cx='1597' cy='251' rx='34' ry='27'/%3E%3Cellipse cx='1607' cy='252' rx='32' ry='22'/%3E%3Cellipse cx='1615' cy='246' rx='31' ry='26'/%3E%3Cellipse cx='1560' cy='259' rx='78' ry='14'/%3E%3Cellipse cx='-40' cy='266' rx='86' ry='12' fill='%23e4f2fb'/%3E%3Cellipse cx='-43' cy='248' rx='33' ry='29'/%3E%3Cellipse cx='-3' cy='251' rx='34' ry='27'/%3E%3Cellipse cx='7' cy='252' rx='32' ry='22'/%3E%3Cellipse cx='15' cy='246' rx='31' ry='26'/%3E%3Cellipse cx='-40' cy='259' rx='78' ry='14'/%3E%3Cellipse cx='60' cy='339' rx='50' ry='6' fill='%23e4f2fb'/%3E%3Cellipse cx='34' cy='326' rx='19' ry='16'/%3E%3Cellipse cx='29' cy='326' rx='15' ry='12'/%3E%3Cellipse cx='50' cy='332' rx='21' ry='18'/%3E%3Cellipse cx='34' cy='329' rx='17' ry='12'/%3E%3Cellipse cx='60' cy='335' rx='46' ry='7'/%3E%3Cellipse cx='640' cy='375' rx='25' ry='4' fill='%23e4f2fb'/%3E%3Cellipse cx='631' cy='372' rx='7' ry='5'/%3E%3Cellipse cx='653' cy='368' rx='9' ry='6'/%3E%3Cellipse cx='644' cy='368' rx='8' ry='7'/%3E%3Cellipse cx='639' cy='369' rx='9' ry='6'/%3E%3Cellipse cx='640' cy='373' rx='23' ry='4'/%3E%3C/g%3E%3C/svg%3E") center 70px / 1600px 420px repeat-x;
+}
+
+[data-world="grandline"] body::after {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 100vh;
+  background: radial-gradient(70vw 50vh at 85% -10%, rgba(255, 255, 230, 0.5), transparent 70%);
+}
+
+[data-world="grandline"] ::selection {
+  background: #ffd23b;
+  color: var(--text);
+}
+
+[data-world="grandline"] .theme-toggle,
+[data-world="grandline"] .platform { display: none; }
+
+/* --- NAV: a smooth length of ship's timber, flying the straw hat's flag, with room to breathe --- */
+/* Solid wood, so the frosted-glass blur behind the bar is dropped: it was being redrawn on every frame of scrolling */
+[data-world="grandline"] .site-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding-block: 8px;
+  background: linear-gradient(#7a4f2a, #5e3a1c);
+  border-color: #3e2410;
+}
+
+[data-world="grandline"] .nav-brand,
+[data-world="grandline"] .nav-links a { color: #fbeed2; }
+
+[data-world="grandline"] .nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: semi-condensed;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* A skull wearing a straw hat, over crossed bones */
+[data-world="grandline"] .nav-brand::before {
+  content: "";
+  flex: none;
+  width: 24px;
+  height: 24px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-26 -30 52 58'%3E%3Cpath d='M-20 12l40 14M-20 26l40-14' stroke='%23fbf6ea' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle r='14' fill='%23fbf6ea'/%3E%3Ccircle cx='-5' cy='-1' r='3.5' fill='%231a1a1a'/%3E%3Ccircle cx='5' cy='-1' r='3.5' fill='%231a1a1a'/%3E%3Cellipse cy='-11' rx='22' ry='5' fill='%23f3cd62' stroke='%235a3418' stroke-width='1.5'/%3E%3Cpath d='M-12 -12q0-12 12-12t12 12' fill='%23f3cd62' stroke='%235a3418' stroke-width='1.5'/%3E%3Cpath d='M-12 -14q12 4 24 0v-3q-12 4-24 0z' fill='%23d22a2a'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+[data-world="grandline"] .nav-links a {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+@media (hover: hover) {
+  [data-world="grandline"] .nav-links a:hover { color: #ffd23b; }
+}
+
+[data-world="grandline"] .site-nav::after { background: #ffd23b; }
+
+/* The sliding highlight in the captain's red, so the cream words stay clear over it */
+[data-world="grandline"] .nav-indicator {
+  background: var(--accent);
+  border-color: #8a1414;
+}
+
+[data-world="grandline"] .nav-links a.is-active { color: #fff; }
+
+/* --- THE WANTED POSTER --- */
+/* Laid out as the Marines print them, everything lettered and spaced to the poster's own width (cqi), so it keeps
+   its proportions on any screen: WANTED right across the top, the photograph in a thin frame, DEAD OR ALIVE over
+   the name between a pair of scrolled brackets, the bounty in Berries between a second pair, and at the foot three lines of small print
+   beside MARINE, and stamped in red over the photograph's upper corner, when its subject was last seen (the page's last update).
+   The visitor's links aren't part of the print: they hang below the poster. The poster's parts are laid straight onto the hero's grid (the hero text stepping aside with
+   display: contents), and the paper is a layer behind just the poster's rows. */
+[data-world="grandline"] .hero {
+  /* The poster's paper, shared by everything printed or pasted on it: the photograph's mount, its caption plate,
+     the stamp's ground and the tags below */
+  --poster: #e4dac5;
+  display: grid;
+  /* Its margins are a share of its width (its own cqi units only reach what's inside it) */
+  grid-template-columns: 6% 1fr auto 6%;
+  grid-template-areas:
+    ".      wanted wanted ."
+    ".      photo  photo  ."
+    ".      name   name   ."
+    ".      bounty bounty ."
+    ".      ra     ra     ."
+    ".      school school ."
+    ".      pron   marine ."
+    "links  links  links  links";
+  justify-items: stretch;
+  gap: 0;
+  text-align: center;
+  width: min(100%, 480px);
+  margin: calc(var(--space) * 0.75) auto calc(var(--space) * 3);
+  padding: 0;
+  color: var(--ink);
+  container-type: inline-size;
+  /* Its own layer, so the paper (z-index -1) stays behind the poster's print but in front of the ship sailing past */
+  isolation: isolate;
+}
+
+/* The paper, behind the poster's rows only: plain and pale, as the Marines' posters are, cut straight, with a fine
+   dark line round its edge */
+[data-world="grandline"] .hero::after {
+  content: "";
+  grid-area: 1 / 1 / 8 / 5;
+  align-self: stretch;
+  z-index: -1;
+  /* The scrolled brackets, drawn on the paper as on the posters: out in its margins, 3cqi in from each edge, from
+     level with DEAD OR ALIVE (88.9cqi down: the WANTED row and the 4:3 photograph's are lettered in cqi) all the way
+     down beside the small print and MARINE to the paper's foot. On each side two pieces, both bowed in toward the
+     words: the upper rises at its top into a curl, and the lower, beside the bounty, sweeps out to the paper's edge
+     and runs on down it to a small curl rolled back in at its foot; where they meet, at the middle of the name, they
+     end in a curl apiece, back to back. Each side is cut in three so the curls never stretch however the small print
+     wraps: the head down to the end of the sweep (6.5 × 33.85cqi), the straight run down the edge, stretched to fit,
+     and the foot (6.5 × 5.42cqi), set 3.5cqi up from the paper's foot */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 125'%3E%3Cpath d='M13.5 8C13.5 6.5 11.5 6.3 11 7.8C10.5 9.5 13 10.8 14.8 9.5C17 7.8 16 3.5 12.5 3.2C8.5 3 6.5 7 7.3 11C8 14.5 11 18 14 21C17 24.5 17.8 28 17.8 33L17.8 45C17.8 50 15 55 11 55C7 55 5.5 51 7.5 49C9.5 47 12.5 48.5 11 51M11 66C12.5 68.5 9.5 70 7.5 68C5.5 66 7 62 11 62C15 62 17.8 65.5 17.8 70.5L17.8 90C17.8 103 4 107 4 120L4 136C4 141 5 144.5 9 145C12 145.5 13.5 142.5 12.3 140.5C11 138.5 8 139 8 141.5C8 143 9.5 143.5 10.3 142.6' fill='none' stroke='%233b2b1c' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") left 3cqi top 88.9cqi / 6.5cqi 33.85cqi no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 128 24 20'%3E%3Cpath d='M13.5 8C13.5 6.5 11.5 6.3 11 7.8C10.5 9.5 13 10.8 14.8 9.5C17 7.8 16 3.5 12.5 3.2C8.5 3 6.5 7 7.3 11C8 14.5 11 18 14 21C17 24.5 17.8 28 17.8 33L17.8 45C17.8 50 15 55 11 55C7 55 5.5 51 7.5 49C9.5 47 12.5 48.5 11 51M11 66C12.5 68.5 9.5 70 7.5 68C5.5 66 7 62 11 62C15 62 17.8 65.5 17.8 70.5L17.8 90C17.8 103 4 107 4 120L4 136C4 141 5 144.5 9 145C12 145.5 13.5 142.5 12.3 140.5C11 138.5 8 139 8 141.5C8 143 9.5 143.5 10.3 142.6' fill='none' stroke='%233b2b1c' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") left 3cqi bottom 3.5cqi / 6.5cqi 5.42cqi no-repeat,
+    linear-gradient(90deg, transparent 9.58%, #3b2b1c 9.58% 23.75%, transparent 23.75%) left 3cqi top 122.5cqi / 6.5cqi calc(100% - 130.6cqi) no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 125'%3E%3Cpath transform='matrix(-1 0 0 1 24 0)' d='M13.5 8C13.5 6.5 11.5 6.3 11 7.8C10.5 9.5 13 10.8 14.8 9.5C17 7.8 16 3.5 12.5 3.2C8.5 3 6.5 7 7.3 11C8 14.5 11 18 14 21C17 24.5 17.8 28 17.8 33L17.8 45C17.8 50 15 55 11 55C7 55 5.5 51 7.5 49C9.5 47 12.5 48.5 11 51M11 66C12.5 68.5 9.5 70 7.5 68C5.5 66 7 62 11 62C15 62 17.8 65.5 17.8 70.5L17.8 90C17.8 103 4 107 4 120L4 136C4 141 5 144.5 9 145C12 145.5 13.5 142.5 12.3 140.5C11 138.5 8 139 8 141.5C8 143 9.5 143.5 10.3 142.6' fill='none' stroke='%233b2b1c' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 3cqi top 88.9cqi / 6.5cqi 33.85cqi no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 128 24 20'%3E%3Cpath transform='matrix(-1 0 0 1 24 0)' d='M13.5 8C13.5 6.5 11.5 6.3 11 7.8C10.5 9.5 13 10.8 14.8 9.5C17 7.8 16 3.5 12.5 3.2C8.5 3 6.5 7 7.3 11C8 14.5 11 18 14 21C17 24.5 17.8 28 17.8 33L17.8 45C17.8 50 15 55 11 55C7 55 5.5 51 7.5 49C9.5 47 12.5 48.5 11 51M11 66C12.5 68.5 9.5 70 7.5 68C5.5 66 7 62 11 62C15 62 17.8 65.5 17.8 70.5L17.8 90C17.8 103 4 107 4 120L4 136C4 141 5 144.5 9 145C12 145.5 13.5 142.5 12.3 140.5C11 138.5 8 139 8 141.5C8 143 9.5 143.5 10.3 142.6' fill='none' stroke='%233b2b1c' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 3cqi bottom 3.5cqi / 6.5cqi 5.42cqi no-repeat,
+    linear-gradient(90deg, transparent 76.25%, #3b2b1c 76.25% 90.42%, transparent 90.42%) right 3cqi top 122.5cqi / 6.5cqi calc(100% - 130.6cqi) no-repeat,
+    var(--poster);
+  /* The fine edge line, and a soft warm glow round the paper, as if the sun were catching it (static, so nothing
+     repaints as the page scrolls) */
+  box-shadow:
+    inset 0 0 0 1px rgba(59, 43, 28, 0.55),
+    0 0 18px 4px rgba(255, 244, 214, 0.7),
+    0 0 56px 16px rgba(255, 236, 180, 0.35);
+}
+
+[data-world="grandline"] .hero::before {
+  content: "Desired";
+  grid-area: wanted;
+  margin: 3cqi 0 4cqi;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: semi-condensed;
+  font-size: 19.5cqi;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+/* The photograph: an oblong print in a fine ink frame, as on the posters, with the portrait set in it round and
+   whole, like a medallion. Round it the print shows the open sky and sea behind its subject, in the photograph's own
+   faded tones, so the frame never reads as empty */
+[data-world="grandline"] .avatar-wrap {
+  --avatar-size: 100%;
+  grid-area: photo;
+  justify-self: center;
+  /* 4:3 and 79% of the poster's width, as on the posters */
+  width: 90%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  border-radius: 0;
+  background:
+    /* A couple of flat clouds, and the horizon's glint */
+    radial-gradient(9% 5% at 14% 22%, rgba(250, 246, 232, 0.9) 60%, transparent 66%),
+    radial-gradient(7% 4.5% at 20% 19%, rgba(250, 246, 232, 0.9) 60%, transparent 66%),
+    radial-gradient(10% 5% at 86% 30%, rgba(250, 246, 232, 0.85) 60%, transparent 66%),
+    radial-gradient(6% 4% at 80% 27%, rgba(250, 246, 232, 0.85) 60%, transparent 66%),
+    linear-gradient(#a7c3c4, #d3dccf 60%, #f4eedb 60% 61.2%, #86a8ab 61.2%, #5f8789);
+  box-shadow: 0 0 0 2px var(--ink), inset 0 0 26px rgba(60, 40, 20, 0.28);
+}
+
+[data-world="grandline"] .avatar-wrap::before,
+[data-world="grandline"] .avatar-hint { display: none; }
+
+/* The straw hat, worn: set low on the portrait's head, its brim over the eyes, at a tilt and over the edge of the ring */
+[data-world="grandline"] .avatar-wrap::after {
+  z-index: 1;
+  inset: auto;
+  /* On the round portrait's head (its circle is 66% of the print's width, from 17% in, and 88% of its height) */
+  top: 9.5%;
+  left: 27.6%;
+  width: 43.6%;
+  aspect-ratio: 2;
+  border-radius: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 60'%3E%3Cellipse cx='60' cy='44' rx='56' ry='13' fill='%23e9b949' stroke='%238a5a14' stroke-width='2'/%3E%3Cellipse cx='60' cy='44' rx='45' ry='9.5' fill='none' stroke='%23c99a2e' stroke-width='1.2'/%3E%3Cellipse cx='60' cy='44' rx='51' ry='11.3' fill='none' stroke='%23c99a2e' stroke-width='1'/%3E%3Cpath d='M29 43C29 16 41 6 60 6s31 10 31 37c-10 5-52 5-62 0z' fill='%23f3cd62' stroke='%238a5a14' stroke-width='2'/%3E%3Cpath d='M29.5 33c10 5 51 5 61 0v9.5c-10 5-51 5-61 0z' fill='%23d22a2a' stroke='%237a1414' stroke-width='1.5'/%3E%3Cpath d='M40 16c6-3 14-4 20-4M36 24c8-3 18-4 26-4' stroke='%23c99a2e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 3px 2px rgba(40, 20, 0, 0.35));
+  opacity: 1;
+  rotate: -8deg;
+  animation: none;
+  transition: none;
+}
+
+/* The portrait round and whole in the middle of the print, in a thin ring of ink with a hairline outside it */
+[data-world="grandline"] .avatar {
+  position: absolute;
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: 88%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 0;
+  box-shadow: 0 0 0 2px var(--ink), 0 0 0 5px var(--poster), 0 0 0 6px var(--ink);
+  filter: sepia(0.3) saturate(0.85) contrast(1.05);
+}
+
+/* "Take me back" is a caption plate set into the foot of the photograph's frame, drawn with the frame's own rings
+   (ink, paper, ink hairline) and printed in the poster's type, so it reads as part of the poster */
+[data-world="grandline"] .avatar-wrap .avatar-ink {
+  top: auto;
+  bottom: -0.35em;
+  padding: 3px 14px 2px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: semi-condensed;
+  font-style: normal;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--poster);
+  box-shadow: 0 0 0 2px var(--ink), 0 0 0 5px var(--poster), 0 0 0 6px var(--ink);
+  text-shadow: none;
+}
+
+[data-world="grandline"] .hero-text { display: contents; }
+
+/* DEAD OR ALIVE sits at the top of the name's own box, which is drawn tall enough for both and carries the
+   brackets down its sides */
+[data-world="grandline"] .hero-text::before {
+  content: "Asleep or Awake";
+  grid-area: name;
+  align-self: start;
+  /* Clear of the "Take me back" plate hanging below the photograph */
+  margin-top: 5cqi;
+  /* Heavy and full width, its letters spread out bracket to bracket, as on the posters */
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: normal;
+  font-size: 6.9cqi;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  /* The spacing trails the last letter too: matched at the front, so the words sit centred */
+  text-indent: 0.08em;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+[data-world="grandline"] .hero-text .title {
+  grid-area: name;
+  margin: 0;
+  padding: 16cqi 4cqi 1cqi;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: extra-condensed;
+  font-size: 10.9cqi;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  text-shadow: none;
+}
+
+/* The name's words are run together with a dot, as on the posters */
+[data-world="grandline"] .title .char.space { width: auto; }
+[data-world="grandline"] .title .char.space::before { content: "\00B7"; }
+[data-world="grandline"] .title .char { animation: none !important; }
+
+/* Drawn tall, as the posters' names are: each letter stretched upward from its foot, into the room the name's
+   padding leaves under DEAD OR ALIVE */
+[data-world="grandline"] .title .char { scale: 1 1.4; }
+
+/* The page is one picture, so nothing slides in as it scrolls into view: the usual entrance (css/style.css) had the
+   flags and the publications' cards, videos and all, shifting under the reader while the videos loaded */
+[data-world="grandline"] :is(.card, section > h2, .about-lead, .interests, .pub-row) { animation: none; }
+
+/* The bounty, under the name, between the scrolls */
+[data-world="grandline"] .bounty {
+  grid-area: bounty;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 1.5cqi;
+  margin: 0 0 2.5cqi;
+  padding: 1.5cqi 4cqi 1cqi;
+  /* The sum in thin, wide-set plain figures, as on the posters, after a Berry sign a size up in the poster's type */
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+  font-size: 8.2cqi;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The Cerry sign: the posters' Berry sign with a C for its B (C for Chrissy, and for Chien): a C run through by a
+   long S curled over at its head and under at its foot, drawn here since no font has it. The letter C stays in the
+   markup, unseen, to hold the sign's place on the figures' baseline; the drawing's caps line up with its (0.18–0.89em
+   down the box) and reach past them above and below */
+[data-world="grandline"] .bounty-sign {
+  position: relative;
+  display: inline-block;
+  width: 0.76em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25em;
+  letter-spacing: 0;
+  color: transparent;
+}
+
+[data-world="grandline"] .bounty-sign::after {
+  content: "";
+  position: absolute;
+  top: -0.175em;
+  left: 0;
+  width: 0.757em;
+  height: 1.3em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 110'%3E%3Cg fill='none' stroke='%233b2b1c' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M52 39C48 33.5 43 31 37 31C24 31 13 43 13 60C13 77 23 89 37 89C43 89 48 86.5 52 81' stroke-width='9'/%3E%3Cpath d='M50 15C54 13 53 7 48 6.5C42 6 37.5 12 37.5 22L37.5 94C37.5 102 33 107 26.5 105.5C22 104.5 22.5 98.5 27 99.5' stroke-width='7.5'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+/* The small print, as on the posters: a block down the left beside MARINE. Each item is balanced over its lines, so
+   none ends on a lone word; upper and lower case, which reads easier this small */
+[data-world="grandline"] .hero-text > .subtitle {
+  margin: 0 0 1cqi;
+  /* In clear of the brackets either side, under DEAD OR ALIVE's first letter */
+  padding: 0 4cqi 0 3.6cqi;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: extra-condensed;
+  font-size: 3.3cqi;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: left;
+  color: var(--ink);
+}
+
+[data-world="grandline"] .hero-text > :nth-child(4) { grid-area: ra; }
+[data-world="grandline"] .hero-text > :nth-child(5) { grid-area: school; }
+[data-world="grandline"] .hero-text > :nth-child(3) {
+  grid-area: pron;
+  /* On MARINE's baseline, as the small print's last line is on the posters */
+  align-self: last baseline;
+  margin-bottom: 4.5cqi;
+}
+
+[data-world="grandline"] .hero-text::after {
+  content: "Marine";
+  grid-area: marine;
+  align-self: last baseline;
+  /* Well clear of the right-hand bracket */
+  margin: 0 6cqi 4cqi 1.5cqi;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: condensed;
+  /* A size down from before, to leave the small print beside it room to be read */
+  font-size: 8.5cqi;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Below the poster, the visitor's links, as tags of the same paper, and when it was last updated */
+[data-world="grandline"] .hero-text .badges {
+  grid-area: links;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+[data-world="grandline"] .hero-text .badge-break { display: none; }
+
+[data-world="grandline"] .hero-text .badge {
+  padding: 5px 9px;
+  font-size: 0.75rem;
+  color: var(--ink);
+  background: var(--poster);
+  border: 1px solid rgba(60, 40, 20, 0.45);
+  border-radius: 3px;
+  box-shadow: 0 3px 6px -2px rgba(0, 40, 80, 0.4);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: condensed;
+  text-transform: uppercase;
+}
+
+@media (hover: hover) {
+  [data-world="grandline"] .hero-text .badge:hover {
+    color: #fff;
+    background: var(--accent);
+    border-color: #8a1414;
+  }
+}
+
+/* The last update, as the Marines' red stamp over the photograph's upper right corner (the lower one has the
+   "Take me back" plate): LAST SEEN, and the month,
+   in a double ruled box. Its own words ("latest update:") give way to the stamp's; the date is kept */
+[data-world="grandline"] .hero-text > :nth-child(7) {
+  grid-area: photo;
+  justify-self: end;
+  align-self: start;
+  z-index: 2;
+  margin: 1cqi 1cqi 0 0;
+  padding: 1.2cqi 2.2cqi 1cqi;
+  font-size: 0;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(176, 28, 28, 0.88);
+  /* Stamped on askew, as a stamp is: one of the two tilts in the world, with the hat on the portrait */
+  rotate: 12deg;
+  border: 0.7cqi solid currentColor;
+  box-shadow: inset 0 0 0 0.8cqi rgba(228, 218, 197, 0.6), inset 0 0 0 1.2cqi currentColor;
+  background: rgba(228, 218, 197, 0.6);
+}
+
+[data-world="grandline"] .hero-text > :nth-child(7)::before,
+[data-world="grandline"] .hero-text .update-date {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: condensed;
+  letter-spacing: 0.06em;
+}
+
+[data-world="grandline"] .hero-text > :nth-child(7)::before {
+  content: "Last seen";
+  margin-bottom: 0.6cqi;
+  font-size: 3cqi;
+}
+
+[data-world="grandline"] .hero-text .update-date { font-size: 4.6cqi; }
+
+/* --- THE SEA: from the horizon behind the poster down to the foot of the page --- */
+/* The sky is just the strip above the poster's middle; there a bright white horizon crosses the screen from edge to
+   edge, and below it the sea runs the rest of the way down, pale where it meets the sky, under everything else */
+[data-world="grandline"] main {
+  --line: clamp(300px, 70vw, 420px);
+}
+
+[data-world="grandline"] main::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: var(--line);
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  pointer-events: none;
+  border-top: 3px solid #fff;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+  background:
+    linear-gradient(#5cc0ec, rgba(27, 140, 204, 0) 220px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='160'%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' opacity='.55'%3E%3Cpath d='M18 30q10-8 20 0t20 0'/%3E%3Cpath d='M130 22q8-6 16 0'/%3E%3Cpath d='M80 92q10-8 20 0t20 0'/%3E%3Cpath d='M176 120q8-6 16 0t16 0'/%3E%3Cpath d='M24 136q8-6 16 0'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 220px 160px,
+    #1b8ccc;
+}
+
+/* A pirate ship on the horizon, out in the open sea beside the poster. It stays put: a ship looping across the page
+   made the browser split everything drawn after it into layers of their own, and the whole page lagged */
+[data-world="grandline"] main::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: calc(var(--line) - 120px);
+  left: calc(50% - 50vw + max(8px, (100vw - 480px) / 4 - 75px));
+  width: 150px;
+  height: 132px;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 150'%3E%3Cg fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.75'%3E%3Cpath d='M30 132q-14 4-26 2M40 140q-16 6-34 6'/%3E%3C/g%3E%3Cpath d='M85 18v100' stroke='%235a3418' stroke-width='5'/%3E%3Cpath d='M89 12l22 6-22 6z' fill='%23d22a2a'/%3E%3Cpath d='M42 34q43-10 86 0-6 34 0 66-43-10-86 0 6-32 0-66z' fill='%23fbf6ea' stroke='%235a3418' stroke-width='2.5'/%3E%3Cg transform='translate(85 66)'%3E%3Cpath d='M-20 12l40 14M-20 26l40-14' stroke='%231a1a1a' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle r='14' fill='%231a1a1a'/%3E%3Ccircle cx='-5' cy='-1' r='3.5' fill='%23fbf6ea'/%3E%3Ccircle cx='5' cy='-1' r='3.5' fill='%23fbf6ea'/%3E%3Cpath d='M-6 7h12' stroke='%23fbf6ea' stroke-width='2' stroke-dasharray='2 2'/%3E%3Cellipse cy='-11' rx='22' ry='5' fill='%23f3cd62' stroke='%235a3418' stroke-width='1.5'/%3E%3Cpath d='M-12 -12q0-12 12-12t12 12' fill='%23f3cd62' stroke='%235a3418' stroke-width='1.5'/%3E%3Cpath d='M-12 -14q12 4 24 0v-3q-12 4-24 0z' fill='%23d22a2a'/%3E%3C/g%3E%3Cpath d='M14 112h142l-16 28H34z' fill='%238a5a2b' stroke='%233e2410' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M22 122h126' stroke='%23c99a5a' stroke-width='3'/%3E%3Ccircle cx='60' cy='130' r='3' fill='%233e2410'/%3E%3Ccircle cx='85' cy='130' r='3' fill='%233e2410'/%3E%3Ccircle cx='110' cy='130' r='3' fill='%233e2410'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* --- THE SHIP: the bio, aboard the ship, seen from nearly overhead as it sails in --- */
+/* A slim ship drawn down the middle, seen not quite straight down, sailing down the page toward the island: the
+   heading out on the water ahead of it, the stern above with the wheel on its deck, the mast amidships with the pennants strung out
+   from it, and the bow below, with Luffy up at the front pointing the way. The words don't have to fit inside it:
+   the lead and the ship's log are on big flags flown across the ship, each wider than the hull, with the deck showing
+   between them. So the ship keeps a ship's shape, and the words keep their width. */
+[data-world="grandline"] #about {
+  --hull: min(52vw, 400px);
+  --stern: calc(var(--hull) * 0.45);
+  --bow: calc(var(--hull) * 0.85);
+  --rudder: 30px;
+  --sprit: 84px;
+  --flag:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-26 -30 52 58'%3E%3Cg opacity='.1'%3E%3Cpath d='M-20 12l40 14M-20 26l40-14' stroke='%238a6a3a' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle r='14' fill='%238a6a3a'/%3E%3Ccircle cx='-5' cy='-1' r='3.5' fill='%23f6edd8'/%3E%3Ccircle cx='5' cy='-1' r='3.5' fill='%23f6edd8'/%3E%3Cellipse cy='-11' rx='22' ry='5' fill='%238a6a3a' stroke='%238a6a3a' stroke-width='1.5'/%3E%3Cpath d='M-12 -12q0-12 12-12t12 12' fill='%238a6a3a' stroke='%238a6a3a' stroke-width='1.5'/%3E%3Cpath d='M-12 -14q12 4 24 0v-3q-12 4-24 0z' fill='%238a6a3a'/%3E%3C/g%3E%3C/svg%3E") center 55% / min(46%, 220px) auto no-repeat,
+    linear-gradient(#6b4423, #4a2c14) top / 100% 10px no-repeat,
+    linear-gradient(#d22a2a, #d22a2a) 0 10px / 100% 6px no-repeat,
+    linear-gradient(90deg, transparent, rgba(150, 110, 60, 0.12) 50%, transparent) 0 0 / 180px 100%,
+    linear-gradient(#fffaf0, #f1e6cc);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 860px);
+  justify-content: center;
+  /* Room below for the bowsprit, which reaches on past the section's foot */
+  margin: 0 auto calc(var(--sprit) + 28px);
+  padding: 0 0 calc(var(--bow) * 0.55 + 40px);
+}
+
+/* The hull, down the middle behind everything, sailing down the page toward the island, drawn as one line from end
+   to end the way a hull is shaped: a flat transom above, swelling out to its widest a third of the way down, then
+   drawing in all the way to the sharp point of the bow, with no straight stretch between. The stern carries the
+   rudder, a lantern at each corner and the wheel; the foredeck a pair of barrels, with Luffy up at the very front
+   pointing on ahead, and the bowsprit. The deck sits down inside the bulwarks, in their shade; plank seams run down
+   it amidships, where the flags cover the words; and the mast runs down its middle for each flag to hang from. Below
+   the bow, the hull's side shows in two strakes with foam along the water, as flat shapes rather than a filter. */
+[data-world="grandline"] #about::before {
+  --length: calc(100% - var(--rudder) - var(--sprit));
+  --wheel: calc(var(--hull) * 0.14);
+  content: "";
+  position: absolute;
+  /* The ship starts at the third row, the pennants, below the heading and the lead out on the water: placed in the
+     grid, its box runs from there to the section's foot, however many lines the lead wraps to */
+  grid-row: 3;
+  z-index: -1;
+  top: calc(-1 * var(--rudder));
+  bottom: calc(-1 * var(--sprit));
+  left: 50%;
+  width: var(--hull);
+  translate: -50% 0;
+  pointer-events: none;
+  background:
+    /* Luffy, up at the very front, pointing on ahead at the island */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 120'%3E%3Cpath d='M16 44q0-30 24-30t24 30q0 8-6 12H22q-6-4-6-12z' fill='%23d22a2a' stroke='%233e2410' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M40 16v22' stroke='%239e1c1c' stroke-width='1.4'/%3E%3Cpath d='M24 22q4-4 9-5M56 22q-4-4-9-5' fill='none' stroke='%23e8524a' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M54 52L63 100' stroke='%233e2410' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M54 52L63 100' stroke='%23f4c48e' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M58 74l3 1' stroke='%23d9a070' stroke-width='1.2' stroke-linecap='round'/%3E%3Cellipse cx='63.5' cy='101' rx='5.5' ry='5' fill='%23f4c48e' stroke='%233e2410' stroke-width='1.4'/%3E%3Cpath d='M60 103.5h7' stroke='%23c98c5a' stroke-width='1'/%3E%3Cpath d='M64.5 105.5l1 9' stroke='%233e2410' stroke-width='4.6' stroke-linecap='round'/%3E%3Cpath d='M64.5 105.5l1 9' stroke='%23f4c48e' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M29 60l3 5 2-4 3 5 3-5 3 5 2-4 3 5 3-6' fill='%231a1a1a' stroke='%231a1a1a' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cellipse cx='40' cy='48' rx='28' ry='18' fill='%23f3cd62' stroke='%238a5a14' stroke-width='1.8'/%3E%3Cg fill='none' stroke='%23d9a93a' stroke-width='1'%3E%3Cellipse cx='40' cy='48' rx='24' ry='15'/%3E%3Cellipse cx='40' cy='48' rx='20' ry='12.5'/%3E%3C/g%3E%3Cellipse cx='40' cy='47' rx='15.5' ry='10.5' fill='%23d22a2a' stroke='%237a1414' stroke-width='1.2'/%3E%3Cellipse cx='40' cy='46' rx='12.5' ry='8.3' fill='%23f6d77a' stroke='%238a5a14' stroke-width='1.2'/%3E%3Cg fill='none' stroke='%23e2b04a' stroke-width='.9'%3E%3Cellipse cx='40' cy='46' rx='8.5' ry='5.6'/%3E%3Cellipse cx='40' cy='46' rx='4.5' ry='3'/%3E%3C/g%3E%3Cellipse cx='36' cy='43.5' rx='4' ry='2' fill='%23fff6c8' opacity='.7'/%3E%3C/svg%3E") center bottom 23px / 104px 156px no-repeat,
+    /* On the foredeck, a pair of barrels; on the stern, the wheel, and a lantern at each corner of the transom */
+    radial-gradient(circle, #b07a3e 0 6px, #4a2c14 6.5px 8px, #a06a32 8.5px 12px, #4a2c14 12.5px 14px, #b07a3e 14.5px 16px, #4a2c14 16.5px 18px, transparent 18.5px) left calc(50% - var(--hull) * 0.12) bottom calc(var(--sprit) + var(--length) * 0.12) / 38px 38px no-repeat,
+    radial-gradient(circle, #b07a3e 0 6px, #4a2c14 6.5px 8px, #a06a32 8.5px 12px, #4a2c14 12.5px 14px, #b07a3e 14.5px 16px, #4a2c14 16.5px 18px, transparent 18.5px) left calc(50% + var(--hull) * 0.12) bottom calc(var(--sprit) + var(--length) * 0.12) / 38px 38px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-25 -25 50 50'%3E%3Cg stroke='%234a2c14' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M0 0L22.0 0.0' /%3E%3Cpath d='M0 0L15.6 15.6' /%3E%3Cpath d='M0 0L0.0 22.0' /%3E%3Cpath d='M0 0L-15.6 15.6' /%3E%3Cpath d='M0 0L-22.0 0.0' /%3E%3Cpath d='M0 0L-15.6 -15.6' /%3E%3Cpath d='M0 0L-0.0 -22.0' /%3E%3Cpath d='M0 0L15.6 -15.6' /%3E%3C/g%3E%3Cg fill='%238a5a2b' stroke='%234a2c14' stroke-width='1.2'%3E%3Ccircle cx='21.0' cy='0.0' r='2.6'/%3E%3Ccircle cx='14.8' cy='14.8' r='2.6'/%3E%3Ccircle cx='0.0' cy='21.0' r='2.6'/%3E%3Ccircle cx='-14.8' cy='14.8' r='2.6'/%3E%3Ccircle cx='-21.0' cy='0.0' r='2.6'/%3E%3Ccircle cx='-14.8' cy='-14.8' r='2.6'/%3E%3Ccircle cx='-0.0' cy='-21.0' r='2.6'/%3E%3Ccircle cx='14.8' cy='-14.8' r='2.6'/%3E%3C/g%3E%3Ccircle r='15' fill='none' stroke='%234a2c14' stroke-width='6'/%3E%3Ccircle r='15' fill='none' stroke='%238a5a2b' stroke-width='2.5'/%3E%3Ccircle r='4.5' fill='%238a5a2b' stroke='%234a2c14' stroke-width='1.5'/%3E%3C/svg%3E") center top calc(var(--rudder) + var(--stern) * 0.3 - var(--wheel) / 2) / var(--wheel) var(--wheel) no-repeat,
+    radial-gradient(circle, #fff6c8 0 3px, #ffd23b 3.5px 5px, #5a3418 5.5px 7px, rgba(255, 210, 59, 0.35) 7.5px 11px, transparent 11.5px) left calc(26% - 11px) top calc(var(--rudder) - 6px) / 23px 23px no-repeat,
+    radial-gradient(circle, #fff6c8 0 3px, #ffd23b 3.5px 5px, #5a3418 5.5px 7px, rgba(255, 210, 59, 0.35) 7.5px 11px, transparent 11.5px) left calc(74% - 11px) top calc(var(--rudder) - 6px) / 23px 23px no-repeat,
+    /* The mast, down the middle of the deck from just below the wheel */
+    linear-gradient(90deg, #4a2c14, #8a5a2b 40%, #4a2c14) center calc(var(--rudder) + var(--stern) * 0.3 + var(--wheel) / 2 + 8px) / 12px calc(var(--length) - var(--stern) * 0.3 - var(--wheel) / 2 - 8px - var(--bow)) no-repeat,
+    /* The hull in one line from the transom to the point of the bow: deck, plank seams (amidships, where the flags
+       cover the words), the bulwarks' inner face and their shade on the deck, and the rail round it all */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3ClinearGradient id='d'%3E%3Cstop offset='0' stop-color='%23c4955c'/%3E%3Cstop offset='.2' stop-color='%23dcb781'/%3E%3Cstop offset='.5' stop-color='%23e2bf8a'/%3E%3Cstop offset='.8' stop-color='%23dcb781'/%3E%3Cstop offset='1' stop-color='%23c4955c'/%3E%3C/linearGradient%3E%3ClinearGradient id='f' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='.18' stop-color='%23fff' stop-opacity='0'/%3E%3Cstop offset='.24' stop-color='%23fff'/%3E%3Cstop offset='.76' stop-color='%23fff'/%3E%3Cstop offset='.82' stop-color='%23fff' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cmask id='m'%3E%3Crect width='100' height='100' fill='url(%23f)'/%3E%3C/mask%3E%3CclipPath id='c'%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z'/%3E%3C/clipPath%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' fill='url(%23d)'/%3E%3Cg clip-path='url(%23c)'%3E%3Cpath d='M8 22V78M12 22V78M16 22V78M20 22V78M24 22V78M28 22V78M32 22V78M36 22V78M40 22V78M44 22V78M48 22V78M52 22V78M56 22V78M60 22V78M64 22V78M68 22V78M72 22V78M76 22V78M80 22V78M84 22V78M88 22V78M92 22V78' stroke='%235a3714' stroke-opacity='.22' stroke-width='1' vector-effect='non-scaling-stroke' mask='url(%23m)'/%3E%3Cg fill='none' stroke='%233e2410'%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' stroke-width='76' stroke-opacity='.08' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' stroke-width='60' stroke-opacity='.1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' fill='none' stroke='%23b8854e' stroke-width='40' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' fill='none' stroke='%235a3418' stroke-width='16' stroke-linejoin='round' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' fill='none' stroke='%238a5a2b' stroke-width='2' stroke-linejoin='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center top var(--rudder) / 100% var(--length) no-repeat,
+    /* Below it, the hull's side in two strakes, and the foam where it meets the water: flat shapes, the hull's own
+       outline set lower each time */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' fill='%237a4a22' fill-opacity='1'/%3E%3C/svg%3E") center top calc(var(--rudder) + 10px) / 100% var(--length) no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' fill='%234a2c14' fill-opacity='1'/%3E%3C/svg%3E") center top calc(var(--rudder) + 22px) / 100% var(--length) no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M26 0L74 0C90 2 100 12 100 30C100 62 78 88 50 100C22 88 0 62 0 30C0 12 10 2 26 0z' fill='%23ffffff' fill-opacity='0.75'/%3E%3C/svg%3E") center top calc(var(--rudder) + 26px) / 100% var(--length) no-repeat,
+    /* The bowsprit, reaching on ahead below the bow, and the rudder above the transom */
+    linear-gradient(90deg, #4a2c14, #8a5a2b 50%, #4a2c14) center bottom / 10px calc(var(--sprit) + 24px) no-repeat,
+    linear-gradient(90deg, #3e2410, #6b4423 50%, #3e2410) center top / 18px calc(var(--rudder) + 8px) no-repeat;
+}
+
+/* The heading out on the open water above the ship, in white like the pier's: off the deck, so the ship needn't be
+   long enough to carry it */
+[data-world="grandline"] #about > h2 {
+  margin: 0 0 calc(var(--space) * 0.8);
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 40, 80, 0.45), 0 0 18px rgba(0, 40, 80, 0.35);
+}
+
+[data-world="grandline"] #about > h2::before { color: #ffd23b; }
+
+[data-world="grandline"] #about > h2::after { width: calc(var(--hull) * 0.45); }
+
+/* A big flag flown across the ship, wider than the hull: canvas with soft folds and the straw hat's Jolly Roger
+   printed faintly on it, hung from a wooden rod with a red trim along it, its foot cut to a deep point like the pennants'. The point hangs on below the flag and tucks behind the next one
+   (each flag is painted over the one before), with the deck and mast showing either side of it */
+[data-world="grandline"] .about-main,
+[data-world="grandline"] .side-block {
+  --tail: 120px;
+  margin: 0;
+  padding: 30px 36px calc(var(--tail) + 12px);
+  color: var(--ink);
+  border: 0;
+  border-radius: 0;
+  /* The tail streams out long below the flag, in a wave as the wind takes it, both edges rippling together toward
+     a point just off the middle */
+  clip-path: polygon(
+    0 0, 100% 0,
+    100% calc(100% - var(--tail)),
+    97.8% calc(100% - var(--tail) * 0.875),
+    93.5% calc(100% - var(--tail) * 0.75),
+    86.3% calc(100% - var(--tail) * 0.625),
+    77.0% calc(100% - var(--tail) * 0.5),
+    67.7% calc(100% - var(--tail) * 0.375),
+    60.5% calc(100% - var(--tail) * 0.25),
+    56.2% calc(100% - var(--tail) * 0.125),
+    54.0% 100%,
+    43.7% calc(100% - var(--tail) * 0.125),
+    35.5% calc(100% - var(--tail) * 0.25),
+    30.2% calc(100% - var(--tail) * 0.375),
+    27.0% calc(100% - var(--tail) * 0.5),
+    23.8% calc(100% - var(--tail) * 0.625),
+    18.5% calc(100% - var(--tail) * 0.75),
+    10.3% calc(100% - var(--tail) * 0.875),
+    0 calc(100% - var(--tail))
+  );
+  background: var(--flag);
+  box-shadow: none;
+}
+
+/* The lead out on the water under the heading, in large white type, with the key words in the straw hat's yellow.
+   Its margin is the open water behind the ship, where the rudder lies */
+[data-world="grandline"] #about > .about-lead {
+  margin: 0 0 calc(var(--rudder) + 28px);
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 40, 80, 0.5), 0 0 18px rgba(0, 40, 80, 0.4);
+}
+
+[data-world="grandline"] #about .about-lead em { color: #ffd23b; }
+
+[data-world="grandline"] .about-text a,
+[data-world="grandline"] .edu-list a { color: #8a1414; }
+
+/* The mast, seen not quite straight down: its foot stepped in the deck below the pennants, and the pole rising up the
+   screen through them to the masthead, with the sail furled on the yard across the ship and the rigging running down
+   from the masthead to the rails. The interests fly as pennants on lines strung out from it, one unbroken line a row. */
+[data-world="grandline"] #about > .interests {
+  justify-content: center;
+  gap: 22px 0;
+  /* The stern deck above them, with the wheel */
+  margin: calc(var(--stern) * 0.3 + var(--hull) * 0.07 + 24px) 0 0;
+  padding: 44px 0 52px;
+  background:
+    radial-gradient(circle at 50% 9px, #b07a3e 0 5px, #3e2410 6px 8px, transparent 9px),
+    linear-gradient(#fffdf6, #e9dcc0) center 22px / calc(var(--hull) + 40px) 12px no-repeat,
+    linear-gradient(#6b4423, #4a2c14) center 18px / calc(var(--hull) + 40px) 20px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M50 0L2 100M50 0L98 100' stroke='%233e2410' stroke-width='1.5' vector-effect='non-scaling-stroke' fill='none'/%3E%3C/svg%3E") center 9px / calc(var(--hull) - 16px) calc(100% - 9px) no-repeat,
+    linear-gradient(90deg, #4a2c14, #8a5a2b 40%, #4a2c14) center 9px / 12px calc(100% - 30px) no-repeat,
+    radial-gradient(circle at 50% calc(100% - 18px), #8a5a2b 0 11px, #3e2410 12px 15px, transparent 16px);
+}
+
+[data-world="grandline"] .interest {
+  position: relative;
+  padding: 9px 18px 20px;
+  border: 0;
+  border-radius: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);
+  color: #fff;
+  font-weight: 800;
+  background: var(--accent);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+[data-world="grandline"] .interest:nth-child(4n + 2) { background: #e8a91c; }
+[data-world="grandline"] .interest:nth-child(4n + 3) { background: #2f6fb8; }
+[data-world="grandline"] .interest:nth-child(4n) {
+  background: #fbf5e6;
+  color: var(--ink);
+  text-shadow: none;
+}
+
+/* Its length of rope, along the top */
+[data-world="grandline"] .interest::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: 4px;
+  border-radius: 0;
+  background: repeating-linear-gradient(60deg, #c99a5a 0 4px, #8a6230 4px 6px);
+}
+
+@media (hover: hover) {
+  /* Pointed at, a pennant keeps its own colours (the home theme turns them all red) and just lifts and brightens */
+  [data-world="grandline"] .interest:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
+  [data-world="grandline"] .interest:hover::before { background: repeating-linear-gradient(60deg, #c99a5a 0 4px, #8a6230 4px 6px); }
+}
+
+/* The ship's log, flag after flag down the length of the ship, with the deck showing between them */
+[data-world="grandline"] #about > .about-grid {
+  grid-template-columns: 1fr;
+  gap: 30px;
+  padding: 0;
+}
+
+/* The log on one flag, its record (experience, education) on a smaller flag each, side by side where there's room */
+[data-world="grandline"] .about-side {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 30px;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+
+[data-world="grandline"] .side-block {
+  flex: 1 1 300px;
+  margin: 0;
+}
+
+/* The log's tail hangs on down behind the record's flags */
+[data-world="grandline"] .about-main { margin-bottom: calc(20px - var(--tail)); }
+
+@media (hover: hover) {
+  [data-world="grandline"] .about-main:hover {
+    transform: none;
+    background: var(--flag);
+  }
+  [data-world="grandline"] .about-side:hover {
+    transform: none;
+    background: none;
+  }
+}
+
+/* Each flag's title in the section headings' type, big and red as the flag's trim, over a short length of rope:
+   "Ship's Log" on the log's flag, and the record's own labels (Experience, Education) a size down on theirs */
+[data-world="grandline"] .about-main::before,
+[data-world="grandline"] .side-block .side-label {
+  display: block;
+  margin: 0 auto 4px;
+  padding-bottom: 10px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: condensed;
+  font-size: clamp(1.9rem, 3.6vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--accent);
+  background: repeating-linear-gradient(60deg, #c99a5a 0 5px, #8a6230 5px 8px) center bottom / min(60%, 200px) 5px no-repeat;
+}
+
+[data-world="grandline"] .about-main::before { content: "Ship's Log"; }
+
+[data-world="grandline"] .side-block .side-label {
+  margin-bottom: 14px;
+  font-size: clamp(1.4rem, 2.6vw, 1.7rem);
+}
+
+[data-world="grandline"] .about-text,
+[data-world="grandline"] .edu-list span { color: var(--ink); }
+
+/* The current post's dot holds still: its pulse repainted the log's paper around it on every frame */
+[data-world="grandline"] .edu-list li.is-current strong::after { animation: none; }
+
+/* --- THE PIER: the news, on the planks of a pier running from the sea up onto the beach --- */
+/* Where the ship comes in to land. A wooden pier, seen from above, runs from the open water down onto the island's
+   sand: each piece of news is one of its planks, the words burned into it, with dark gaps between the planks where
+   the water shows through. Posts stand along both its edges with a rope run between them, the sea laps either side
+   of its far end, and its last stretch rests on the sand where the shore begins (#news::before). A News Coo, the
+   seagull that delivers the news, is perched on its first post with its bag, and another flies in overhead: news
+   arriving, and the gulls that tell a sailor land is near. Nothing on it moves or scrolls; the whole of the news
+   lies along it. */
+[data-world="grandline"] #news {
+  --plank: #c9a06c;
+  --gap: rgba(15, 40, 60, 0.55);
+  --burn: #2b1404;
+  --brand: #7c1d0c;
+  position: relative;
+  margin-bottom: var(--shore);
+}
+
+/* The island's shore, under the last stretch of the pier: the sea up to it and sand from there down, on under the
+   chest (#publications::before) to the end of the page */
+[data-world="grandline"] #news::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  top: calc(100% - 150px);
+  bottom: calc(-1px - var(--shore));
+  pointer-events: none;
+  border-radius: 50% 50% 0 0 / 60px 60px 0 0;
+  background: var(--sand);
+  box-shadow: 0 -6px 0 rgba(255, 255, 255, 0.85), 0 -20px 0 rgba(120, 220, 230, 0.55), 0 -40px 0 rgba(90, 200, 225, 0.25);
+}
+
+[data-world="grandline"] #news > h2 {
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 40, 80, 0.45), 0 0 18px rgba(0, 40, 80, 0.35);
+}
+
+[data-world="grandline"] #news > h2::before { color: #ffd23b; }
+
+/* The News Coo perched on the pier's first post, and another flying in above the heading */
+[data-world="grandline"] #news::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 230px;
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 80'%3E%3Cpath d='M38 70v8M50 70v8' stroke='%23e8892a' stroke-width='3' stroke-linecap='round'/%3E%3Cellipse cx='44' cy='52' rx='22' ry='19' fill='%23fff' stroke='%233b3b3b' stroke-width='2'/%3E%3Cpath d='M30 46q14 10 30 2-4 14-18 16-12-4-12-18z' fill='%23c9cfd6' stroke='%233b3b3b' stroke-width='2'/%3E%3Ccircle cx='54' cy='28' r='13' fill='%23fff' stroke='%233b3b3b' stroke-width='2'/%3E%3Cpath d='M65 29l17 3-17 4z' fill='%23f2b632' stroke='%233b3b3b' stroke-width='1.5'/%3E%3Ccircle cx='58' cy='26' r='2.2' fill='%231a1a1a'/%3E%3Cpath d='M42 20q12-12 24 0z' fill='%232f6fb8' stroke='%231d3f6a' stroke-width='1.5'/%3E%3Cpath d='M60 19q8 0 12 3' stroke='%231d3f6a' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M40 36l26 26' stroke='%237a4a22' stroke-width='3'/%3E%3Crect x='14' y='50' width='22' height='18' rx='3' fill='%23a8693a' stroke='%234a2a12' stroke-width='2'/%3E%3Crect x='18' y='42' width='14' height='10' fill='%23f4ecd8' stroke='%236a6a6a' stroke-width='1'/%3E%3Cpath d='M20 45h10M20 48h8' stroke='%236a6a6a' stroke-width='1'/%3E%3C/svg%3E") calc(50% + min(43vw, 404px)) 132px / 90px 80px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 50'%3E%3Cpath d='M4 22q20-20 40 2 20-22 42-4-18-2-30 14-12 6-24 0-14-12-28-12z' fill='%23fff' stroke='%233b3b3b' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M8 21q14-8 26 4M82 18q-14-6-24 6' fill='none' stroke='%239aa3ad' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M50 30l12 2-12 3z' fill='%23f2b632'/%3E%3Cpath d='M36 26q8-8 16 0z' fill='%232f6fb8'/%3E%3Crect x='38' y='32' width='12' height='10' rx='2' fill='%23a8693a' stroke='%234a2a12' stroke-width='1.5'/%3E%3C/svg%3E") calc(50% - min(30vw, 260px)) 6px / 76px 42px no-repeat;
+}
+
+/* The pier itself: the news, plank after plank, down its length */
+[data-world="grandline"] #news .news-list {
+  position: relative;
+  width: min(100%, 820px);
+  max-height: none;
+  margin: 0 auto;
+  padding: 0;
+  overflow: visible;
+  mask-image: none;
+  -webkit-mask-image: none;
+  box-shadow: 16px 18px 0 rgba(10, 50, 80, 0.25);
+}
+
+/* Its posts down both edges, poking out past the planks, with a rope run along each side between them */
+[data-world="grandline"] #news .news-list::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -12px;
+  right: -12px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, #8a5a2b 0 8px, #5a3418 8.5px 12px, rgba(0, 0, 0, 0.25) 12.5px 14px, transparent 14.5px) left top / 28px 150px repeat-y,
+    radial-gradient(circle, #8a5a2b 0 8px, #5a3418 8.5px 12px, rgba(0, 0, 0, 0.25) 12.5px 14px, transparent 14.5px) right top / 28px 150px repeat-y,
+    repeating-linear-gradient(transparent 0 4px, #8a6230 4px 6px) 12px 0 / 4px 100% no-repeat,
+    repeating-linear-gradient(transparent 0 4px, #8a6230 4px 6px) calc(100% - 12px) 0 / 4px 100% no-repeat;
+}
+
+/* Each piece of news a plank across it, the date branded in and the words burned in, clear of the posts; planks
+   differ a little in their wood, as real ones do */
+[data-world="grandline"] #news .news-item {
+  grid-template-columns: 7.5em 1fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 16px 6%;
+  background:
+    linear-gradient(rgba(255, 240, 210, 0.3), transparent 4px),
+    var(--plank);
+  border-bottom: 5px solid var(--gap);
+  color: var(--burn);
+  text-shadow: 0 1px 0 rgba(255, 235, 200, 0.35);
+}
+
+[data-world="grandline"] #news .news-item:nth-child(even) { --plank: #c0955f; }
+[data-world="grandline"] #news .news-item:nth-child(3n) { --plank: #d0a874; }
+[data-world="grandline"] #news .news-item:last-child { border-bottom: 0; }
+
+/* However much news comes in, the pier stays the same length: the five latest planks, and at its end a button that
+   lays down the older ones, so the pier grows on only when asked */
+[data-world="grandline"] #news:not(.is-expanded) .news-item:nth-child(n + 6) { display: none; }
+[data-world="grandline"] #news:not(.is-expanded) .news-item:nth-child(5) { border-bottom: 0; }
+[data-world="grandline"] #news .news-list:has(.news-item:nth-child(6)) + .news-more {
+  display: block;
+  position: relative;
+  margin-top: calc(var(--space) * 1.4);
+}
+
+[data-world="grandline"] #news .news-date {
+  padding: 0;
+  font-weight: 800;
+  font-size: 0.9375rem;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+}
+
+[data-world="grandline"] #news .news-content {
+  padding: 0;
+  border: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--burn);
+}
+
+[data-world="grandline"] #news .news-content::before { display: none; }
+
+[data-world="grandline"] #news .news-content strong {
+  font-weight: 900;
+  color: var(--brand);
+}
+
+/* --- THE TREASURE: the publications, an open chest on the island with its riches spilled out across the sand --- */
+/* The end of the voyage, as the treasure lies on the last island of the Grand Line. The chest is short and wide, as a
+   chest is: its lid stands open behind the heading, velvet on the inside, over a gilded rim and a lock plate, and in
+   it lies only the latest paper, glowing. The rest has spilled out over the sand below it: each
+   paper a loose tablet of gold lying where it fell, with a gleam that runs across it when pointed at, and coins
+   strewn on the sand around them. The earlier work comes out as parchment scrolls on the sand. */
+[data-world="grandline"] #publications {
+  display: flow-root;
+  --velvet: #6e0c18;
+  --gold-text: #f6d77a;
+  --engrave: #3a2208;
+  position: relative;
+  margin-bottom: var(--beach);
+  /* Room below the papers for the tallest of the treasure by the button (the little chest, 81px), which would
+     otherwise reach up over the last paper */
+  padding-bottom: 30px;
+  /* More treasure lying on the sand either side of the "Show more" button at the foot of the spill, big and small:
+     a crown on one side, and a little chest of its own with a goblet beside it on the other */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 60'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform='rotate(-14 40 32)' stroke-linejoin='round'%3E%3Cpath d='M14 41Q40 2 66 41z' fill='%238a1022' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M10 42L6 14l16 14 18-20 18 20 16-14-4 28z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.8'/%3E%3Cpath d='M11 38L8.5 19M23 30l15-17' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round' opacity='.85'/%3E%3Ccircle cx='6' cy='13' r='3.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Ccircle cx='40' cy='7' r='4.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Ccircle cx='74' cy='13' r='3.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cpath d='M40 18q-4 5 0 9q4-4 0-9z' fill='%23d22a2a' stroke='%234a0508' stroke-width='1'/%3E%3Crect x='9' y='40' width='62' height='12' rx='2' fill='url(%23g)' stroke='%232a1406' stroke-width='1.8'/%3E%3Cpath d='M11 43.5h58M11 48.5h58' stroke='%23a8761a' stroke-width='.8'/%3E%3Cpath d='M18 46l4-4 4 4-4 4z' fill='%232aa05a' stroke='%230d4a26' stroke-width='1'/%3E%3Cellipse cx='40' cy='46' rx='5' ry='4' fill='%23d22a2a' stroke='%234a0508' stroke-width='1'/%3E%3Cellipse cx='38.5' cy='44.8' rx='1.6' ry='1' fill='%23fff' opacity='.9'/%3E%3Cpath d='M54 46l4-4 4 4-4 4z' fill='%232f6fb8' stroke='%230b2142' stroke-width='1'/%3E%3Ccircle cx='30' cy='46' r='1.6' fill='%23fff6e0' stroke='%23a39b8b' stroke-width='.5'/%3E%3Ccircle cx='50' cy='46' r='1.6' fill='%23fff6e0' stroke='%23a39b8b' stroke-width='.5'/%3E%3C/g%3E%3Cpath d='M70 3.5Q70 8 74.5 8Q70 8 70 12.5Q70 8 65.5 8Q70 8 70 3.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") 4% 100% / 76px 57px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 84'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3ClinearGradient id='gx' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23a06d14'/%3E%3Cstop offset='.35' stop-color='%23fff1b8'/%3E%3Cstop offset='.6' stop-color='%23f0c24a'/%3E%3Cstop offset='1' stop-color='%23a06d14'/%3E%3C/linearGradient%3E%3ClinearGradient id='wood' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%238a4a20'/%3E%3Cstop offset='1' stop-color='%235a2a10'/%3E%3C/linearGradient%3E%3CradialGradient id='halo' cx='.5' cy='1' r='.9'%3E%3Cstop offset='0' stop-color='%23ffe9a0' stop-opacity='.9'/%3E%3Cstop offset='1' stop-color='%23ffe9a0' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg stroke-linejoin='round'%3E%3Cpath d='M14 40L20 7H80L86 40z' fill='%237a3d18' stroke='%232a1406' stroke-width='2'/%3E%3Cpath d='M22 38L26 13H74L78 38z' fill='%238a1022'/%3E%3Cpath d='M22 38L26 13H74L78 38z' fill='url(%23halo)'/%3E%3Cpath d='M20 7H80' stroke='url(%23g)' stroke-width='4'/%3E%3Cpath d='M20 7H80' stroke='%232a1406' stroke-width='1' transform='translate(0 -2.3)'/%3E%3Cpath d='M12 41Q22 26 40 27Q52 21 62 26Q78 27 88 41z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Ccircle cx='26' cy='36' r='4.5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='38' cy='31' r='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='62' cy='30' r='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='74' cy='35' r='4.5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='52' cy='27' r='4' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cpath d='M44.0 24.0 L47.0 20.5 L47.8 24.0z' fill='%23d22a2a'/%3E%3Cpath d='M47.0 20.5 L53.0 20.5 L52.2 24.0 L47.8 24.0z' fill='%23ff6b6b'/%3E%3Cpath d='M53.0 20.5 L56.0 24.0 L52.2 24.0z' fill='%23d22a2a'/%3E%3Cpath d='M44.0 24.0 L47.8 24.0 L50.0 31.0z' fill='%238f0f14'/%3E%3Cpath d='M47.8 24.0 L52.2 24.0 L50.0 31.0z' fill='%23d22a2a'/%3E%3Cpath d='M52.2 24.0 L56.0 24.0 L50.0 31.0z' fill='%238f0f14'/%3E%3Cpath d='M44.0 24.0 L47.0 20.5 L53.0 20.5 L56.0 24.0 L50.0 31.0z' fill='none' stroke='%234a0508' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M49.0 22.0l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Crect x='10' y='40' width='80' height='38' rx='3' fill='url(%23wood)' stroke='%232a1406' stroke-width='2'/%3E%3Cpath d='M30 46v31M50 46v31M70 46v31' stroke='%232a1406' stroke-width='1.2' opacity='.55'/%3E%3Crect x='10' y='40' width='80' height='6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Crect x='10' y='72' width='80' height='6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Crect x='18.5' y='46' width='5' height='26' fill='url(%23gx)' stroke='%232a1406' stroke-width='1'/%3E%3Crect x='76.5' y='46' width='5' height='26' fill='url(%23gx)' stroke='%232a1406' stroke-width='1'/%3E%3Cpath d='M43 44h14v10q0 6-7 8q-7-2-7-8z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='50' cy='51' r='2' fill='%232a1406'/%3E%3Cpath d='M49 52h2l.6 5h-3.2z' fill='%232a1406'/%3E%3Cg fill='%23fff3c0' stroke='%238a5d10' stroke-width='.6'%3E%3Ccircle cx='14' cy='43' r='1.2'/%3E%3Ccircle cx='86' cy='43' r='1.2'/%3E%3Ccircle cx='14' cy='75' r='1.2'/%3E%3Ccircle cx='86' cy='75' r='1.2'/%3E%3C/g%3E%3C/g%3E%3Cellipse cx='91' cy='80.2' rx='7' ry='2.6' fill='%239a6a14' stroke='%232a1406' stroke-width='1.1'/%3E%3Cellipse cx='91' cy='78' rx='7' ry='2.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.1'/%3E%3Cellipse cx='91' cy='78' rx='4.8' ry='1.6' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M87.2 77.1q2.8 -1.4 6.0 -0.8' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cpath d='M30 18Q30 22 34 22Q30 22 30 26Q30 22 26 22Q30 22 30 18z' fill='%23fff' opacity='1'/%3E%3Cpath d='M70 14.5Q70 18 73.5 18Q70 18 70 21.5Q70 18 66.5 18Q70 18 70 14.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") 97% 100% / 96px 81px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 70'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3ClinearGradient id='gx' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23a06d14'/%3E%3Cstop offset='.35' stop-color='%23fff1b8'/%3E%3Cstop offset='.6' stop-color='%23f0c24a'/%3E%3Cstop offset='1' stop-color='%23a06d14'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg stroke-linejoin='round'%3E%3Cpath d='M8 7Q8 31 25 36Q42 31 42 7z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.6'/%3E%3Cpath d='M9 13Q25 17 41 13' stroke='%23a8761a' stroke-width='1.1' fill='none'/%3E%3Cpath d='M10 17Q25 21 40 17' stroke='%23a8761a' stroke-width='1.1' fill='none'/%3E%3Cg fill='%23fff1b8' stroke='%23a8761a' stroke-width='.5'%3E%3Ccircle cx='14' cy='15.5' r='1'/%3E%3Ccircle cx='19.5' cy='17' r='1'/%3E%3Ccircle cx='30.5' cy='17' r='1'/%3E%3Ccircle cx='36' cy='15.5' r='1'/%3E%3C/g%3E%3Ccircle cx='25' cy='24' r='5.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='25' cy='24' r='3.4' fill='%23d22a2a' stroke='%234a0508' stroke-width='.8'/%3E%3Ccircle cx='23.9' cy='22.9' r='1.1' fill='%23fff'/%3E%3Cpath d='M12 10Q13 25 20 31' stroke='%23fffbe6' stroke-width='1.6' fill='none' stroke-linecap='round' opacity='.9'/%3E%3Cellipse cx='25' cy='7' rx='17' ry='3.6' fill='%236e0c18' stroke='%232a1406' stroke-width='1.6'/%3E%3Cpath d='M14 7.5q11 2.5 22 0' stroke='%23c22a40' stroke-width='1.2' fill='none'/%3E%3Cpath d='M22.5 35h5v19h-5z' fill='url(%23gx)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='25' cy='43' rx='5' ry='2.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.2'/%3E%3Cpath d='M11 60Q12 53 25 53Q38 53 39 60z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cellipse cx='25' cy='60' rx='14' ry='4' fill='%23c58a1e' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M15 57q3-2.5 7-3' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/g%3E%3Cpath d='M41 23.5Q41 27 44.5 27Q41 27 41 30.5Q41 27 37.5 27Q41 27 41 23.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(97% - 104px) 100% / 30px 42px no-repeat;
+}
+
+/* The island's sand, on from the shore under the pier (#news::before) under the chest and the spill to the beach below
+   (.site-footer::before), with treasure strewn across it on wide screens (below) */
+[data-world="grandline"] #publications::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  top: 0;
+  bottom: calc(-1px - var(--beach));
+  pointer-events: none;
+  background: var(--sand);
+}
+
+/* Where the screen leaves room either side of the treasure, more of it lies strewn across the whole island, out to
+   the edges and down to the beach: chests, a heap of coins, crowns, goblets, gold bars, pearls, gems and loose coins,
+   in all sizes, so the papers don't stand out as the only big pieces. Each is placed a share (0 to 1) of the way
+   across the free sand on its side, so they spread out as far as the screen is wide. */
+@media (min-width: 1180px) {
+  [data-world="grandline"] #publications::before {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 84'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3ClinearGradient id='gx' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23a06d14'/%3E%3Cstop offset='.35' stop-color='%23fff1b8'/%3E%3Cstop offset='.6' stop-color='%23f0c24a'/%3E%3Cstop offset='1' stop-color='%23a06d14'/%3E%3C/linearGradient%3E%3ClinearGradient id='wood' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%238a4a20'/%3E%3Cstop offset='1' stop-color='%235a2a10'/%3E%3C/linearGradient%3E%3CradialGradient id='halo' cx='.5' cy='1' r='.9'%3E%3Cstop offset='0' stop-color='%23ffe9a0' stop-opacity='.9'/%3E%3Cstop offset='1' stop-color='%23ffe9a0' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg stroke-linejoin='round'%3E%3Cpath d='M14 40L20 7H80L86 40z' fill='%237a3d18' stroke='%232a1406' stroke-width='2'/%3E%3Cpath d='M22 38L26 13H74L78 38z' fill='%238a1022'/%3E%3Cpath d='M22 38L26 13H74L78 38z' fill='url(%23halo)'/%3E%3Cpath d='M20 7H80' stroke='url(%23g)' stroke-width='4'/%3E%3Cpath d='M20 7H80' stroke='%232a1406' stroke-width='1' transform='translate(0 -2.3)'/%3E%3Cpath d='M12 41Q22 26 40 27Q52 21 62 26Q78 27 88 41z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Ccircle cx='26' cy='36' r='4.5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='38' cy='31' r='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='62' cy='30' r='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='74' cy='35' r='4.5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='52' cy='27' r='4' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cpath d='M44.0 24.0 L47.0 20.5 L47.8 24.0z' fill='%23d22a2a'/%3E%3Cpath d='M47.0 20.5 L53.0 20.5 L52.2 24.0 L47.8 24.0z' fill='%23ff6b6b'/%3E%3Cpath d='M53.0 20.5 L56.0 24.0 L52.2 24.0z' fill='%23d22a2a'/%3E%3Cpath d='M44.0 24.0 L47.8 24.0 L50.0 31.0z' fill='%238f0f14'/%3E%3Cpath d='M47.8 24.0 L52.2 24.0 L50.0 31.0z' fill='%23d22a2a'/%3E%3Cpath d='M52.2 24.0 L56.0 24.0 L50.0 31.0z' fill='%238f0f14'/%3E%3Cpath d='M44.0 24.0 L47.0 20.5 L53.0 20.5 L56.0 24.0 L50.0 31.0z' fill='none' stroke='%234a0508' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M49.0 22.0l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Crect x='10' y='40' width='80' height='38' rx='3' fill='url(%23wood)' stroke='%232a1406' stroke-width='2'/%3E%3Cpath d='M30 46v31M50 46v31M70 46v31' stroke='%232a1406' stroke-width='1.2' opacity='.55'/%3E%3Crect x='10' y='40' width='80' height='6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Crect x='10' y='72' width='80' height='6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Crect x='18.5' y='46' width='5' height='26' fill='url(%23gx)' stroke='%232a1406' stroke-width='1'/%3E%3Crect x='76.5' y='46' width='5' height='26' fill='url(%23gx)' stroke='%232a1406' stroke-width='1'/%3E%3Cpath d='M43 44h14v10q0 6-7 8q-7-2-7-8z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='50' cy='51' r='2' fill='%232a1406'/%3E%3Cpath d='M49 52h2l.6 5h-3.2z' fill='%232a1406'/%3E%3Cg fill='%23fff3c0' stroke='%238a5d10' stroke-width='.6'%3E%3Ccircle cx='14' cy='43' r='1.2'/%3E%3Ccircle cx='86' cy='43' r='1.2'/%3E%3Ccircle cx='14' cy='75' r='1.2'/%3E%3Ccircle cx='86' cy='75' r='1.2'/%3E%3C/g%3E%3C/g%3E%3Cellipse cx='91' cy='80.2' rx='7' ry='2.6' fill='%239a6a14' stroke='%232a1406' stroke-width='1.1'/%3E%3Cellipse cx='91' cy='78' rx='7' ry='2.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.1'/%3E%3Cellipse cx='91' cy='78' rx='4.8' ry='1.6' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M87.2 77.1q2.8 -1.4 6.0 -0.8' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cpath d='M30 18Q30 22 34 22Q30 22 30 26Q30 22 26 22Q30 22 30 18z' fill='%23fff' opacity='1'/%3E%3Cpath d='M70 14.5Q70 18 73.5 18Q70 18 70 21.5Q70 18 66.5 18Q70 18 70 14.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% - calc(480px + 66px + 0.15 * (50vw - 480px - 132px))) 5% / 132px 111px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='15' cy='15' r='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='15' cy='15' r='7.9' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M15.0 10.4 L16.2 13.4 L19.4 13.6 L16.9 15.6 L17.7 18.7 L15.0 17.0 L12.3 18.7 L13.1 15.6 L10.6 13.6 L13.8 13.4z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M8.2 12.2a7.3 7.3 0 0 1 5.5 -4.6' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M24 3Q24 6 27 6Q24 6 24 9Q24 6 21 6Q24 6 24 3z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% - calc(480px + 12px + 0.75 * (50vw - 480px - 24px))) 10% / 24px 24px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 44'%3E%3Cdefs%3E%3CradialGradient id='p' cx='.35' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.5' stop-color='%23f3eee4'/%3E%3Cstop offset='1' stop-color='%23b9b0a0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M6.0 18.0 L14.0 9.0 L15.6 18.0z' fill='%23d22a2a'/%3E%3Cpath d='M14.0 9.0 L28.0 9.0 L26.4 18.0 L15.6 18.0z' fill='%23ff6b6b'/%3E%3Cpath d='M28.0 9.0 L36.0 18.0 L26.4 18.0z' fill='%23d22a2a'/%3E%3Cpath d='M6.0 18.0 L15.6 18.0 L21.0 36.0z' fill='%238f0f14'/%3E%3Cpath d='M15.6 18.0 L26.4 18.0 L21.0 36.0z' fill='%23d22a2a'/%3E%3Cpath d='M26.4 18.0 L36.0 18.0 L21.0 36.0z' fill='%238f0f14'/%3E%3Cpath d='M6.0 18.0 L14.0 9.0 L28.0 9.0 L36.0 18.0 L21.0 36.0z' fill='none' stroke='%234a0508' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M16.0 10.5l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M38.0 24.0 L44.0 17.0 L45.0 24.0z' fill='%232f6fb8'/%3E%3Cpath d='M44.0 17.0 L54.0 17.0 L53.0 24.0 L45.0 24.0z' fill='%237fb6ff'/%3E%3Cpath d='M54.0 17.0 L60.0 24.0 L53.0 24.0z' fill='%232f6fb8'/%3E%3Cpath d='M38.0 24.0 L45.0 24.0 L49.0 38.0z' fill='%23173f78'/%3E%3Cpath d='M45.0 24.0 L53.0 24.0 L49.0 38.0z' fill='%232f6fb8'/%3E%3Cpath d='M53.0 24.0 L60.0 24.0 L49.0 38.0z' fill='%23173f78'/%3E%3Cpath d='M38.0 24.0 L44.0 17.0 L54.0 17.0 L60.0 24.0 L49.0 38.0z' fill='none' stroke='%230b2142' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M46.0 18.5l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M58 12l7-7 7 7-7 7z' fill='%232aa05a' stroke='%230a3a1e' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M61 12l4-4 4 4-4 4z' fill='%235fd38e'/%3E%3Cpath d='M63.5 12l1.5-1.5 1.5 1.5-1.5 1.5z' fill='%23c9f5da'/%3E%3Cpath d='M58 12h14M65 5v14' stroke='%230a3a1e' stroke-width='.5' opacity='.6'/%3E%3Ccircle cx='30' cy='40' r='3.4' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Cpath d='M30 3.5Q30 7 33.5 7Q30 7 30 10.5Q30 7 26.5 7Q30 7 30 3.5z' fill='%23fff' opacity='1'/%3E%3Cpath d='M57 30Q57 33 60 33Q57 33 57 36Q57 33 54 33Q57 33 57 30z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% - calc(480px + 27px + 0.55 * (50vw - 480px - 54px))) 19% / 54px 31px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='18' cy='21.2' rx='13' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='18' cy='19' rx='13' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='18' cy='19' rx='8.8' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M10.8 17.2q5.2 -2.8 11.0 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40' cy='16.2' rx='13' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='40' cy='14' rx='13' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='40' cy='14' rx='8.8' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M32.9 12.2q5.2 -2.8 11.0 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") calc(50% - calc(480px + 28px + 0.1 * (50vw - 480px - 56px))) 27% / 56px 28px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 72'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3CradialGradient id='p' cx='.35' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.5' stop-color='%23f3eee4'/%3E%3Cstop offset='1' stop-color='%23b9b0a0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M6 68Q22 24 80 14t74 54z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cellipse cx='84.7' cy='25.099999999999998' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='84.7' cy='22.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='84.7' cy='22.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M80.0 21.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='106.1' cy='29.4' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='106.1' cy='27.2' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='106.1' cy='27.2' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M101.4 26.1q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='53.6' cy='30.599999999999998' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='53.6' cy='28.4' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='53.6' cy='28.4' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M48.9 27.3q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='75.5' cy='35.1' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='75.5' cy='32.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='75.5' cy='32.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M70.8 31.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='57.0' cy='36.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='57.0' cy='33.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='57.0' cy='33.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M52.3 32.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='36.5' cy='38.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='36.5' cy='36.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='36.5' cy='36.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M31.8 34.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='119.6' cy='40.900000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='119.6' cy='38.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='119.6' cy='38.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M114.9 37.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='43.7' cy='42.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.7' cy='39.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.7' cy='39.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M39.0 38.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='43.7' cy='42.400000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.7' cy='40.2' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.7' cy='40.2' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M39.0 39.1q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='117.2' cy='42.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='117.2' cy='40.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='117.2' cy='40.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M112.5 39.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40.7' cy='42.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.7' cy='40.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.7' cy='40.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M36.0 39.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='88.7' cy='43.1' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='88.7' cy='40.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='88.7' cy='40.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M84.0 39.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='29.1' cy='45.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='29.1' cy='43.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='29.1' cy='43.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M24.4 42.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='115.6' cy='46.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='115.6' cy='44.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='115.6' cy='44.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M110.9 43.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='43.4' cy='46.900000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.4' cy='44.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.4' cy='44.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M38.7 43.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='74.8' cy='48.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='74.8' cy='45.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='74.8' cy='45.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M70.1 44.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='31.3' cy='48.400000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='31.3' cy='46.2' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='31.3' cy='46.2' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M26.6 45.1q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='82.0' cy='49.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='82.0' cy='47.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='82.0' cy='47.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M77.3 45.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='126.1' cy='50.7' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='126.1' cy='48.5' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='126.1' cy='48.5' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M121.4 47.4q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='83.5' cy='51.7' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='83.5' cy='49.5' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='83.5' cy='49.5' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M78.8 48.4q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='28.2' cy='51.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='28.2' cy='49.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='28.2' cy='49.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M23.5 48.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='101.0' cy='51.900000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='101.0' cy='49.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='101.0' cy='49.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M96.3 48.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40.0' cy='52.1' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.0' cy='49.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.0' cy='49.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M35.3 48.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='81.0' cy='52.7' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='81.0' cy='50.5' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='81.0' cy='50.5' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M76.3 49.4q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='31.1' cy='53.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='31.1' cy='50.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='31.1' cy='50.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M26.4 49.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='27.3' cy='53.1' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='27.3' cy='50.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='27.3' cy='50.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M22.6 49.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='134.3' cy='57.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='134.3' cy='54.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='134.3' cy='54.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M129.6 53.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='136.1' cy='57.900000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='136.1' cy='55.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='136.1' cy='55.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M131.4 54.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='127.1' cy='58.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='127.1' cy='56.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='127.1' cy='56.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M122.4 55.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='33.0' cy='58.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='33.0' cy='56.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='33.0' cy='56.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M28.3 55.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='97.9' cy='59.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='97.9' cy='57.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='97.9' cy='57.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M93.2 55.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40.8' cy='59.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.8' cy='57.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.8' cy='57.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M36.1 55.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='125.2' cy='59.7' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='125.2' cy='57.5' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='125.2' cy='57.5' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M120.5 56.4q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='19.9' cy='60.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='19.9' cy='58.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='19.9' cy='58.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M15.2 57.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='16.1' cy='60.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='16.1' cy='58.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='16.1' cy='58.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M11.4 57.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='25.5' cy='60.5' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='25.5' cy='58.3' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='25.5' cy='58.3' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M20.8 57.2q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='73.3' cy='61.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='73.3' cy='58.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='73.3' cy='58.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M68.6 57.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='143.4' cy='61.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='143.4' cy='59.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='143.4' cy='59.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M138.7 58.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='55.5' cy='63.5' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='55.5' cy='61.3' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='55.5' cy='61.3' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M50.8 60.2q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='27.8' cy='63.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='27.8' cy='61.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='27.8' cy='61.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M23.1 60.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='141.3' cy='65.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='141.3' cy='62.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='141.3' cy='62.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M136.6 61.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='142.2' cy='65.8' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='142.2' cy='63.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='142.2' cy='63.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M137.5 62.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='140.5' cy='66.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='140.5' cy='63.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='140.5' cy='63.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M135.8 62.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='143.7' cy='67.8' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='143.7' cy='65.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='143.7' cy='65.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M139.0 64.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='29.0' cy='67.9' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='29.0' cy='65.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='29.0' cy='65.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M24.3 64.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='145.7' cy='68.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='145.7' cy='66.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='145.7' cy='66.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M141.0 64.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='58' cy='30' r='10' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='58' cy='30' r='7.2' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M58.0 25.8 L59.1 28.5 L62.0 28.7 L59.7 30.6 L60.5 33.4 L58.0 31.8 L55.5 33.4 L56.3 30.6 L54.0 28.7 L56.9 28.5z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M51.8 27.5a6.6 6.6 0 0 1 5.0 -4.2' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='106' cy='36' r='9' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='106' cy='36' r='6.5' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M106.0 32.2 L107.0 34.7 L109.6 34.8 L107.5 36.5 L108.2 39.1 L106.0 37.6 L103.8 39.1 L104.5 36.5 L102.4 34.8 L105.0 34.7z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M100.4 33.8a5.9 5.9 0 0 1 4.5 -3.8' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M80.0 19.0 L84.0 14.0 L85.1 19.0z' fill='%232f6fb8'/%3E%3Cpath d='M84.0 14.0 L92.0 14.0 L90.9 19.0 L85.1 19.0z' fill='%237fb6ff'/%3E%3Cpath d='M92.0 14.0 L96.0 19.0 L90.9 19.0z' fill='%232f6fb8'/%3E%3Cpath d='M80.0 19.0 L85.1 19.0 L88.0 28.0z' fill='%23173f78'/%3E%3Cpath d='M85.1 19.0 L90.9 19.0 L88.0 28.0z' fill='%232f6fb8'/%3E%3Cpath d='M90.9 19.0 L96.0 19.0 L88.0 28.0z' fill='%23173f78'/%3E%3Cpath d='M80.0 19.0 L84.0 14.0 L92.0 14.0 L96.0 19.0 L88.0 28.0z' fill='none' stroke='%230b2142' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M86.0 15.5l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M126.0 48.0 L129.0 44.5 L129.8 48.0z' fill='%23d22a2a'/%3E%3Cpath d='M129.0 44.5 L135.0 44.5 L134.2 48.0 L129.8 48.0z' fill='%23ff6b6b'/%3E%3Cpath d='M135.0 44.5 L138.0 48.0 L134.2 48.0z' fill='%23d22a2a'/%3E%3Cpath d='M126.0 48.0 L129.8 48.0 L132.0 55.0z' fill='%238f0f14'/%3E%3Cpath d='M129.8 48.0 L134.2 48.0 L132.0 55.0z' fill='%23d22a2a'/%3E%3Cpath d='M134.2 48.0 L138.0 48.0 L132.0 55.0z' fill='%238f0f14'/%3E%3Cpath d='M126.0 48.0 L129.0 44.5 L135.0 44.5 L138.0 48.0 L132.0 55.0z' fill='none' stroke='%234a0508' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M131.0 46.0l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='40' cy='52' r='2.6' fill='url(%23p)' stroke='%238a8070' stroke-width='.6'/%3E%3Ccircle cx='44' cy='50.5' r='2.6' fill='url(%23p)' stroke='%238a8070' stroke-width='.6'/%3E%3Ccircle cx='48' cy='50.5' r='2.6' fill='url(%23p)' stroke='%238a8070' stroke-width='.6'/%3E%3Cpath d='M70 5Q70 10 75 10Q70 10 70 15Q70 10 65 10Q70 10 70 5z' fill='%23fff' opacity='1'/%3E%3Cpath d='M118 26Q118 30 122 30Q118 30 118 34Q118 30 114 30Q118 30 118 26z' fill='%23fff' opacity='1'/%3E%3Cpath d='M30 40.5Q30 44 33.5 44Q30 44 30 47.5Q30 44 26.5 44Q30 44 30 40.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% - calc(480px + 75px + 0.7 * (50vw - 480px - 150px))) 34% / 150px 68px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 70'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3ClinearGradient id='gx' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23a06d14'/%3E%3Cstop offset='.35' stop-color='%23fff1b8'/%3E%3Cstop offset='.6' stop-color='%23f0c24a'/%3E%3Cstop offset='1' stop-color='%23a06d14'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg stroke-linejoin='round'%3E%3Cpath d='M8 7Q8 31 25 36Q42 31 42 7z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.6'/%3E%3Cpath d='M9 13Q25 17 41 13' stroke='%23a8761a' stroke-width='1.1' fill='none'/%3E%3Cpath d='M10 17Q25 21 40 17' stroke='%23a8761a' stroke-width='1.1' fill='none'/%3E%3Cg fill='%23fff1b8' stroke='%23a8761a' stroke-width='.5'%3E%3Ccircle cx='14' cy='15.5' r='1'/%3E%3Ccircle cx='19.5' cy='17' r='1'/%3E%3Ccircle cx='30.5' cy='17' r='1'/%3E%3Ccircle cx='36' cy='15.5' r='1'/%3E%3C/g%3E%3Ccircle cx='25' cy='24' r='5.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='25' cy='24' r='3.4' fill='%23d22a2a' stroke='%234a0508' stroke-width='.8'/%3E%3Ccircle cx='23.9' cy='22.9' r='1.1' fill='%23fff'/%3E%3Cpath d='M12 10Q13 25 20 31' stroke='%23fffbe6' stroke-width='1.6' fill='none' stroke-linecap='round' opacity='.9'/%3E%3Cellipse cx='25' cy='7' rx='17' ry='3.6' fill='%236e0c18' stroke='%232a1406' stroke-width='1.6'/%3E%3Cpath d='M14 7.5q11 2.5 22 0' stroke='%23c22a40' stroke-width='1.2' fill='none'/%3E%3Cpath d='M22.5 35h5v19h-5z' fill='url(%23gx)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='25' cy='43' rx='5' ry='2.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.2'/%3E%3Cpath d='M11 60Q12 53 25 53Q38 53 39 60z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cellipse cx='25' cy='60' rx='14' ry='4' fill='%23c58a1e' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M15 57q3-2.5 7-3' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/g%3E%3Cpath d='M41 23.5Q41 27 44.5 27Q41 27 41 30.5Q41 27 37.5 27Q41 27 41 23.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% - calc(480px + 15px + 0.25 * (50vw - 480px - 30px))) 46% / 30px 42px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='15' cy='18.2' rx='12' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='15' cy='16' rx='12' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='15' cy='16' rx='8.2' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M8.4 14.2q4.8 -2.8 10.2 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") calc(50% - calc(480px + 14px + 0.85 * (50vw - 480px - 28px))) 52% / 28px 28px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 46'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 32l6-6h24l6 6z' fill='%23fff1b8' stroke='%232a1406' stroke-width='1.4' stroke-linejoin='round'/%3E%3Crect x='16' y='27.8' width='12' height='2.6' rx='.6' fill='none' stroke='%23c58a1e' stroke-width='.8'/%3E%3Crect x='4' y='32' width='36' height='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M7 35h20' stroke='%23fffbe6' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M44 32l6-6h24l6 6z' fill='%23fff1b8' stroke='%232a1406' stroke-width='1.4' stroke-linejoin='round'/%3E%3Crect x='56' y='27.8' width='12' height='2.6' rx='.6' fill='none' stroke='%23c58a1e' stroke-width='.8'/%3E%3Crect x='44' y='32' width='36' height='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M47 35h20' stroke='%23fffbe6' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M24 15l6-6h24l6 6z' fill='%23fff1b8' stroke='%232a1406' stroke-width='1.4' stroke-linejoin='round'/%3E%3Crect x='36' y='10.8' width='12' height='2.6' rx='.6' fill='none' stroke='%23c58a1e' stroke-width='.8'/%3E%3Crect x='24' y='15' width='36' height='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M27 18h20' stroke='%23fffbe6' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M58 7Q58 11 62 11Q58 11 58 15Q58 11 54 11Q58 11 58 7z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% - calc(480px + 46px + 0.45 * (50vw - 480px - 92px))) 61% / 92px 50px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='22' cy='20.2' rx='13' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='22' cy='18' rx='13' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='22' cy='18' rx='8.8' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M14.8 16.2q5.2 -2.8 11.0 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='44' cy='14' r='10' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Ccircle cx='44' cy='14' r='7.2' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M44.0 9.8 L45.1 12.5 L48.0 12.7 L45.7 14.6 L46.5 17.4 L44.0 15.8 L41.5 17.4 L42.3 14.6 L40.0 12.7 L42.9 12.5z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M37.8 11.5a6.6 6.6 0 0 1 5.0 -4.2' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") calc(50% - calc(480px + 28px + 0.15 * (50vw - 480px - 56px))) 71% / 56px 28px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3CradialGradient id='p' cx='.35' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.5' stop-color='%23f3eee4'/%3E%3Cstop offset='1' stop-color='%23b9b0a0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M7 5Q45 49 83 5' stroke='%23a39b8b' stroke-width='.8' fill='none'/%3E%3Ccircle cx='7.0' cy='5.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='12.4' cy='10.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='17.9' cy='15.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='23.3' cy='19.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='28.7' cy='23.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='34.1' cy='25.2' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='39.6' cy='26.6' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='45.0' cy='27.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='50.4' cy='26.6' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='55.9' cy='25.2' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='61.3' cy='23.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='66.7' cy='19.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='72.1' cy='15.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='77.6' cy='10.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='83.0' cy='5.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Crect x='79.5' y='1' width='7' height='4' rx='1.5' fill='url(%23g)' stroke='%232a1406' stroke-width='.8'/%3E%3Cpath d='M45 30v1.5' stroke='%23c58a1e' stroke-width='1.5'/%3E%3Cpath d='M40.5 33.5 L43.0 31.0 L43.4 33.5z' fill='%23d22a2a'/%3E%3Cpath d='M43.0 31.0 L47.0 31.0 L46.6 33.5 L43.4 33.5z' fill='%23ff6b6b'/%3E%3Cpath d='M47.0 31.0 L49.5 33.5 L46.6 33.5z' fill='%23d22a2a'/%3E%3Cpath d='M40.5 33.5 L43.4 33.5 L45.0 39.0z' fill='%238f0f14'/%3E%3Cpath d='M43.4 33.5 L46.6 33.5 L45.0 39.0z' fill='%23d22a2a'/%3E%3Cpath d='M46.6 33.5 L49.5 33.5 L45.0 39.0z' fill='%238f0f14'/%3E%3Cpath d='M40.5 33.5 L43.0 31.0 L47.0 31.0 L49.5 33.5 L45.0 39.0z' fill='none' stroke='%234a0508' stroke-width='1' stroke-linejoin='round'/%3E%3Cpath d='M45.0 32.5l3 0' stroke='%23fff' stroke-width='1' stroke-linecap='round'/%3E%3Cpath d='M22 13Q22 16 25 16Q22 16 22 19Q22 16 19 16Q22 16 22 13z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% - calc(480px + 48px + 0.8 * (50vw - 480px - 96px))) 78% / 96px 43px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='15' cy='15' r='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='15' cy='15' r='7.9' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M15.0 10.4 L16.2 13.4 L19.4 13.6 L16.9 15.6 L17.7 18.7 L15.0 17.0 L12.3 18.7 L13.1 15.6 L10.6 13.6 L13.8 13.4z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M8.2 12.2a7.3 7.3 0 0 1 5.5 -4.6' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M24 3Q24 6 27 6Q24 6 24 9Q24 6 21 6Q24 6 24 3z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% - calc(480px + 11px + 0.4 * (50vw - 480px - 22px))) 87% / 22px 22px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='18' cy='21.2' rx='13' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='18' cy='19' rx='13' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='18' cy='19' rx='8.8' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M10.8 17.2q5.2 -2.8 11.0 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40' cy='16.2' rx='13' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='40' cy='14' rx='13' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='40' cy='14' rx='8.8' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M32.9 12.2q5.2 -2.8 11.0 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") calc(50% - calc(480px + 28px + 0.6 * (50vw - 480px - 56px))) 97% / 56px 28px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3CradialGradient id='p' cx='.35' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.5' stop-color='%23f3eee4'/%3E%3Cstop offset='1' stop-color='%23b9b0a0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M7 5Q45 49 83 5' stroke='%23a39b8b' stroke-width='.8' fill='none'/%3E%3Ccircle cx='7.0' cy='5.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='12.4' cy='10.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='17.9' cy='15.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='23.3' cy='19.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='28.7' cy='23.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='34.1' cy='25.2' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='39.6' cy='26.6' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='45.0' cy='27.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='50.4' cy='26.6' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='55.9' cy='25.2' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='61.3' cy='23.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='66.7' cy='19.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='72.1' cy='15.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='77.6' cy='10.8' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Ccircle cx='83.0' cy='5.0' r='3.8' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Crect x='79.5' y='1' width='7' height='4' rx='1.5' fill='url(%23g)' stroke='%232a1406' stroke-width='.8'/%3E%3Cpath d='M45 30v1.5' stroke='%23c58a1e' stroke-width='1.5'/%3E%3Cpath d='M40.5 33.5 L43.0 31.0 L43.4 33.5z' fill='%23d22a2a'/%3E%3Cpath d='M43.0 31.0 L47.0 31.0 L46.6 33.5 L43.4 33.5z' fill='%23ff6b6b'/%3E%3Cpath d='M47.0 31.0 L49.5 33.5 L46.6 33.5z' fill='%23d22a2a'/%3E%3Cpath d='M40.5 33.5 L43.4 33.5 L45.0 39.0z' fill='%238f0f14'/%3E%3Cpath d='M43.4 33.5 L46.6 33.5 L45.0 39.0z' fill='%23d22a2a'/%3E%3Cpath d='M46.6 33.5 L49.5 33.5 L45.0 39.0z' fill='%238f0f14'/%3E%3Cpath d='M40.5 33.5 L43.0 31.0 L47.0 31.0 L49.5 33.5 L45.0 39.0z' fill='none' stroke='%234a0508' stroke-width='1' stroke-linejoin='round'/%3E%3Cpath d='M45.0 32.5l3 0' stroke='%23fff' stroke-width='1' stroke-linecap='round'/%3E%3Cpath d='M22 13Q22 16 25 16Q22 16 22 19Q22 16 19 16Q22 16 22 13z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 52px + 0.6 * (50vw - 480px - 104px))) 3% / 104px 46px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='22' cy='20.2' rx='13' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='22' cy='18' rx='13' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='22' cy='18' rx='8.8' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M14.8 16.2q5.2 -2.8 11.0 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='44' cy='14' r='10' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Ccircle cx='44' cy='14' r='7.2' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M44.0 9.8 L45.1 12.5 L48.0 12.7 L45.7 14.6 L46.5 17.4 L44.0 15.8 L41.5 17.4 L42.3 14.6 L40.0 12.7 L42.9 12.5z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M37.8 11.5a6.6 6.6 0 0 1 5.0 -4.2' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") calc(50% + calc(480px + 28px + 0.15 * (50vw - 480px - 56px))) 12% / 56px 28px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 60'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform='rotate(-14 40 32)' stroke-linejoin='round'%3E%3Cpath d='M14 41Q40 2 66 41z' fill='%238a1022' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M10 42L6 14l16 14 18-20 18 20 16-14-4 28z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.8'/%3E%3Cpath d='M11 38L8.5 19M23 30l15-17' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round' opacity='.85'/%3E%3Ccircle cx='6' cy='13' r='3.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Ccircle cx='40' cy='7' r='4.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Ccircle cx='74' cy='13' r='3.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cpath d='M40 18q-4 5 0 9q4-4 0-9z' fill='%23d22a2a' stroke='%234a0508' stroke-width='1'/%3E%3Crect x='9' y='40' width='62' height='12' rx='2' fill='url(%23g)' stroke='%232a1406' stroke-width='1.8'/%3E%3Cpath d='M11 43.5h58M11 48.5h58' stroke='%23a8761a' stroke-width='.8'/%3E%3Cpath d='M18 46l4-4 4 4-4 4z' fill='%232aa05a' stroke='%230d4a26' stroke-width='1'/%3E%3Cellipse cx='40' cy='46' rx='5' ry='4' fill='%23d22a2a' stroke='%234a0508' stroke-width='1'/%3E%3Cellipse cx='38.5' cy='44.8' rx='1.6' ry='1' fill='%23fff' opacity='.9'/%3E%3Cpath d='M54 46l4-4 4 4-4 4z' fill='%232f6fb8' stroke='%230b2142' stroke-width='1'/%3E%3Ccircle cx='30' cy='46' r='1.6' fill='%23fff6e0' stroke='%23a39b8b' stroke-width='.5'/%3E%3Ccircle cx='50' cy='46' r='1.6' fill='%23fff6e0' stroke='%23a39b8b' stroke-width='.5'/%3E%3C/g%3E%3Cpath d='M70 3.5Q70 8 74.5 8Q70 8 70 12.5Q70 8 65.5 8Q70 8 70 3.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 69px + 0.3 * (50vw - 480px - 138px))) 22% / 138px 104px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='15' cy='15' r='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='15' cy='15' r='7.9' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M15.0 10.4 L16.2 13.4 L19.4 13.6 L16.9 15.6 L17.7 18.7 L15.0 17.0 L12.3 18.7 L13.1 15.6 L10.6 13.6 L13.8 13.4z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M8.2 12.2a7.3 7.3 0 0 1 5.5 -4.6' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M24 3Q24 6 27 6Q24 6 24 9Q24 6 21 6Q24 6 24 3z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 13px + 0.85 * (50vw - 480px - 26px))) 30% / 26px 26px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 70'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3ClinearGradient id='gx' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23a06d14'/%3E%3Cstop offset='.35' stop-color='%23fff1b8'/%3E%3Cstop offset='.6' stop-color='%23f0c24a'/%3E%3Cstop offset='1' stop-color='%23a06d14'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg stroke-linejoin='round'%3E%3Cpath d='M8 7Q8 31 25 36Q42 31 42 7z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.6'/%3E%3Cpath d='M9 13Q25 17 41 13' stroke='%23a8761a' stroke-width='1.1' fill='none'/%3E%3Cpath d='M10 17Q25 21 40 17' stroke='%23a8761a' stroke-width='1.1' fill='none'/%3E%3Cg fill='%23fff1b8' stroke='%23a8761a' stroke-width='.5'%3E%3Ccircle cx='14' cy='15.5' r='1'/%3E%3Ccircle cx='19.5' cy='17' r='1'/%3E%3Ccircle cx='30.5' cy='17' r='1'/%3E%3Ccircle cx='36' cy='15.5' r='1'/%3E%3C/g%3E%3Ccircle cx='25' cy='24' r='5.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='25' cy='24' r='3.4' fill='%23d22a2a' stroke='%234a0508' stroke-width='.8'/%3E%3Ccircle cx='23.9' cy='22.9' r='1.1' fill='%23fff'/%3E%3Cpath d='M12 10Q13 25 20 31' stroke='%23fffbe6' stroke-width='1.6' fill='none' stroke-linecap='round' opacity='.9'/%3E%3Cellipse cx='25' cy='7' rx='17' ry='3.6' fill='%236e0c18' stroke='%232a1406' stroke-width='1.6'/%3E%3Cpath d='M14 7.5q11 2.5 22 0' stroke='%23c22a40' stroke-width='1.2' fill='none'/%3E%3Cpath d='M22.5 35h5v19h-5z' fill='url(%23gx)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='25' cy='43' rx='5' ry='2.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.2'/%3E%3Cpath d='M11 60Q12 53 25 53Q38 53 39 60z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cellipse cx='25' cy='60' rx='14' ry='4' fill='%23c58a1e' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M15 57q3-2.5 7-3' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/g%3E%3Cpath d='M41 23.5Q41 27 44.5 27Q41 27 41 30.5Q41 27 37.5 27Q41 27 41 23.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 22px + 0.65 * (50vw - 480px - 44px))) 41% / 44px 62px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 44'%3E%3Cdefs%3E%3CradialGradient id='p' cx='.35' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.5' stop-color='%23f3eee4'/%3E%3Cstop offset='1' stop-color='%23b9b0a0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M6.0 18.0 L14.0 9.0 L15.6 18.0z' fill='%23d22a2a'/%3E%3Cpath d='M14.0 9.0 L28.0 9.0 L26.4 18.0 L15.6 18.0z' fill='%23ff6b6b'/%3E%3Cpath d='M28.0 9.0 L36.0 18.0 L26.4 18.0z' fill='%23d22a2a'/%3E%3Cpath d='M6.0 18.0 L15.6 18.0 L21.0 36.0z' fill='%238f0f14'/%3E%3Cpath d='M15.6 18.0 L26.4 18.0 L21.0 36.0z' fill='%23d22a2a'/%3E%3Cpath d='M26.4 18.0 L36.0 18.0 L21.0 36.0z' fill='%238f0f14'/%3E%3Cpath d='M6.0 18.0 L14.0 9.0 L28.0 9.0 L36.0 18.0 L21.0 36.0z' fill='none' stroke='%234a0508' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M16.0 10.5l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M38.0 24.0 L44.0 17.0 L45.0 24.0z' fill='%232f6fb8'/%3E%3Cpath d='M44.0 17.0 L54.0 17.0 L53.0 24.0 L45.0 24.0z' fill='%237fb6ff'/%3E%3Cpath d='M54.0 17.0 L60.0 24.0 L53.0 24.0z' fill='%232f6fb8'/%3E%3Cpath d='M38.0 24.0 L45.0 24.0 L49.0 38.0z' fill='%23173f78'/%3E%3Cpath d='M45.0 24.0 L53.0 24.0 L49.0 38.0z' fill='%232f6fb8'/%3E%3Cpath d='M53.0 24.0 L60.0 24.0 L49.0 38.0z' fill='%23173f78'/%3E%3Cpath d='M38.0 24.0 L44.0 17.0 L54.0 17.0 L60.0 24.0 L49.0 38.0z' fill='none' stroke='%230b2142' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M46.0 18.5l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M58 12l7-7 7 7-7 7z' fill='%232aa05a' stroke='%230a3a1e' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M61 12l4-4 4 4-4 4z' fill='%235fd38e'/%3E%3Cpath d='M63.5 12l1.5-1.5 1.5 1.5-1.5 1.5z' fill='%23c9f5da'/%3E%3Cpath d='M58 12h14M65 5v14' stroke='%230a3a1e' stroke-width='.5' opacity='.6'/%3E%3Ccircle cx='30' cy='40' r='3.4' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Cpath d='M30 3.5Q30 7 33.5 7Q30 7 30 10.5Q30 7 26.5 7Q30 7 30 3.5z' fill='%23fff' opacity='1'/%3E%3Cpath d='M57 30Q57 33 60 33Q57 33 57 36Q57 33 54 33Q57 33 57 30z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 30px + 0.12 * (50vw - 480px - 60px))) 50% / 60px 35px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 72'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3CradialGradient id='p' cx='.35' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.5' stop-color='%23f3eee4'/%3E%3Cstop offset='1' stop-color='%23b9b0a0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M6 68Q22 24 80 14t74 54z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cellipse cx='84.7' cy='25.099999999999998' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='84.7' cy='22.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='84.7' cy='22.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M80.0 21.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='106.1' cy='29.4' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='106.1' cy='27.2' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='106.1' cy='27.2' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M101.4 26.1q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='53.6' cy='30.599999999999998' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='53.6' cy='28.4' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='53.6' cy='28.4' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M48.9 27.3q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='75.5' cy='35.1' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='75.5' cy='32.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='75.5' cy='32.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M70.8 31.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='57.0' cy='36.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='57.0' cy='33.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='57.0' cy='33.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M52.3 32.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='36.5' cy='38.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='36.5' cy='36.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='36.5' cy='36.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M31.8 34.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='119.6' cy='40.900000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='119.6' cy='38.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='119.6' cy='38.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M114.9 37.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='43.7' cy='42.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.7' cy='39.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.7' cy='39.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M39.0 38.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='43.7' cy='42.400000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.7' cy='40.2' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.7' cy='40.2' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M39.0 39.1q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='117.2' cy='42.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='117.2' cy='40.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='117.2' cy='40.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M112.5 39.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40.7' cy='42.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.7' cy='40.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.7' cy='40.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M36.0 39.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='88.7' cy='43.1' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='88.7' cy='40.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='88.7' cy='40.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M84.0 39.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='29.1' cy='45.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='29.1' cy='43.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='29.1' cy='43.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M24.4 42.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='115.6' cy='46.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='115.6' cy='44.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='115.6' cy='44.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M110.9 43.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='43.4' cy='46.900000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.4' cy='44.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='43.4' cy='44.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M38.7 43.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='74.8' cy='48.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='74.8' cy='45.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='74.8' cy='45.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M70.1 44.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='31.3' cy='48.400000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='31.3' cy='46.2' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='31.3' cy='46.2' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M26.6 45.1q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='82.0' cy='49.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='82.0' cy='47.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='82.0' cy='47.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M77.3 45.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='126.1' cy='50.7' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='126.1' cy='48.5' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='126.1' cy='48.5' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M121.4 47.4q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='83.5' cy='51.7' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='83.5' cy='49.5' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='83.5' cy='49.5' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M78.8 48.4q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='28.2' cy='51.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='28.2' cy='49.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='28.2' cy='49.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M23.5 48.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='101.0' cy='51.900000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='101.0' cy='49.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='101.0' cy='49.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M96.3 48.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40.0' cy='52.1' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.0' cy='49.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.0' cy='49.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M35.3 48.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='81.0' cy='52.7' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='81.0' cy='50.5' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='81.0' cy='50.5' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M76.3 49.4q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='31.1' cy='53.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='31.1' cy='50.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='31.1' cy='50.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M26.4 49.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='27.3' cy='53.1' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='27.3' cy='50.9' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='27.3' cy='50.9' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M22.6 49.8q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='134.3' cy='57.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='134.3' cy='54.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='134.3' cy='54.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M129.6 53.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='136.1' cy='57.900000000000006' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='136.1' cy='55.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='136.1' cy='55.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M131.4 54.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='127.1' cy='58.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='127.1' cy='56.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='127.1' cy='56.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M122.4 55.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='33.0' cy='58.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='33.0' cy='56.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='33.0' cy='56.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M28.3 55.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='97.9' cy='59.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='97.9' cy='57.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='97.9' cy='57.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M93.2 55.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40.8' cy='59.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.8' cy='57.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='40.8' cy='57.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M36.1 55.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='125.2' cy='59.7' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='125.2' cy='57.5' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='125.2' cy='57.5' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M120.5 56.4q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='19.9' cy='60.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='19.9' cy='58.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='19.9' cy='58.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M15.2 57.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='16.1' cy='60.300000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='16.1' cy='58.1' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='16.1' cy='58.1' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M11.4 57.0q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='25.5' cy='60.5' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='25.5' cy='58.3' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='25.5' cy='58.3' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M20.8 57.2q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='73.3' cy='61.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='73.3' cy='58.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='73.3' cy='58.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M68.6 57.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='143.4' cy='61.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='143.4' cy='59.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='143.4' cy='59.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M138.7 58.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='55.5' cy='63.5' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='55.5' cy='61.3' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='55.5' cy='61.3' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M50.8 60.2q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='27.8' cy='63.800000000000004' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='27.8' cy='61.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='27.8' cy='61.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M23.1 60.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='141.3' cy='65.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='141.3' cy='62.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='141.3' cy='62.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M136.6 61.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='142.2' cy='65.8' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='142.2' cy='63.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='142.2' cy='63.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M137.5 62.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='140.5' cy='66.0' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='140.5' cy='63.8' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='140.5' cy='63.8' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M135.8 62.7q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='143.7' cy='67.8' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='143.7' cy='65.6' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='143.7' cy='65.6' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M139.0 64.5q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='29.0' cy='67.9' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='29.0' cy='65.7' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='29.0' cy='65.7' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M24.3 64.6q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='145.7' cy='68.2' rx='8.5' ry='3.2' fill='%239a6a14' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='145.7' cy='66.0' rx='8.5' ry='3.2' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cellipse cx='145.7' cy='66.0' rx='5.8' ry='2.0' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M141.0 64.9q3.4 -1.8 7.2 -1.0' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='58' cy='30' r='10' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='58' cy='30' r='7.2' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M58.0 25.8 L59.1 28.5 L62.0 28.7 L59.7 30.6 L60.5 33.4 L58.0 31.8 L55.5 33.4 L56.3 30.6 L54.0 28.7 L56.9 28.5z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M51.8 27.5a6.6 6.6 0 0 1 5.0 -4.2' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='106' cy='36' r='9' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='106' cy='36' r='6.5' fill='none' stroke='%23a8761a' stroke-width='1.1'/%3E%3Cpath d='M106.0 32.2 L107.0 34.7 L109.6 34.8 L107.5 36.5 L108.2 39.1 L106.0 37.6 L103.8 39.1 L104.5 36.5 L102.4 34.8 L105.0 34.7z' fill='%23fff1b8' stroke='%23a8761a' stroke-width='.6'/%3E%3Cpath d='M100.4 33.8a5.9 5.9 0 0 1 4.5 -3.8' stroke='%23fffbe6' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M80.0 19.0 L84.0 14.0 L85.1 19.0z' fill='%232f6fb8'/%3E%3Cpath d='M84.0 14.0 L92.0 14.0 L90.9 19.0 L85.1 19.0z' fill='%237fb6ff'/%3E%3Cpath d='M92.0 14.0 L96.0 19.0 L90.9 19.0z' fill='%232f6fb8'/%3E%3Cpath d='M80.0 19.0 L85.1 19.0 L88.0 28.0z' fill='%23173f78'/%3E%3Cpath d='M85.1 19.0 L90.9 19.0 L88.0 28.0z' fill='%232f6fb8'/%3E%3Cpath d='M90.9 19.0 L96.0 19.0 L88.0 28.0z' fill='%23173f78'/%3E%3Cpath d='M80.0 19.0 L84.0 14.0 L92.0 14.0 L96.0 19.0 L88.0 28.0z' fill='none' stroke='%230b2142' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M86.0 15.5l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M126.0 48.0 L129.0 44.5 L129.8 48.0z' fill='%23d22a2a'/%3E%3Cpath d='M129.0 44.5 L135.0 44.5 L134.2 48.0 L129.8 48.0z' fill='%23ff6b6b'/%3E%3Cpath d='M135.0 44.5 L138.0 48.0 L134.2 48.0z' fill='%23d22a2a'/%3E%3Cpath d='M126.0 48.0 L129.8 48.0 L132.0 55.0z' fill='%238f0f14'/%3E%3Cpath d='M129.8 48.0 L134.2 48.0 L132.0 55.0z' fill='%23d22a2a'/%3E%3Cpath d='M134.2 48.0 L138.0 48.0 L132.0 55.0z' fill='%238f0f14'/%3E%3Cpath d='M126.0 48.0 L129.0 44.5 L135.0 44.5 L138.0 48.0 L132.0 55.0z' fill='none' stroke='%234a0508' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M131.0 46.0l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='40' cy='52' r='2.6' fill='url(%23p)' stroke='%238a8070' stroke-width='.6'/%3E%3Ccircle cx='44' cy='50.5' r='2.6' fill='url(%23p)' stroke='%238a8070' stroke-width='.6'/%3E%3Ccircle cx='48' cy='50.5' r='2.6' fill='url(%23p)' stroke='%238a8070' stroke-width='.6'/%3E%3Cpath d='M70 5Q70 10 75 10Q70 10 70 15Q70 10 65 10Q70 10 70 5z' fill='%23fff' opacity='1'/%3E%3Cpath d='M118 26Q118 30 122 30Q118 30 118 34Q118 30 114 30Q118 30 118 26z' fill='%23fff' opacity='1'/%3E%3Cpath d='M30 40.5Q30 44 33.5 44Q30 44 30 47.5Q30 44 26.5 44Q30 44 30 40.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 60px + 0.5 * (50vw - 480px - 120px))) 58% / 120px 54px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='15' cy='18.2' rx='12' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='15' cy='16' rx='12' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='15' cy='16' rx='8.2' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M8.4 14.2q4.8 -2.8 10.2 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") calc(50% + calc(480px + 15px + 0.9 * (50vw - 480px - 30px))) 66% / 30px 30px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 84'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3ClinearGradient id='gx' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23a06d14'/%3E%3Cstop offset='.35' stop-color='%23fff1b8'/%3E%3Cstop offset='.6' stop-color='%23f0c24a'/%3E%3Cstop offset='1' stop-color='%23a06d14'/%3E%3C/linearGradient%3E%3ClinearGradient id='wood' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%238a4a20'/%3E%3Cstop offset='1' stop-color='%235a2a10'/%3E%3C/linearGradient%3E%3CradialGradient id='halo' cx='.5' cy='1' r='.9'%3E%3Cstop offset='0' stop-color='%23ffe9a0' stop-opacity='.9'/%3E%3Cstop offset='1' stop-color='%23ffe9a0' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg stroke-linejoin='round'%3E%3Cpath d='M14 40L20 7H80L86 40z' fill='%237a3d18' stroke='%232a1406' stroke-width='2'/%3E%3Cpath d='M22 38L26 13H74L78 38z' fill='%238a1022'/%3E%3Cpath d='M22 38L26 13H74L78 38z' fill='url(%23halo)'/%3E%3Cpath d='M20 7H80' stroke='url(%23g)' stroke-width='4'/%3E%3Cpath d='M20 7H80' stroke='%232a1406' stroke-width='1' transform='translate(0 -2.3)'/%3E%3Cpath d='M12 41Q22 26 40 27Q52 21 62 26Q78 27 88 41z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Ccircle cx='26' cy='36' r='4.5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='38' cy='31' r='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='62' cy='30' r='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='74' cy='35' r='4.5' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Ccircle cx='52' cy='27' r='4' fill='url(%23g)' stroke='%232a1406' stroke-width='1'/%3E%3Cpath d='M44.0 24.0 L47.0 20.5 L47.8 24.0z' fill='%23d22a2a'/%3E%3Cpath d='M47.0 20.5 L53.0 20.5 L52.2 24.0 L47.8 24.0z' fill='%23ff6b6b'/%3E%3Cpath d='M53.0 20.5 L56.0 24.0 L52.2 24.0z' fill='%23d22a2a'/%3E%3Cpath d='M44.0 24.0 L47.8 24.0 L50.0 31.0z' fill='%238f0f14'/%3E%3Cpath d='M47.8 24.0 L52.2 24.0 L50.0 31.0z' fill='%23d22a2a'/%3E%3Cpath d='M52.2 24.0 L56.0 24.0 L50.0 31.0z' fill='%238f0f14'/%3E%3Cpath d='M44.0 24.0 L47.0 20.5 L53.0 20.5 L56.0 24.0 L50.0 31.0z' fill='none' stroke='%234a0508' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M49.0 22.0l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Crect x='10' y='40' width='80' height='38' rx='3' fill='url(%23wood)' stroke='%232a1406' stroke-width='2'/%3E%3Cpath d='M30 46v31M50 46v31M70 46v31' stroke='%232a1406' stroke-width='1.2' opacity='.55'/%3E%3Crect x='10' y='40' width='80' height='6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Crect x='10' y='72' width='80' height='6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.5'/%3E%3Crect x='18.5' y='46' width='5' height='26' fill='url(%23gx)' stroke='%232a1406' stroke-width='1'/%3E%3Crect x='76.5' y='46' width='5' height='26' fill='url(%23gx)' stroke='%232a1406' stroke-width='1'/%3E%3Cpath d='M43 44h14v10q0 6-7 8q-7-2-7-8z' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Ccircle cx='50' cy='51' r='2' fill='%232a1406'/%3E%3Cpath d='M49 52h2l.6 5h-3.2z' fill='%232a1406'/%3E%3Cg fill='%23fff3c0' stroke='%238a5d10' stroke-width='.6'%3E%3Ccircle cx='14' cy='43' r='1.2'/%3E%3Ccircle cx='86' cy='43' r='1.2'/%3E%3Ccircle cx='14' cy='75' r='1.2'/%3E%3Ccircle cx='86' cy='75' r='1.2'/%3E%3C/g%3E%3C/g%3E%3Cellipse cx='91' cy='80.2' rx='7' ry='2.6' fill='%239a6a14' stroke='%232a1406' stroke-width='1.1'/%3E%3Cellipse cx='91' cy='78' rx='7' ry='2.6' fill='url(%23g)' stroke='%232a1406' stroke-width='1.1'/%3E%3Cellipse cx='91' cy='78' rx='4.8' ry='1.6' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M87.2 77.1q2.8 -1.4 6.0 -0.8' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cpath d='M30 18Q30 22 34 22Q30 22 30 26Q30 22 26 22Q30 22 30 18z' fill='%23fff' opacity='1'/%3E%3Cpath d='M70 14.5Q70 18 73.5 18Q70 18 70 21.5Q70 18 66.5 18Q70 18 70 14.5z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 50px + 0.2 * (50vw - 480px - 100px))) 75% / 100px 84px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 46'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 32l6-6h24l6 6z' fill='%23fff1b8' stroke='%232a1406' stroke-width='1.4' stroke-linejoin='round'/%3E%3Crect x='16' y='27.8' width='12' height='2.6' rx='.6' fill='none' stroke='%23c58a1e' stroke-width='.8'/%3E%3Crect x='4' y='32' width='36' height='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M7 35h20' stroke='%23fffbe6' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M44 32l6-6h24l6 6z' fill='%23fff1b8' stroke='%232a1406' stroke-width='1.4' stroke-linejoin='round'/%3E%3Crect x='56' y='27.8' width='12' height='2.6' rx='.6' fill='none' stroke='%23c58a1e' stroke-width='.8'/%3E%3Crect x='44' y='32' width='36' height='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M47 35h20' stroke='%23fffbe6' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M24 15l6-6h24l6 6z' fill='%23fff1b8' stroke='%232a1406' stroke-width='1.4' stroke-linejoin='round'/%3E%3Crect x='36' y='10.8' width='12' height='2.6' rx='.6' fill='none' stroke='%23c58a1e' stroke-width='.8'/%3E%3Crect x='24' y='15' width='36' height='11' fill='url(%23g)' stroke='%232a1406' stroke-width='1.4'/%3E%3Cpath d='M27 18h20' stroke='%23fffbe6' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M58 7Q58 11 62 11Q58 11 58 15Q58 11 54 11Q58 11 58 7z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 35px + 0.75 * (50vw - 480px - 70px))) 85% / 70px 38px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff4c2'/%3E%3Cstop offset='.4' stop-color='%23f2c94c'/%3E%3Cstop offset='.8' stop-color='%23c58a1e'/%3E%3Cstop offset='1' stop-color='%238a5d10'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='18' cy='21.2' rx='13' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='18' cy='19' rx='13' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='18' cy='19' rx='8.8' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M10.8 17.2q5.2 -2.8 11.0 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='40' cy='16.2' rx='13' ry='5' fill='%239a6a14' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='40' cy='14' rx='13' ry='5' fill='url(%23g)' stroke='%232a1406' stroke-width='1.3'/%3E%3Cellipse cx='40' cy='14' rx='8.8' ry='3.1' fill='none' stroke='%23a8761a' stroke-width='1'/%3E%3Cpath d='M32.9 12.2q5.2 -2.8 11.0 -1.5' stroke='%23fffbe6' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") calc(50% + calc(480px + 28px + 0.35 * (50vw - 480px - 56px))) 93% / 56px 28px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 44'%3E%3Cdefs%3E%3CradialGradient id='p' cx='.35' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.5' stop-color='%23f3eee4'/%3E%3Cstop offset='1' stop-color='%23b9b0a0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M6.0 18.0 L14.0 9.0 L15.6 18.0z' fill='%23d22a2a'/%3E%3Cpath d='M14.0 9.0 L28.0 9.0 L26.4 18.0 L15.6 18.0z' fill='%23ff6b6b'/%3E%3Cpath d='M28.0 9.0 L36.0 18.0 L26.4 18.0z' fill='%23d22a2a'/%3E%3Cpath d='M6.0 18.0 L15.6 18.0 L21.0 36.0z' fill='%238f0f14'/%3E%3Cpath d='M15.6 18.0 L26.4 18.0 L21.0 36.0z' fill='%23d22a2a'/%3E%3Cpath d='M26.4 18.0 L36.0 18.0 L21.0 36.0z' fill='%238f0f14'/%3E%3Cpath d='M6.0 18.0 L14.0 9.0 L28.0 9.0 L36.0 18.0 L21.0 36.0z' fill='none' stroke='%234a0508' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M16.0 10.5l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M38.0 24.0 L44.0 17.0 L45.0 24.0z' fill='%232f6fb8'/%3E%3Cpath d='M44.0 17.0 L54.0 17.0 L53.0 24.0 L45.0 24.0z' fill='%237fb6ff'/%3E%3Cpath d='M54.0 17.0 L60.0 24.0 L53.0 24.0z' fill='%232f6fb8'/%3E%3Cpath d='M38.0 24.0 L45.0 24.0 L49.0 38.0z' fill='%23173f78'/%3E%3Cpath d='M45.0 24.0 L53.0 24.0 L49.0 38.0z' fill='%232f6fb8'/%3E%3Cpath d='M53.0 24.0 L60.0 24.0 L49.0 38.0z' fill='%23173f78'/%3E%3Cpath d='M38.0 24.0 L44.0 17.0 L54.0 17.0 L60.0 24.0 L49.0 38.0z' fill='none' stroke='%230b2142' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M46.0 18.5l3 0' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M58 12l7-7 7 7-7 7z' fill='%232aa05a' stroke='%230a3a1e' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M61 12l4-4 4 4-4 4z' fill='%235fd38e'/%3E%3Cpath d='M63.5 12l1.5-1.5 1.5 1.5-1.5 1.5z' fill='%23c9f5da'/%3E%3Cpath d='M58 12h14M65 5v14' stroke='%230a3a1e' stroke-width='.5' opacity='.6'/%3E%3Ccircle cx='30' cy='40' r='3.4' fill='url(%23p)' stroke='%238a8070' stroke-width='.8'/%3E%3Cpath d='M30 3.5Q30 7 33.5 7Q30 7 30 10.5Q30 7 26.5 7Q30 7 30 3.5z' fill='%23fff' opacity='1'/%3E%3Cpath d='M57 30Q57 33 60 33Q57 33 57 36Q57 33 54 33Q57 33 57 30z' fill='%23fff' opacity='1'/%3E%3C/svg%3E") calc(50% + calc(480px + 22px + 0.9 * (50vw - 480px - 44px))) 99% / 44px 26px no-repeat,
+      var(--sand);
+  }
+}
+
+/* The heading is written across the chest's open lid, on its velvet, in gold, in front of the lid (the chest's
+   ::after). Its top margin is the room the lid and its hasp stand up past it (to 41.6% of the width above the
+   chest; the section is its own block formatting context, so the margin stays inside, over the island's sand) */
+[data-world="grandline"] #publications > h2 {
+  position: relative;
+  z-index: 1;
+  margin-top: 16%;
+  color: #ffe27a;
+  text-shadow: 0 2px 0 #2a1406, 0 0 8px rgba(42, 20, 6, 0.7);
+}
+
+[data-world="grandline"] .pub-grid {
+  column-gap: calc(var(--space) * 1.2);
+  row-gap: calc(var(--space) * 1.2);
+}
+
+/* The latest paper, in an open chest, drawn as the show draws one: in bold ink outlines. The chest itself is the
+   card: planked wood in a heavy ink line, bound with gold bands along its top and foot. Its open lid stands behind
+   it (::after, images/chest-lid.svg, drawn at a fixed aspect so it scales with the chest's width and never
+   stretches): tipped back on two hinges, lined with tufted velvet, over the chest's open mouth, lit brightest in its
+   middle, the light rising in rays over the velvet and on out past the lid. The lock comes in two halves: the hasp on the lid's
+   front edge, which tipped back stands up from its top, and the lock plate on the chest, standing up past its top
+   edge with the slot the hasp drops into. The chest's top margin keeps the lid's room, as a share of the width.
+   It casts no shadow. */
+[data-world="grandline"] .pub--featured {
+  --chest-ink: #2a1406;
+  --ink-w: 6px;
+  --band: linear-gradient(#fff1b8, #f0c24a 45%, #b8801c);
+  --rivets: radial-gradient(circle, #fff3c0 0 2px, #8a5d10 2.5px 4px, transparent 4.5px);
+  /* The planks stand upright side by side, evenly, behind the writing too (the user's call: a chest looks wrong
+     with planks only where the text isn't) */
+  --seam: rgba(30, 12, 0, 0.6);
+  --seam-lit: rgba(255, 220, 160, 0.12);
+  --seams: repeating-linear-gradient(90deg, transparent 0 86px, var(--seam) 86px 89px, var(--seam-lit) 89px 91px);
+  position: relative;
+  gap: 18px;
+  /* Up under the heading, so the heading sits in the middle of the lid's velvet, clear of its rim above and its front edge below */
+  margin-top: calc(17% - 56px);
+  margin-bottom: calc(var(--space) * 1.4);
+  padding: 88px 26px 40px;
+  color: var(--engrave);
+  border: var(--ink-w) solid var(--chest-ink);
+  border-radius: 6px 6px 14px 14px;
+  background:
+    /* Rivets along the bands */
+    var(--rivets) 20px 0 / 40px 26px repeat-x,
+    var(--rivets) 20px 100% / 40px 22px repeat-x,
+    /* The gold bands along the top and the foot */
+    var(--band) 0 0 / 100% 26px no-repeat,
+    var(--band) 0 100% / 100% 22px no-repeat,
+    /* The planks standing side by side, and the wood's grain */
+    var(--seams),
+    repeating-linear-gradient(rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 9px),
+    /* The wood itself: one dark, even brown, with no light falling across it, so the writing on it stands out */
+    linear-gradient(#5a2a10, #5a2a10);
+  box-shadow: inset 0 -14px 24px -12px rgba(30, 10, 0, 0.6);
+  overflow: visible;
+}
+
+/* The open lid, standing on the chest's top edge, and the lock plate. The box reaches 90px down over the chest
+   for the plate, which stands 26px up past the edge and 68px down over the chest; the lid sits on the edge above */
+[data-world="grandline"] .pub--featured::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--ink-w));
+  right: calc(-1 * var(--ink-w));
+  bottom: calc(100% + var(--ink-w) - 90px);
+  /* Tall enough for the lid and its hasp (43% of the width; padding, since a height's % would be of the chest's
+     height) */
+  height: 0;
+  padding-top: calc(43% + 100px);
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%20100%22%3E%3Cpath%20d=%22M5%204H59V62Q59%2088%2032%2096Q5%2088%205%2062z%22%20fill=%22%23f0c24a%22%20stroke=%22%232a1406%22%20stroke-width=%224%22%20stroke-linejoin=%22round%22/%3E%3Cpath%20d=%22M10%209H54V61Q54%2082%2032%2089z%22%20fill=%22%23fff1b8%22%20fill-opacity=%22.4%22/%3E%3Crect%20x=%2221%22%20y=%2212%22%20width=%2222%22%20height=%229%22%20rx=%222%22%20fill=%22%232a1406%22/%3E%3Ccircle%20cx=%2232%22%20cy=%2250%22%20r=%227%22%20fill=%22%232a1406%22/%3E%3Cpath%20d=%22M28%2052H36L38%2072H26z%22%20fill=%22%232a1406%22/%3E%3Cg%20fill=%22%23fff3c0%22%20stroke=%22%238a5d10%22%20stroke-width=%222%22%3E%3Ccircle%20cx=%2212%22%20cy=%2234%22%20r=%223%22/%3E%3Ccircle%20cx=%2252%22%20cy=%2234%22%20r=%223%22/%3E%3C/g%3E%3C/svg%3E") center bottom 22px / 60px 94px no-repeat,
+    url("../../images/chest-lid.svg") left bottom 90px / 100% auto no-repeat;
+}
+
+[data-world="grandline"] .pub--featured h3 { font-size: clamp(1.4rem, 3vw, 1.8rem); }
+
+/* Gold: each spilled paper, casting no shadow */
+[data-world="grandline"] .pub:not(.pub--featured) {
+  background: linear-gradient(160deg, #fbe7a1, #e2b04a 35%, #c48d26 62%, #f0cf73 86%, #b8831f);
+  border: 1px solid #8a5d10;
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -2px 0 rgba(90, 55, 0, 0.35);
+}
+
+/* The latest paper's video sits on the wood as it is, unframed */
+[data-world="grandline"] .pub--featured .pub-media-wrap {
+  border: 0;
+  box-shadow: none;
+}
+
+/* The latest paper is written straight on the chest's wood, in gold and cream */
+[data-world="grandline"] .pub--featured .pub-body {
+  padding: 4px 0;
+  text-shadow: 0 1px 2px rgba(20, 8, 0, 0.75);
+}
+
+[data-world="grandline"] .pub.pub--featured h3 {
+  color: #ffe9a8;
+  text-shadow: 0 2px 0 rgba(20, 8, 0, 0.8), 0 0 14px rgba(255, 200, 80, 0.25);
+}
+
+[data-world="grandline"] .pub--featured .pub-meta,
+[data-world="grandline"] .pub--featured .pub-desc { color: #fff5e0; }
+
+[data-world="grandline"] .pub--featured .pub-meta .highlight { color: #ffe27a; }
+[data-world="grandline"] .pub--featured .pub-meta a { text-decoration-color: rgba(246, 215, 122, 0.55); }
+
+/* The spilled papers, lying in a row where they fell */
+[data-world="grandline"] .pub:not(.pub--featured) {
+  position: relative;
+  padding: 10px 10px 14px;
+  color: var(--engrave);
+  overflow: hidden;
+}
+
+
+/* A gleam that runs across the gold tablets when they're pointed at (the chest's ::after is its lid). Only where
+   there's a pointer: on touch screens it would just be an extra layer over the playing videos */
+@media (hover: hover) {
+  [data-world="grandline"] .pub:not(.pub--featured)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.55) 50%, transparent 62%);
+    translate: -110% 0;
+  }
+
+  [data-world="grandline"] .pub:not(.pub--featured):hover {
+    background: linear-gradient(160deg, #fbe7a1, #e2b04a 35%, #c48d26 62%, #f0cf73 86%, #b8831f);
+  }
+  [data-world="grandline"] .pub:not(.pub--featured):hover::after {
+    translate: 110% 0;
+    transition: translate 0.7s ease-out;
+  }
+}
+
+/* Each picture in a gilded frame */
+[data-world="grandline"] .pub-media-wrap {
+  border: 5px solid;
+  border-image: linear-gradient(135deg, #fff1b8, #b07d1c 40%, #f6d77a 60%, #8a5d10) 1;
+  border-radius: 0;
+  box-shadow: 0 2px 6px rgba(60, 30, 0, 0.5);
+}
+
+[data-world="grandline"] .pub-media-wrap .status-tag {
+  color: var(--gold-text);
+  background: var(--velvet);
+  border: 1px solid #d9a93a;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-weight: 700;
+}
+
+/* Titles engraved, the rest in the same dark gold-brown */
+[data-world="grandline"] .pub h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: semi-condensed;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--engrave);
+  text-shadow: 0 1px 0 rgba(255, 244, 200, 0.6);
+}
+
+
+[data-world="grandline"] .pub-meta,
+[data-world="grandline"] .pub-desc {
+  color: #4a2c08;
+  opacity: 1;
+  font-weight: 600;
+}
+
+[data-world="grandline"] .pub-meta .highlight { color: #8a1414; }
+
+[data-world="grandline"] .pub .btn {
+  color: var(--gold-text);
+  background: var(--velvet);
+  border-color: #3a0408;
+}
+
+@media (hover: hover) {
+  [data-world="grandline"] .pub .btn:hover {
+    color: var(--engrave);
+    background: #fff1b8;
+    border-color: #8a5d10;
+  }
+}
+
+/* The earlier work: parchment scrolls lying on the sand, brought out with a gold button */
+[data-world="grandline"] .pub-list-label {
+  color: #6a4410;
+  font-weight: 800;
+}
+
+[data-world="grandline"] .pub-row {
+  margin-bottom: 8px;
+  padding: 12px 16px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 8px 14px -8px rgba(60, 30, 0, 0.55);
+}
+
+[data-world="grandline"] .pub-row .pub-row-venue { color: #8a1414; }
+
+[data-world="grandline"] #publications .toggle-btn {
+  margin-top: calc(var(--space) * 1.2);
+  color: var(--engrave);
+  background: linear-gradient(160deg, #fff1b8, #e2b04a 45%, #c48d26);
+  border-color: #8a5d10;
+}
+
+/* --- SECTION HEADS: carved wood type over a length of rope, saying where each one is --- */
+[data-world="grandline"] section > h2 {
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: condensed;
+  font-size: clamp(2.2rem, 4.4vw, 2.9rem);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+[data-world="grandline"] section > h2::before {
+  transform: none;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+[data-world="grandline"] #about > h2::before { content: "Aboard"; }
+[data-world="grandline"] #news > h2::before { content: "Pier"; }
+[data-world="grandline"] #publications > h2::before {
+  content: "Treasure";
+  /* In pale gold over the heading's gold, where the red would be lost on the velvet */
+  color: #ffe9a8;
+  text-shadow: 0 1px 2px #2a1406, 0 0 6px rgba(42, 20, 6, 0.6);
+}
+
+[data-world="grandline"] section > h2::after {
+  flex: none;
+  width: min(60%, 340px);
+  height: 7px;
+  transform: none;
+  border-radius: 4px;
+  background: repeating-linear-gradient(60deg, #c99a5a 0 5px, #8a6230 5px 8px);
+}
+
+/* --- BADGES, BUTTONS, PILLS: red, as the captain's waistcoat --- */
+[data-world="grandline"] .btn,
+[data-world="grandline"] .toggle-btn {
+  background: var(--accent);
+  border-color: #8a1414;
+  color: #fff;
+  font-weight: 800;
+}
+
+@media (hover: hover) {
+  [data-world="grandline"] .btn:hover,
+  [data-world="grandline"] .toggle-btn:hover {
+    color: var(--text);
+    background: #ffd23b;
+    border-color: #b8901a;
+  }
+}
+
+[data-world="grandline"] .about-lead em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+[data-world="grandline"] .side-label,
+[data-world="grandline"] .news-date,
+[data-world="grandline"] .pub-row-venue {
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+/* --- FOOTER: on the beach, where the voyage ends --- */
+[data-world="grandline"] .site-footer {
+  position: relative;
+  color: var(--text-muted);
+  border-top: 0;
+  padding-bottom: calc(var(--space) * 2);
+}
+
+[data-world="grandline"] .site-footer::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: var(--sand);
+}
+
+[data-world="grandline"] .site-footer .back-to-top {
+  color: #fff;
+  background: var(--accent);
+  border-color: #8a1414;
+}
+
+@media (max-width: 640px) {
+  html:root[data-world="grandline"] { --shore: calc(var(--space) * 4.5); }
+  [data-world="grandline"] #news .news-item {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding-inline: 9%;
+  }
+  [data-world="grandline"] #news .news-content { font-size: 1rem; }
+  [data-world="grandline"] .pub--featured {
+    --ink-w: 4px;
+    padding: 80px 16px 34px;
+  }
+
+  [data-world="grandline"] #publications { background-size: 52px 39px, 64px 54px, 0 0; }
+  /* As at home, phones go without the name in the bar */
+  [data-world="grandline"] .nav-brand { display: none; }
+}
+
